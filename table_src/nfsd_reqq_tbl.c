@@ -7,6 +7,24 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_nfsd_reqq_r_chain = 0,
+    VT_nfsd_reqq_r_flags = 1,
+    VT_nfsd_reqq_r_nmp = 2,
+    VT_nfsd_reqq_r_mtx = 3,
+    VT_nfsd_reqq_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct nfsd_reqq *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_nfsd_reqq_r_chain] =  TODO: Handle other types
+    columns[VT_nfsd_reqq_r_flags] = new_osdb_int64(curEntry->r_flags, context);
+//    columns[VT_nfsd_reqq_r_nmp] =  TODO: Handle other types
+//    columns[VT_nfsd_reqq_r_mtx] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_nfsreqhead_lock(void)
 {

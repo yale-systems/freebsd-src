@@ -7,6 +7,62 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_vnet_entry_svc_rpc_gss_clients_cl_link = 0,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_alllink = 1,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_refs = 2,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_lock = 3,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_id = 4,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_expiration = 5,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_state = 6,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_locked = 7,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_ctx = 8,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_creds = 9,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_cname = 10,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_sname = 11,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_rawcred = 12,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_ucred = 13,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_cred = 14,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_rpcflavor = 15,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_done_callback = 16,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_cookie = 17,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_gid_storage = 18,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_mech = 19,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_qop = 20,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_seqlast = 21,
+    VT_vnet_entry_svc_rpc_gss_clients_cl_seqmask = 22,
+    VT_vnet_entry_svc_rpc_gss_clients_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct vnet_entry_svc_rpc_gss_clients *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_link] =  TODO: Handle other types
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_alllink] =  TODO: Handle other types
+    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_refs] = new_osdb_int64(curEntry->cl_refs, context);
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_lock] =  TODO: Handle other types
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_id] =  TODO: Handle other types
+    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_expiration] = new_osdb_int64(curEntry->cl_expiration, context);
+    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_state] = new_osdb_int64(static_cast<int64_t>(curEntry->cl_state), context); // TODO: need better enum representation 
+    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_locked] = new_osdb_int64(curEntry->cl_locked, context);
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_ctx] =  TODO: Handle other types
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_creds] =  TODO: Handle other types
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_cname] =  TODO: Handle other types
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_sname] =  TODO: Handle other types
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_rawcred] =  TODO: Handle other types
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_ucred] =  TODO: Handle other types
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_cred] =  TODO: Handle other types
+    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_rpcflavor] = new_osdb_int64(curEntry->cl_rpcflavor, context);
+    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_done_callback] = new_osdb_int64(curEntry->cl_done_callback, context);
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_cookie] =  TODO: Handle other types
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_gid_storage] =  TODO: Handle other types
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_mech] =  TODO: Handle other types
+    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_qop] = new_osdb_int64(curEntry->cl_qop, context);
+    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_seqlast] = new_osdb_int64(curEntry->cl_seqlast, context);
+//    columns[VT_vnet_entry_svc_rpc_gss_clients_cl_seqmask] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_svc_rpc_gss_client_list_lock(void)
 {

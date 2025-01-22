@@ -7,6 +7,30 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_audit_q_k_ar = 0,
+    VT_audit_q_k_ar_commit = 1,
+    VT_audit_q_k_udata = 2,
+    VT_audit_q_k_ulen = 3,
+    VT_audit_q_k_uthread = 4,
+    VT_audit_q_k_dtaudit_state = 5,
+    VT_audit_q_k_q = 6,
+    VT_audit_q_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct audit_q *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_audit_q_k_ar] =  TODO: Handle other types
+    columns[VT_audit_q_k_ar_commit] = new_osdb_int64(curEntry->k_ar_commit, context);
+//    columns[VT_audit_q_k_udata] =  TODO: Handle other types
+    columns[VT_audit_q_k_ulen] = new_osdb_int64(curEntry->k_ulen, context);
+//    columns[VT_audit_q_k_uthread] =  TODO: Handle other types
+//    columns[VT_audit_q_k_dtaudit_state] =  TODO: Handle other types
+//    columns[VT_audit_q_k_q] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_kaudit_queue_lock(void)
 {

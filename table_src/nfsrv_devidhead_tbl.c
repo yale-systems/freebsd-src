@@ -7,6 +7,46 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_nfsrv_devidhead_nfsdev_list = 0,
+    VT_nfsrv_devidhead_nfsdev_dvp = 1,
+    VT_nfsrv_devidhead_nfsdev_nmp = 2,
+    VT_nfsrv_devidhead_nfsdev_deviceid = 3,
+    VT_nfsrv_devidhead_nfsdev_hostnamelen = 4,
+    VT_nfsrv_devidhead_nfsdev_fileaddrlen = 5,
+    VT_nfsrv_devidhead_nfsdev_flexaddrlen = 6,
+    VT_nfsrv_devidhead_nfsdev_mdsisset = 7,
+    VT_nfsrv_devidhead_nfsdev_fileaddr = 8,
+    VT_nfsrv_devidhead_nfsdev_flexaddr = 9,
+    VT_nfsrv_devidhead_nfsdev_host = 10,
+    VT_nfsrv_devidhead_nfsdev_mdsfsid = 11,
+    VT_nfsrv_devidhead_nfsdev_nextdir = 12,
+    VT_nfsrv_devidhead_nfsdev_nospc = 13,
+    VT_nfsrv_devidhead_nfsdev_dsdir = 14,
+    VT_nfsrv_devidhead_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct nfsrv_devidhead *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_nfsrv_devidhead_nfsdev_list] =  TODO: Handle other types
+//    columns[VT_nfsrv_devidhead_nfsdev_dvp] =  TODO: Handle other types
+//    columns[VT_nfsrv_devidhead_nfsdev_nmp] =  TODO: Handle other types
+//    columns[VT_nfsrv_devidhead_nfsdev_deviceid] =  TODO: Handle other types
+    columns[VT_nfsrv_devidhead_nfsdev_hostnamelen] = new_osdb_int64(curEntry->nfsdev_hostnamelen, context);
+    columns[VT_nfsrv_devidhead_nfsdev_fileaddrlen] = new_osdb_int64(curEntry->nfsdev_fileaddrlen, context);
+    columns[VT_nfsrv_devidhead_nfsdev_flexaddrlen] = new_osdb_int64(curEntry->nfsdev_flexaddrlen, context);
+    columns[VT_nfsrv_devidhead_nfsdev_mdsisset] = new_osdb_int64(curEntry->nfsdev_mdsisset, context);
+    columns[VT_nfsrv_devidhead_nfsdev_fileaddr] = new_osdb_text(curEntry->nfsdev_fileaddr, strlen(curEntry->nfsdev_fileaddr) + 1, context);
+    columns[VT_nfsrv_devidhead_nfsdev_flexaddr] = new_osdb_text(curEntry->nfsdev_flexaddr, strlen(curEntry->nfsdev_flexaddr) + 1, context);
+    columns[VT_nfsrv_devidhead_nfsdev_host] = new_osdb_text(curEntry->nfsdev_host, strlen(curEntry->nfsdev_host) + 1, context);
+//    columns[VT_nfsrv_devidhead_nfsdev_mdsfsid] =  TODO: Handle other types
+    columns[VT_nfsrv_devidhead_nfsdev_nextdir] = new_osdb_int64(curEntry->nfsdev_nextdir, context);
+    columns[VT_nfsrv_devidhead_nfsdev_nospc] = new_osdb_int64(curEntry->nfsdev_nospc, context);
+//    columns[VT_nfsrv_devidhead_nfsdev_dsdir] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_nfsdevicehead_lock(void)
 {

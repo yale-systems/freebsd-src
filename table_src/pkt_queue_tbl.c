@@ -7,6 +7,74 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_pkt_queue_tval = 0,
+    VT_pkt_queue_direction = 1,
+    VT_pkt_queue_ipver = 2,
+    VT_pkt_queue_lport = 3,
+    VT_pkt_queue_fport = 4,
+    VT_pkt_queue_laddr = 5,
+    VT_pkt_queue_faddr = 6,
+    VT_pkt_queue_snd_cwnd = 7,
+    VT_pkt_queue_snd_wnd = 8,
+    VT_pkt_queue_rcv_wnd = 9,
+    VT_pkt_queue_t_flags2 = 10,
+    VT_pkt_queue_snd_ssthresh = 11,
+    VT_pkt_queue_conn_state = 12,
+    VT_pkt_queue_mss = 13,
+    VT_pkt_queue_srtt = 14,
+    VT_pkt_queue_sack_enabled = 15,
+    VT_pkt_queue_snd_scale = 16,
+    VT_pkt_queue_rcv_scale = 17,
+    VT_pkt_queue_t_flags = 18,
+    VT_pkt_queue_rto = 19,
+    VT_pkt_queue_snd_buf_hiwater = 20,
+    VT_pkt_queue_snd_buf_cc = 21,
+    VT_pkt_queue_rcv_buf_hiwater = 22,
+    VT_pkt_queue_rcv_buf_cc = 23,
+    VT_pkt_queue_sent_inflight_bytes = 24,
+    VT_pkt_queue_t_segqlen = 25,
+    VT_pkt_queue_flowid = 26,
+    VT_pkt_queue_flowtype = 27,
+    VT_pkt_queue_nodes = 28,
+    VT_pkt_queue_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct pkt_queue *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_pkt_queue_tval] =  TODO: Handle other types
+    columns[VT_pkt_queue_direction] = new_osdb_int64(static_cast<int64_t>(curEntry->direction), context); // TODO: need better enum representation 
+    columns[VT_pkt_queue_ipver] = new_osdb_int64(curEntry->ipver, context);
+    columns[VT_pkt_queue_lport] = new_osdb_int64(curEntry->lport, context);
+    columns[VT_pkt_queue_fport] = new_osdb_int64(curEntry->fport, context);
+//    columns[VT_pkt_queue_laddr] =  TODO: Handle other types
+//    columns[VT_pkt_queue_faddr] =  TODO: Handle other types
+    columns[VT_pkt_queue_snd_cwnd] = new_osdb_int64(curEntry->snd_cwnd, context);
+    columns[VT_pkt_queue_snd_wnd] = new_osdb_int64(curEntry->snd_wnd, context);
+    columns[VT_pkt_queue_rcv_wnd] = new_osdb_int64(curEntry->rcv_wnd, context);
+    columns[VT_pkt_queue_t_flags2] = new_osdb_int64(curEntry->t_flags2, context);
+    columns[VT_pkt_queue_snd_ssthresh] = new_osdb_int64(curEntry->snd_ssthresh, context);
+    columns[VT_pkt_queue_conn_state] = new_osdb_int64(curEntry->conn_state, context);
+    columns[VT_pkt_queue_mss] = new_osdb_int64(curEntry->mss, context);
+    columns[VT_pkt_queue_srtt] = new_osdb_int64(curEntry->srtt, context);
+    columns[VT_pkt_queue_sack_enabled] = new_osdb_int64(curEntry->sack_enabled, context);
+    columns[VT_pkt_queue_snd_scale] = new_osdb_int64(curEntry->snd_scale, context);
+    columns[VT_pkt_queue_rcv_scale] = new_osdb_int64(curEntry->rcv_scale, context);
+    columns[VT_pkt_queue_t_flags] = new_osdb_int64(curEntry->t_flags, context);
+    columns[VT_pkt_queue_rto] = new_osdb_int64(curEntry->rto, context);
+    columns[VT_pkt_queue_snd_buf_hiwater] = new_osdb_int64(curEntry->snd_buf_hiwater, context);
+    columns[VT_pkt_queue_snd_buf_cc] = new_osdb_int64(curEntry->snd_buf_cc, context);
+    columns[VT_pkt_queue_rcv_buf_hiwater] = new_osdb_int64(curEntry->rcv_buf_hiwater, context);
+    columns[VT_pkt_queue_rcv_buf_cc] = new_osdb_int64(curEntry->rcv_buf_cc, context);
+    columns[VT_pkt_queue_sent_inflight_bytes] = new_osdb_int64(curEntry->sent_inflight_bytes, context);
+    columns[VT_pkt_queue_t_segqlen] = new_osdb_int64(curEntry->t_segqlen, context);
+    columns[VT_pkt_queue_flowid] = new_osdb_int64(curEntry->flowid, context);
+    columns[VT_pkt_queue_flowtype] = new_osdb_int64(curEntry->flowtype, context);
+//    columns[VT_pkt_queue_nodes] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_pkthead_lock(void)
 {

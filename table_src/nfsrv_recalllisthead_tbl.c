@@ -7,6 +7,40 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_nfsrv_recalllisthead_lay_list = 0,
+    VT_nfsrv_recalllisthead_lay_stateid = 1,
+    VT_nfsrv_recalllisthead_lay_clientid = 2,
+    VT_nfsrv_recalllisthead_lay_fh = 3,
+    VT_nfsrv_recalllisthead_lay_deviceid = 4,
+    VT_nfsrv_recalllisthead_lay_fsid = 5,
+    VT_nfsrv_recalllisthead_lay_layoutlen = 6,
+    VT_nfsrv_recalllisthead_lay_mirrorcnt = 7,
+    VT_nfsrv_recalllisthead_lay_trycnt = 8,
+    VT_nfsrv_recalllisthead_lay_type = 9,
+    VT_nfsrv_recalllisthead_lay_flags = 10,
+    VT_nfsrv_recalllisthead_lay_xdr = 11,
+    VT_nfsrv_recalllisthead_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct nfsrv_recalllisthead *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_nfsrv_recalllisthead_lay_list] =  TODO: Handle other types
+//    columns[VT_nfsrv_recalllisthead_lay_stateid] =  TODO: Handle other types
+//    columns[VT_nfsrv_recalllisthead_lay_clientid] =  TODO: Handle other types
+//    columns[VT_nfsrv_recalllisthead_lay_fh] =  TODO: Handle other types
+//    columns[VT_nfsrv_recalllisthead_lay_deviceid] =  TODO: Handle other types
+//    columns[VT_nfsrv_recalllisthead_lay_fsid] =  TODO: Handle other types
+    columns[VT_nfsrv_recalllisthead_lay_layoutlen] = new_osdb_int64(curEntry->lay_layoutlen, context);
+    columns[VT_nfsrv_recalllisthead_lay_mirrorcnt] = new_osdb_int64(curEntry->lay_mirrorcnt, context);
+    columns[VT_nfsrv_recalllisthead_lay_trycnt] = new_osdb_int64(curEntry->lay_trycnt, context);
+    columns[VT_nfsrv_recalllisthead_lay_type] = new_osdb_int64(curEntry->lay_type, context);
+    columns[VT_nfsrv_recalllisthead_lay_flags] = new_osdb_int64(curEntry->lay_flags, context);
+//    columns[VT_nfsrv_recalllisthead_lay_xdr] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_nfslayouthead_lock(void)
 {

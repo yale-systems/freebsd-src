@@ -7,6 +7,20 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_serialnet_ctx_list_entry = 0,
+    VT_serialnet_ctx_list_link = 1,
+    VT_serialnet_ctx_list_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct serialnet_ctx_list *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_serialnet_ctx_list_entry] =  TODO: Handle other types
+//    columns[VT_serialnet_ctx_list_link] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_sysctl_ctx_list_lock(void)
 {

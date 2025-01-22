@@ -7,6 +7,56 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_rpc_gss_all_gd_refs = 0,
+    VT_rpc_gss_all_gd_lock = 1,
+    VT_rpc_gss_all_gd_hash = 2,
+    VT_rpc_gss_all_gd_auth = 3,
+    VT_rpc_gss_all_gd_ucred = 4,
+    VT_rpc_gss_all_gd_principal = 5,
+    VT_rpc_gss_all_gd_clntprincipal = 6,
+    VT_rpc_gss_all_gd_options = 7,
+    VT_rpc_gss_all_gd_state = 8,
+    VT_rpc_gss_all_gd_verf = 9,
+    VT_rpc_gss_all_gd_clnt = 10,
+    VT_rpc_gss_all_gd_mech = 11,
+    VT_rpc_gss_all_gd_qop = 12,
+    VT_rpc_gss_all_gd_ctx = 13,
+    VT_rpc_gss_all_gd_cred = 14,
+    VT_rpc_gss_all_gd_seq = 15,
+    VT_rpc_gss_all_gd_win = 16,
+    VT_rpc_gss_all_gd_reqs = 17,
+    VT_rpc_gss_all_gd_link = 18,
+    VT_rpc_gss_all_gd_alllink = 19,
+    VT_rpc_gss_all_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct rpc_gss_all *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+    columns[VT_rpc_gss_all_gd_refs] = new_osdb_int64(curEntry->gd_refs, context);
+//    columns[VT_rpc_gss_all_gd_lock] =  TODO: Handle other types
+    columns[VT_rpc_gss_all_gd_hash] = new_osdb_int64(curEntry->gd_hash, context);
+//    columns[VT_rpc_gss_all_gd_auth] =  TODO: Handle other types
+//    columns[VT_rpc_gss_all_gd_ucred] =  TODO: Handle other types
+    columns[VT_rpc_gss_all_gd_principal] = new_osdb_text(curEntry->gd_principal, strlen(curEntry->gd_principal) + 1, context);
+    columns[VT_rpc_gss_all_gd_clntprincipal] = new_osdb_text(curEntry->gd_clntprincipal, strlen(curEntry->gd_clntprincipal) + 1, context);
+//    columns[VT_rpc_gss_all_gd_options] =  TODO: Handle other types
+    columns[VT_rpc_gss_all_gd_state] = new_osdb_int64(static_cast<int64_t>(curEntry->gd_state), context); // TODO: need better enum representation 
+//    columns[VT_rpc_gss_all_gd_verf] =  TODO: Handle other types
+//    columns[VT_rpc_gss_all_gd_clnt] =  TODO: Handle other types
+//    columns[VT_rpc_gss_all_gd_mech] =  TODO: Handle other types
+    columns[VT_rpc_gss_all_gd_qop] = new_osdb_int64(curEntry->gd_qop, context);
+//    columns[VT_rpc_gss_all_gd_ctx] =  TODO: Handle other types
+//    columns[VT_rpc_gss_all_gd_cred] =  TODO: Handle other types
+    columns[VT_rpc_gss_all_gd_seq] = new_osdb_int64(curEntry->gd_seq, context);
+    columns[VT_rpc_gss_all_gd_win] = new_osdb_int64(curEntry->gd_win, context);
+//    columns[VT_rpc_gss_all_gd_reqs] =  TODO: Handle other types
+//    columns[VT_rpc_gss_all_gd_link] =  TODO: Handle other types
+//    columns[VT_rpc_gss_all_gd_alllink] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_rpc_gss_data_list_lock(void)
 {

@@ -7,6 +7,86 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_allprison_pr_list = 0,
+    VT_allprison_pr_id = 1,
+    VT_allprison_pr_ref = 2,
+    VT_allprison_pr_uref = 3,
+    VT_allprison_pr_flags = 4,
+    VT_allprison_pr_children = 5,
+    VT_allprison_pr_proclist = 6,
+    VT_allprison_pr_sibling = 7,
+    VT_allprison_pr_parent = 8,
+    VT_allprison_pr_mtx = 9,
+    VT_allprison_pr_task = 10,
+    VT_allprison_pr_osd = 11,
+    VT_allprison_pr_cpuset = 12,
+    VT_allprison_pr_vnet = 13,
+    VT_allprison_pr_root = 14,
+    VT_allprison_pr_addrs = 15,
+    VT_allprison_pr_prison_racct = 16,
+    VT_allprison_pr_sparep = 17,
+    VT_allprison_pr_childcount = 18,
+    VT_allprison_pr_childmax = 19,
+    VT_allprison_pr_allow = 20,
+    VT_allprison_pr_securelevel = 21,
+    VT_allprison_pr_enforce_statfs = 22,
+    VT_allprison_pr_devfs_rsnum = 23,
+    VT_allprison_pr_state = 24,
+    VT_allprison_pr_exportcnt = 25,
+    VT_allprison_pr_spare = 26,
+    VT_allprison_pr_osreldate = 27,
+    VT_allprison_pr_hostid = 28,
+    VT_allprison_pr_name = 29,
+    VT_allprison_pr_path = 30,
+    VT_allprison_pr_hostname = 31,
+    VT_allprison_pr_domainname = 32,
+    VT_allprison_pr_hostuuid = 33,
+    VT_allprison_pr_osrelease = 34,
+    VT_allprison_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct allprison *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_allprison_pr_list] =  TODO: Handle other types
+    columns[VT_allprison_pr_id] = new_osdb_int64(curEntry->pr_id, context);
+    columns[VT_allprison_pr_ref] = new_osdb_int64(curEntry->pr_ref, context);
+    columns[VT_allprison_pr_uref] = new_osdb_int64(curEntry->pr_uref, context);
+    columns[VT_allprison_pr_flags] = new_osdb_int64(curEntry->pr_flags, context);
+//    columns[VT_allprison_pr_children] =  TODO: Handle other types
+//    columns[VT_allprison_pr_proclist] =  TODO: Handle other types
+//    columns[VT_allprison_pr_sibling] =  TODO: Handle other types
+//    columns[VT_allprison_pr_parent] =  TODO: Handle other types
+//    columns[VT_allprison_pr_mtx] =  TODO: Handle other types
+//    columns[VT_allprison_pr_task] =  TODO: Handle other types
+//    columns[VT_allprison_pr_osd] =  TODO: Handle other types
+//    columns[VT_allprison_pr_cpuset] =  TODO: Handle other types
+//    columns[VT_allprison_pr_vnet] =  TODO: Handle other types
+//    columns[VT_allprison_pr_root] =  TODO: Handle other types
+//    columns[VT_allprison_pr_addrs] =  TODO: Handle other types
+//    columns[VT_allprison_pr_prison_racct] =  TODO: Handle other types
+//    columns[VT_allprison_pr_sparep] =  TODO: Handle other types
+    columns[VT_allprison_pr_childcount] = new_osdb_int64(curEntry->pr_childcount, context);
+    columns[VT_allprison_pr_childmax] = new_osdb_int64(curEntry->pr_childmax, context);
+    columns[VT_allprison_pr_allow] = new_osdb_int64(curEntry->pr_allow, context);
+    columns[VT_allprison_pr_securelevel] = new_osdb_int64(curEntry->pr_securelevel, context);
+    columns[VT_allprison_pr_enforce_statfs] = new_osdb_int64(curEntry->pr_enforce_statfs, context);
+    columns[VT_allprison_pr_devfs_rsnum] = new_osdb_int64(curEntry->pr_devfs_rsnum, context);
+    columns[VT_allprison_pr_state] = new_osdb_int64(static_cast<int64_t>(curEntry->pr_state), context); // TODO: need better enum representation 
+    columns[VT_allprison_pr_exportcnt] = new_osdb_int64(curEntry->pr_exportcnt, context);
+    columns[VT_allprison_pr_spare] = new_osdb_int64(curEntry->pr_spare, context);
+    columns[VT_allprison_pr_osreldate] = new_osdb_int64(curEntry->pr_osreldate, context);
+    columns[VT_allprison_pr_hostid] = new_osdb_int64(curEntry->pr_hostid, context);
+//    columns[VT_allprison_pr_name] =  TODO: Handle other types
+//    columns[VT_allprison_pr_path] =  TODO: Handle other types
+//    columns[VT_allprison_pr_hostname] =  TODO: Handle other types
+//    columns[VT_allprison_pr_domainname] =  TODO: Handle other types
+//    columns[VT_allprison_pr_hostuuid] =  TODO: Handle other types
+//    columns[VT_allprison_pr_osrelease] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_prisonlist_lock(void)
 {

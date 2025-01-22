@@ -7,6 +7,48 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_ufsdirhash_list_dh_lock = 0,
+    VT_ufsdirhash_list_dh_refcount = 1,
+    VT_ufsdirhash_list_dh_hash = 2,
+    VT_ufsdirhash_list_dh_narrays = 3,
+    VT_ufsdirhash_list_dh_hlen = 4,
+    VT_ufsdirhash_list_dh_hused = 5,
+    VT_ufsdirhash_list_dh_memreq = 6,
+    VT_ufsdirhash_list_dh_blkfree = 7,
+    VT_ufsdirhash_list_dh_nblk = 8,
+    VT_ufsdirhash_list_dh_dirblks = 9,
+    VT_ufsdirhash_list_dh_firstfree = 10,
+    VT_ufsdirhash_list_dh_seqoff = 11,
+    VT_ufsdirhash_list_dh_score = 12,
+    VT_ufsdirhash_list_dh_onlist = 13,
+    VT_ufsdirhash_list_dh_lastused = 14,
+    VT_ufsdirhash_list_dh_list = 15,
+    VT_ufsdirhash_list_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct ufsdirhash_list *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_ufsdirhash_list_dh_lock] =  TODO: Handle other types
+    columns[VT_ufsdirhash_list_dh_refcount] = new_osdb_int64(curEntry->dh_refcount, context);
+//    columns[VT_ufsdirhash_list_dh_hash] =  TODO: Handle other types
+    columns[VT_ufsdirhash_list_dh_narrays] = new_osdb_int64(curEntry->dh_narrays, context);
+    columns[VT_ufsdirhash_list_dh_hlen] = new_osdb_int64(curEntry->dh_hlen, context);
+    columns[VT_ufsdirhash_list_dh_hused] = new_osdb_int64(curEntry->dh_hused, context);
+    columns[VT_ufsdirhash_list_dh_memreq] = new_osdb_int64(curEntry->dh_memreq, context);
+    columns[VT_ufsdirhash_list_dh_blkfree] = new_osdb_text(curEntry->dh_blkfree, strlen(curEntry->dh_blkfree) + 1, context);
+    columns[VT_ufsdirhash_list_dh_nblk] = new_osdb_int64(curEntry->dh_nblk, context);
+    columns[VT_ufsdirhash_list_dh_dirblks] = new_osdb_int64(curEntry->dh_dirblks, context);
+//    columns[VT_ufsdirhash_list_dh_firstfree] =  TODO: Handle other types
+    columns[VT_ufsdirhash_list_dh_seqoff] = new_osdb_int64(curEntry->dh_seqoff, context);
+    columns[VT_ufsdirhash_list_dh_score] = new_osdb_int64(curEntry->dh_score, context);
+    columns[VT_ufsdirhash_list_dh_onlist] = new_osdb_int64(curEntry->dh_onlist, context);
+    columns[VT_ufsdirhash_list_dh_lastused] = new_osdb_int64(curEntry->dh_lastused, context);
+//    columns[VT_ufsdirhash_list_dh_list] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

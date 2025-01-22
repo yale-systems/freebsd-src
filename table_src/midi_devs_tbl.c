@@ -7,6 +7,64 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_midi_devs_ops = 0,
+    VT_midi_devs_lock = 1,
+    VT_midi_devs_cookie = 2,
+    VT_midi_devs_unit = 3,
+    VT_midi_devs_channel = 4,
+    VT_midi_devs_busy = 5,
+    VT_midi_devs_flags = 6,
+    VT_midi_devs_name = 7,
+    VT_midi_devs_qlock = 8,
+    VT_midi_devs_inq = 9,
+    VT_midi_devs_outq = 10,
+    VT_midi_devs_rchan = 11,
+    VT_midi_devs_wchan = 12,
+    VT_midi_devs_rsel = 13,
+    VT_midi_devs_wsel = 14,
+    VT_midi_devs_hiwat = 15,
+    VT_midi_devs_inq_state = 16,
+    VT_midi_devs_inq_status = 17,
+    VT_midi_devs_inq_left = 18,
+    VT_midi_devs_async = 19,
+    VT_midi_devs_dev = 20,
+    VT_midi_devs_synth = 21,
+    VT_midi_devs_synth_flags = 22,
+    VT_midi_devs_link = 23,
+    VT_midi_devs_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct midi_devs *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_midi_devs_ops] =  TODO: Handle other types
+//    columns[VT_midi_devs_lock] =  TODO: Handle other types
+//    columns[VT_midi_devs_cookie] =  TODO: Handle other types
+    columns[VT_midi_devs_unit] = new_osdb_int64(curEntry->unit, context);
+    columns[VT_midi_devs_channel] = new_osdb_int64(curEntry->channel, context);
+    columns[VT_midi_devs_busy] = new_osdb_int64(curEntry->busy, context);
+    columns[VT_midi_devs_flags] = new_osdb_int64(curEntry->flags, context);
+//    columns[VT_midi_devs_name] =  TODO: Handle other types
+//    columns[VT_midi_devs_qlock] =  TODO: Handle other types
+//    columns[VT_midi_devs_inq] =  TODO: Handle other types
+//    columns[VT_midi_devs_outq] =  TODO: Handle other types
+    columns[VT_midi_devs_rchan] = new_osdb_int64(curEntry->rchan, context);
+    columns[VT_midi_devs_wchan] = new_osdb_int64(curEntry->wchan, context);
+//    columns[VT_midi_devs_rsel] =  TODO: Handle other types
+//    columns[VT_midi_devs_wsel] =  TODO: Handle other types
+    columns[VT_midi_devs_hiwat] = new_osdb_int64(curEntry->hiwat, context);
+    columns[VT_midi_devs_inq_state] = new_osdb_int64(static_cast<int64_t>(curEntry->inq_state), context); // TODO: need better enum representation 
+    columns[VT_midi_devs_inq_status] = new_osdb_int64(curEntry->inq_status, context);
+    columns[VT_midi_devs_inq_left] = new_osdb_int64(curEntry->inq_left, context);
+//    columns[VT_midi_devs_async] =  TODO: Handle other types
+//    columns[VT_midi_devs_dev] =  TODO: Handle other types
+//    columns[VT_midi_devs_synth] =  TODO: Handle other types
+    columns[VT_midi_devs_synth_flags] = new_osdb_int64(curEntry->synth_flags, context);
+//    columns[VT_midi_devs_link] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

@@ -7,6 +7,22 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_kinst_trampchunks_next = 0,
+    VT_kinst_trampchunks_addr = 1,
+    VT_kinst_trampchunks_free = 2,
+    VT_kinst_trampchunks_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct kinst_trampchunks *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_kinst_trampchunks_next] =  TODO: Handle other types
+    columns[VT_kinst_trampchunks_addr] = new_osdb_text(curEntry->addr, strlen(curEntry->addr) + 1, context);
+//    columns[VT_kinst_trampchunks_free] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

@@ -7,6 +7,36 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_auth_unix_all_au_link = 0,
+    VT_auth_unix_all_au_alllink = 1,
+    VT_auth_unix_all_au_refs = 2,
+    VT_auth_unix_all_au_xcred = 3,
+    VT_auth_unix_all_au_origcred = 4,
+    VT_auth_unix_all_au_shcred = 5,
+    VT_auth_unix_all_au_shfaults = 6,
+    VT_auth_unix_all_au_marshed = 7,
+    VT_auth_unix_all_au_mpos = 8,
+    VT_auth_unix_all_au_auth = 9,
+    VT_auth_unix_all_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct auth_unix_all *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_auth_unix_all_au_link] =  TODO: Handle other types
+//    columns[VT_auth_unix_all_au_alllink] =  TODO: Handle other types
+    columns[VT_auth_unix_all_au_refs] = new_osdb_int64(curEntry->au_refs, context);
+//    columns[VT_auth_unix_all_au_xcred] =  TODO: Handle other types
+//    columns[VT_auth_unix_all_au_origcred] =  TODO: Handle other types
+//    columns[VT_auth_unix_all_au_shcred] =  TODO: Handle other types
+    columns[VT_auth_unix_all_au_shfaults] = new_osdb_int64(curEntry->au_shfaults, context);
+//    columns[VT_auth_unix_all_au_marshed] =  TODO: Handle other types
+    columns[VT_auth_unix_all_au_mpos] = new_osdb_int64(curEntry->au_mpos, context);
+//    columns[VT_auth_unix_all_au_auth] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_audata_list_lock(void)
 {

@@ -7,6 +7,34 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_dqfreelist_dq_hash = 0,
+    VT_dqfreelist_dq_freelist = 1,
+    VT_dqfreelist_dq_lock = 2,
+    VT_dqfreelist_dq_flags = 3,
+    VT_dqfreelist_dq_type = 4,
+    VT_dqfreelist_dq_cnt = 5,
+    VT_dqfreelist_dq_id = 6,
+    VT_dqfreelist_dq_ump = 7,
+    VT_dqfreelist_dq_dqb = 8,
+    VT_dqfreelist_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct dqfreelist *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_dqfreelist_dq_hash] =  TODO: Handle other types
+//    columns[VT_dqfreelist_dq_freelist] =  TODO: Handle other types
+//    columns[VT_dqfreelist_dq_lock] =  TODO: Handle other types
+    columns[VT_dqfreelist_dq_flags] = new_osdb_int64(curEntry->dq_flags, context);
+    columns[VT_dqfreelist_dq_type] = new_osdb_int64(curEntry->dq_type, context);
+    columns[VT_dqfreelist_dq_cnt] = new_osdb_int64(curEntry->dq_cnt, context);
+    columns[VT_dqfreelist_dq_id] = new_osdb_int64(curEntry->dq_id, context);
+//    columns[VT_dqfreelist_dq_ump] =  TODO: Handle other types
+//    columns[VT_dqfreelist_dq_dqb] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_dqfreelist_lock(void)
 {

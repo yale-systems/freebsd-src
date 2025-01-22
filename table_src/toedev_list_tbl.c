@@ -7,6 +7,58 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_toedev_list_link = 0,
+    VT_toedev_list_tod_softc = 1,
+    VT_toedev_list_tod_connect = 2,
+    VT_toedev_list_tod_listen_start = 3,
+    VT_toedev_list_tod_listen_stop = 4,
+    VT_toedev_list_tod_input = 5,
+    VT_toedev_list_tod_rcvd = 6,
+    VT_toedev_list_tod_output = 7,
+    VT_toedev_list_tod_send_rst = 8,
+    VT_toedev_list_tod_send_fin = 9,
+    VT_toedev_list_tod_pcb_detach = 10,
+    VT_toedev_list_tod_l2_update = 11,
+    VT_toedev_list_tod_route_redirect = 12,
+    VT_toedev_list_tod_syncache_added = 13,
+    VT_toedev_list_tod_syncache_removed = 14,
+    VT_toedev_list_tod_syncache_respond = 15,
+    VT_toedev_list_tod_offload_socket = 16,
+    VT_toedev_list_tod_ctloutput = 17,
+    VT_toedev_list_tod_tcp_info = 18,
+    VT_toedev_list_tod_alloc_tls_session = 19,
+    VT_toedev_list_tod_pmtu_update = 20,
+    VT_toedev_list_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct toedev_list *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_toedev_list_link] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_softc] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_connect] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_listen_start] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_listen_stop] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_input] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_rcvd] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_output] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_send_rst] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_send_fin] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_pcb_detach] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_l2_update] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_route_redirect] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_syncache_added] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_syncache_removed] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_syncache_respond] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_offload_socket] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_ctloutput] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_tcp_info] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_alloc_tls_session] =  TODO: Handle other types
+//    columns[VT_toedev_list_tod_pmtu_update] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

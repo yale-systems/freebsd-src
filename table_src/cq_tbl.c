@@ -7,6 +7,68 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_cq_crp_next = 0,
+    VT_cq_crp_task = 1,
+    VT_cq_crp_session = 2,
+    VT_cq_crp_olen = 3,
+    VT_cq_crp_etype = 4,
+    VT_cq_crp_flags = 5,
+    VT_cq_crp_op = 6,
+    VT_cq_crp_buf = 7,
+    VT_cq_crp_obuf = 8,
+    VT_cq_crp_aad = 9,
+    VT_cq_crp_aad_start = 10,
+    VT_cq_crp_aad_length = 11,
+    VT_cq_crp_esn = 12,
+    VT_cq_crp_iv_start = 13,
+    VT_cq_crp_payload_start = 14,
+    VT_cq_crp_payload_output_start = 15,
+    VT_cq_crp_payload_length = 16,
+    VT_cq_crp_digest_start = 17,
+    VT_cq_crp_iv = 18,
+    VT_cq_crp_cipher_key = 19,
+    VT_cq_crp_auth_key = 20,
+    VT_cq_crp_opaque = 21,
+    VT_cq_crp_callback = 22,
+    VT_cq_crp_tstamp = 23,
+    VT_cq_crp_seq = 24,
+    VT_cq_crp_retw_id = 25,
+    VT_cq_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct cq *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_cq_crp_next] =  TODO: Handle other types
+//    columns[VT_cq_crp_task] =  TODO: Handle other types
+//    columns[VT_cq_crp_session] =  TODO: Handle other types
+    columns[VT_cq_crp_olen] = new_osdb_int64(curEntry->crp_olen, context);
+    columns[VT_cq_crp_etype] = new_osdb_int64(curEntry->crp_etype, context);
+    columns[VT_cq_crp_flags] = new_osdb_int64(curEntry->crp_flags, context);
+    columns[VT_cq_crp_op] = new_osdb_int64(curEntry->crp_op, context);
+//    columns[VT_cq_crp_buf] =  TODO: Handle other types
+//    columns[VT_cq_crp_obuf] =  TODO: Handle other types
+//    columns[VT_cq_crp_aad] =  TODO: Handle other types
+    columns[VT_cq_crp_aad_start] = new_osdb_int64(curEntry->crp_aad_start, context);
+    columns[VT_cq_crp_aad_length] = new_osdb_int64(curEntry->crp_aad_length, context);
+//    columns[VT_cq_crp_esn] =  TODO: Handle other types
+    columns[VT_cq_crp_iv_start] = new_osdb_int64(curEntry->crp_iv_start, context);
+    columns[VT_cq_crp_payload_start] = new_osdb_int64(curEntry->crp_payload_start, context);
+    columns[VT_cq_crp_payload_output_start] = new_osdb_int64(curEntry->crp_payload_output_start, context);
+    columns[VT_cq_crp_payload_length] = new_osdb_int64(curEntry->crp_payload_length, context);
+    columns[VT_cq_crp_digest_start] = new_osdb_int64(curEntry->crp_digest_start, context);
+//    columns[VT_cq_crp_iv] =  TODO: Handle other types
+//    columns[VT_cq_crp_cipher_key] =  TODO: Handle other types
+//    columns[VT_cq_crp_auth_key] =  TODO: Handle other types
+//    columns[VT_cq_crp_opaque] =  TODO: Handle other types
+//    columns[VT_cq_crp_callback] =  TODO: Handle other types
+//    columns[VT_cq_crp_tstamp] =  TODO: Handle other types
+    columns[VT_cq_crp_seq] = new_osdb_int64(curEntry->crp_seq, context);
+    columns[VT_cq_crp_retw_id] = new_osdb_int64(curEntry->crp_retw_id, context);
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

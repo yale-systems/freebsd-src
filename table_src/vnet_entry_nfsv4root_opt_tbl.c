@@ -7,6 +7,28 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_vnet_entry_nfsv4root_opt_link = 0,
+    VT_vnet_entry_nfsv4root_opt_name = 1,
+    VT_vnet_entry_nfsv4root_opt_value = 2,
+    VT_vnet_entry_nfsv4root_opt_len = 3,
+    VT_vnet_entry_nfsv4root_opt_pos = 4,
+    VT_vnet_entry_nfsv4root_opt_seen = 5,
+    VT_vnet_entry_nfsv4root_opt_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct vnet_entry_nfsv4root_opt *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_vnet_entry_nfsv4root_opt_link] =  TODO: Handle other types
+    columns[VT_vnet_entry_nfsv4root_opt_name] = new_osdb_text(curEntry->name, strlen(curEntry->name) + 1, context);
+//    columns[VT_vnet_entry_nfsv4root_opt_value] =  TODO: Handle other types
+    columns[VT_vnet_entry_nfsv4root_opt_len] = new_osdb_int64(curEntry->len, context);
+    columns[VT_vnet_entry_nfsv4root_opt_pos] = new_osdb_int64(curEntry->pos, context);
+    columns[VT_vnet_entry_nfsv4root_opt_seen] = new_osdb_int64(curEntry->seen, context);
+
+    return 0;
+}
 void
 vtab_vfsoptlist_lock(void)
 {

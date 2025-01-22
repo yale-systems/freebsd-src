@@ -7,6 +7,26 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_lkpi_shrinkers_count_objects = 0,
+    VT_lkpi_shrinkers_scan_objects = 1,
+    VT_lkpi_shrinkers_seeks = 2,
+    VT_lkpi_shrinkers_batch = 3,
+    VT_lkpi_shrinkers_next = 4,
+    VT_lkpi_shrinkers_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct lkpi_shrinkers *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_lkpi_shrinkers_count_objects] =  TODO: Handle other types
+//    columns[VT_lkpi_shrinkers_scan_objects] =  TODO: Handle other types
+    columns[VT_lkpi_shrinkers_seeks] = new_osdb_int64(curEntry->seeks, context);
+    columns[VT_lkpi_shrinkers_batch] = new_osdb_int64(curEntry->batch, context);
+//    columns[VT_lkpi_shrinkers_next] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

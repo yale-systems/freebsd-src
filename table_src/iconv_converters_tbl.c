@@ -7,6 +7,30 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_iconv_converters_name = 0,
+    VT_iconv_converters_methods = 1,
+    VT_iconv_converters_size = 2,
+    VT_iconv_converters_baseclasses = 3,
+    VT_iconv_converters_refs = 4,
+    VT_iconv_converters_ops = 5,
+    VT_iconv_converters_cc_link = 6,
+    VT_iconv_converters_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct iconv_converters *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+    columns[VT_iconv_converters_name] = new_osdb_text(curEntry->name, strlen(curEntry->name) + 1, context);
+//    columns[VT_iconv_converters_methods] =  TODO: Handle other types
+    columns[VT_iconv_converters_size] = new_osdb_int64(curEntry->size, context);
+//    columns[VT_iconv_converters_baseclasses] =  TODO: Handle other types
+    columns[VT_iconv_converters_refs] = new_osdb_int64(curEntry->refs, context);
+//    columns[VT_iconv_converters_ops] =  TODO: Handle other types
+//    columns[VT_iconv_converters_cc_link] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_iconv_converter_list_lock(void)
 {

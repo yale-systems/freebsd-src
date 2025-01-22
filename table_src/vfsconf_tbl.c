@@ -7,6 +7,36 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_vfsconf_vfc_version = 0,
+    VT_vfsconf_vfc_name = 1,
+    VT_vfsconf_vfc_vfsops = 2,
+    VT_vfsconf_vfc_vfsops_sd = 3,
+    VT_vfsconf_vfc_typenum = 4,
+    VT_vfsconf_vfc_refcount = 5,
+    VT_vfsconf_vfc_flags = 6,
+    VT_vfsconf_vfc_prison_flag = 7,
+    VT_vfsconf_vfc_opts = 8,
+    VT_vfsconf_vfc_list = 9,
+    VT_vfsconf_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct vfsconf *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+    columns[VT_vfsconf_vfc_version] = new_osdb_int64(curEntry->vfc_version, context);
+//    columns[VT_vfsconf_vfc_name] =  TODO: Handle other types
+//    columns[VT_vfsconf_vfc_vfsops] =  TODO: Handle other types
+//    columns[VT_vfsconf_vfc_vfsops_sd] =  TODO: Handle other types
+    columns[VT_vfsconf_vfc_typenum] = new_osdb_int64(curEntry->vfc_typenum, context);
+    columns[VT_vfsconf_vfc_refcount] = new_osdb_int64(curEntry->vfc_refcount, context);
+    columns[VT_vfsconf_vfc_flags] = new_osdb_int64(curEntry->vfc_flags, context);
+    columns[VT_vfsconf_vfc_prison_flag] = new_osdb_int64(curEntry->vfc_prison_flag, context);
+//    columns[VT_vfsconf_vfc_opts] =  TODO: Handle other types
+//    columns[VT_vfsconf_vfc_list] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_vfsconfhead_lock(void)
 {

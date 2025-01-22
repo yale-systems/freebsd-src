@@ -7,6 +7,26 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_rule_head_r_id = 0,
+    VT_rule_head_r_idtype = 1,
+    VT_rule_head_r_port = 2,
+    VT_rule_head_r_protocol = 3,
+    VT_rule_head_r_entries = 4,
+    VT_rule_head_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct rule_head *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+    columns[VT_rule_head_r_id] = new_osdb_int64(curEntry->r_id, context);
+    columns[VT_rule_head_r_idtype] = new_osdb_int64(curEntry->r_idtype, context);
+    columns[VT_rule_head_r_port] = new_osdb_int64(curEntry->r_port, context);
+    columns[VT_rule_head_r_protocol] = new_osdb_int64(curEntry->r_protocol, context);
+//    columns[VT_rule_head_r_entries] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_rulehead_lock(void)
 {

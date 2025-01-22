@@ -7,6 +7,22 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_ipx_head_entry = 0,
+    VT_ipx_head_ipx_addr = 1,
+    VT_ipx_head_ndev = 2,
+    VT_ipx_head_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct ipx_head *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_ipx_head_entry] =  TODO: Handle other types
+//    columns[VT_ipx_head_ipx_addr] =  TODO: Handle other types
+//    columns[VT_ipx_head_ndev] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_ipx_queue_lock(void)
 {

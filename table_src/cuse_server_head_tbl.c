@@ -7,6 +7,38 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_cuse_server_head_entry = 0,
+    VT_cuse_server_head_head = 1,
+    VT_cuse_server_head_hdev = 2,
+    VT_cuse_server_head_hcli = 3,
+    VT_cuse_server_head_hmem = 4,
+    VT_cuse_server_head_mtx = 5,
+    VT_cuse_server_head_cv = 6,
+    VT_cuse_server_head_selinfo = 7,
+    VT_cuse_server_head_pid = 8,
+    VT_cuse_server_head_is_closing = 9,
+    VT_cuse_server_head_refs = 10,
+    VT_cuse_server_head_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct cuse_server_head *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_cuse_server_head_entry] =  TODO: Handle other types
+//    columns[VT_cuse_server_head_head] =  TODO: Handle other types
+//    columns[VT_cuse_server_head_hdev] =  TODO: Handle other types
+//    columns[VT_cuse_server_head_hcli] =  TODO: Handle other types
+//    columns[VT_cuse_server_head_hmem] =  TODO: Handle other types
+//    columns[VT_cuse_server_head_mtx] =  TODO: Handle other types
+//    columns[VT_cuse_server_head_cv] =  TODO: Handle other types
+//    columns[VT_cuse_server_head_selinfo] =  TODO: Handle other types
+    columns[VT_cuse_server_head_pid] = new_osdb_int64(curEntry->pid, context);
+    columns[VT_cuse_server_head_is_closing] = new_osdb_int64(curEntry->is_closing, context);
+    columns[VT_cuse_server_head_refs] = new_osdb_int64(curEntry->refs, context);
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

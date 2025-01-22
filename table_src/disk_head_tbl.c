@@ -7,6 +7,40 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_disk_head_ctrlr = 0,
+    VT_disk_head_bioq = 1,
+    VT_disk_head_bioqtask = 2,
+    VT_disk_head_bioqlock = 3,
+    VT_disk_head_disk = 4,
+    VT_disk_head_tq = 5,
+    VT_disk_head_ns = 6,
+    VT_disk_head_cur_depth = 7,
+    VT_disk_head_ordered_in_flight = 8,
+    VT_disk_head_unit = 9,
+    VT_disk_head_global_tailq = 10,
+    VT_disk_head_ctrlr_tailq = 11,
+    VT_disk_head_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct disk_head *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_disk_head_ctrlr] =  TODO: Handle other types
+//    columns[VT_disk_head_bioq] =  TODO: Handle other types
+//    columns[VT_disk_head_bioqtask] =  TODO: Handle other types
+//    columns[VT_disk_head_bioqlock] =  TODO: Handle other types
+//    columns[VT_disk_head_disk] =  TODO: Handle other types
+//    columns[VT_disk_head_tq] =  TODO: Handle other types
+//    columns[VT_disk_head_ns] =  TODO: Handle other types
+    columns[VT_disk_head_cur_depth] = new_osdb_int64(curEntry->cur_depth, context);
+    columns[VT_disk_head_ordered_in_flight] = new_osdb_int64(curEntry->ordered_in_flight, context);
+    columns[VT_disk_head_unit] = new_osdb_int64(curEntry->unit, context);
+//    columns[VT_disk_head_global_tailq] =  TODO: Handle other types
+//    columns[VT_disk_head_ctrlr_tailq] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_disk_list_lock(void)
 {

@@ -7,6 +7,16 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_linux_ioctl_handlers_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct linux_ioctl_handlers *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

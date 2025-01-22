@@ -7,6 +7,50 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_req_list_entry = 0,
+    VT_req_list_cm_id = 1,
+    VT_req_list_qp = 2,
+    VT_req_list_dev = 3,
+    VT_req_list_state = 4,
+    VT_req_list_kref = 5,
+    VT_req_list_mutex = 6,
+    VT_req_list_local_addr = 7,
+    VT_req_list_remote_addr = 8,
+    VT_req_list_wr_wait = 9,
+    VT_req_list_flags = 10,
+    VT_req_list_history = 11,
+    VT_req_list_rpl_err = 12,
+    VT_req_list_rpl_done = 13,
+    VT_req_list_thread = 14,
+    VT_req_list_so = 15,
+    VT_req_list_ep_events = 16,
+    VT_req_list_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct req_list *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_req_list_entry] =  TODO: Handle other types
+//    columns[VT_req_list_cm_id] =  TODO: Handle other types
+//    columns[VT_req_list_qp] =  TODO: Handle other types
+//    columns[VT_req_list_dev] =  TODO: Handle other types
+    columns[VT_req_list_state] = new_osdb_int64(static_cast<int64_t>(curEntry->state), context); // TODO: need better enum representation 
+//    columns[VT_req_list_kref] =  TODO: Handle other types
+//    columns[VT_req_list_mutex] =  TODO: Handle other types
+//    columns[VT_req_list_local_addr] =  TODO: Handle other types
+//    columns[VT_req_list_remote_addr] =  TODO: Handle other types
+//    columns[VT_req_list_wr_wait] =  TODO: Handle other types
+    columns[VT_req_list_flags] = new_osdb_int64(curEntry->flags, context);
+    columns[VT_req_list_history] = new_osdb_int64(curEntry->history, context);
+    columns[VT_req_list_rpl_err] = new_osdb_int64(curEntry->rpl_err, context);
+    columns[VT_req_list_rpl_done] = new_osdb_int64(curEntry->rpl_done, context);
+//    columns[VT_req_list_thread] =  TODO: Handle other types
+//    columns[VT_req_list_so] =  TODO: Handle other types
+    columns[VT_req_list_ep_events] = new_osdb_int64(curEntry->ep_events, context);
+
+    return 0;
+}
 void
 vtab_c4iw_ep_list_lock(void)
 {

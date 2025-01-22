@@ -7,6 +7,50 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_extra_deleg_nfsdl_list = 0,
+    VT_extra_deleg_nfsdl_hash = 1,
+    VT_extra_deleg_nfsdl_owner = 2,
+    VT_extra_deleg_nfsdl_lock = 3,
+    VT_extra_deleg_nfsdl_stateid = 4,
+    VT_extra_deleg_nfsdl_ace = 5,
+    VT_extra_deleg_nfsdl_clp = 6,
+    VT_extra_deleg_nfsdl_rwlock = 7,
+    VT_extra_deleg_nfsdl_cred = 8,
+    VT_extra_deleg_nfsdl_timestamp = 9,
+    VT_extra_deleg_nfsdl_sizelimit = 10,
+    VT_extra_deleg_nfsdl_size = 11,
+    VT_extra_deleg_nfsdl_change = 12,
+    VT_extra_deleg_nfsdl_modtime = 13,
+    VT_extra_deleg_nfsdl_fhlen = 14,
+    VT_extra_deleg_nfsdl_flags = 15,
+    VT_extra_deleg_nfsdl_fh = 16,
+    VT_extra_deleg_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct extra_deleg *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_extra_deleg_nfsdl_list] =  TODO: Handle other types
+//    columns[VT_extra_deleg_nfsdl_hash] =  TODO: Handle other types
+//    columns[VT_extra_deleg_nfsdl_owner] =  TODO: Handle other types
+//    columns[VT_extra_deleg_nfsdl_lock] =  TODO: Handle other types
+//    columns[VT_extra_deleg_nfsdl_stateid] =  TODO: Handle other types
+//    columns[VT_extra_deleg_nfsdl_ace] =  TODO: Handle other types
+//    columns[VT_extra_deleg_nfsdl_clp] =  TODO: Handle other types
+//    columns[VT_extra_deleg_nfsdl_rwlock] =  TODO: Handle other types
+//    columns[VT_extra_deleg_nfsdl_cred] =  TODO: Handle other types
+    columns[VT_extra_deleg_nfsdl_timestamp] = new_osdb_int64(curEntry->nfsdl_timestamp, context);
+    columns[VT_extra_deleg_nfsdl_sizelimit] = new_osdb_int64(curEntry->nfsdl_sizelimit, context);
+    columns[VT_extra_deleg_nfsdl_size] = new_osdb_int64(curEntry->nfsdl_size, context);
+    columns[VT_extra_deleg_nfsdl_change] = new_osdb_int64(curEntry->nfsdl_change, context);
+//    columns[VT_extra_deleg_nfsdl_modtime] =  TODO: Handle other types
+    columns[VT_extra_deleg_nfsdl_fhlen] = new_osdb_int64(curEntry->nfsdl_fhlen, context);
+    columns[VT_extra_deleg_nfsdl_flags] = new_osdb_int64(curEntry->nfsdl_flags, context);
+//    columns[VT_extra_deleg_nfsdl_fh] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_nfscldeleghead_lock(void)
 {

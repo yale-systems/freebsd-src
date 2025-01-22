@@ -7,6 +7,20 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_devices_list = 0,
+    VT_devices_entry = 1,
+    VT_devices_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct devices *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_devices_list] =  TODO: Handle other types
+//    columns[VT_devices_entry] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

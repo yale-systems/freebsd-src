@@ -7,6 +7,20 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_rack_sysctl_ctx_entry = 0,
+    VT_rack_sysctl_ctx_link = 1,
+    VT_rack_sysctl_ctx_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct rack_sysctl_ctx *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_rack_sysctl_ctx_entry] =  TODO: Handle other types
+//    columns[VT_rack_sysctl_ctx_link] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_sysctl_ctx_list_lock(void)
 {

@@ -7,6 +7,34 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_vnet_entry_nfsrvudplru_rc_hash = 0,
+    VT_vnet_entry_nfsrvudplru_rc_ahash = 1,
+    VT_vnet_entry_nfsrvudplru_rc_lru = 2,
+    VT_vnet_entry_nfsrvudplru_rc_xid = 3,
+    VT_vnet_entry_nfsrvudplru_rc_timestamp = 4,
+    VT_vnet_entry_nfsrvudplru_rc_un = 5,
+    VT_vnet_entry_nfsrvudplru_rc_un2 = 6,
+    VT_vnet_entry_nfsrvudplru_rc_proc = 7,
+    VT_vnet_entry_nfsrvudplru_rc_flag = 8,
+    VT_vnet_entry_nfsrvudplru_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct vnet_entry_nfsrvudplru *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_vnet_entry_nfsrvudplru_rc_hash] =  TODO: Handle other types
+//    columns[VT_vnet_entry_nfsrvudplru_rc_ahash] =  TODO: Handle other types
+//    columns[VT_vnet_entry_nfsrvudplru_rc_lru] =  TODO: Handle other types
+    columns[VT_vnet_entry_nfsrvudplru_rc_xid] = new_osdb_int64(curEntry->rc_xid, context);
+    columns[VT_vnet_entry_nfsrvudplru_rc_timestamp] = new_osdb_int64(curEntry->rc_timestamp, context);
+//    columns[VT_vnet_entry_nfsrvudplru_rc_un] =  TODO: Handle other types
+//    columns[VT_vnet_entry_nfsrvudplru_rc_un2] =  TODO: Handle other types
+    columns[VT_vnet_entry_nfsrvudplru_rc_proc] = new_osdb_int64(curEntry->rc_proc, context);
+    columns[VT_vnet_entry_nfsrvudplru_rc_flag] = new_osdb_int64(curEntry->rc_flag, context);
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

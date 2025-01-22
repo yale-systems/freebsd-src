@@ -7,6 +7,44 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_xfer_timeout_sc = 0,
+    VT_xfer_timeout_fc = 1,
+    VT_xfer_timeout_q = 2,
+    VT_xfer_timeout_tv = 3,
+    VT_xfer_timeout_resp = 4,
+    VT_xfer_timeout_flag = 5,
+    VT_xfer_timeout_tl = 6,
+    VT_xfer_timeout_hand = 7,
+    VT_xfer_timeout_send = 8,
+    VT_xfer_timeout_recv = 9,
+    VT_xfer_timeout_mbuf = 10,
+    VT_xfer_timeout_link = 11,
+    VT_xfer_timeout_tlabel = 12,
+    VT_xfer_timeout_malloc = 13,
+    VT_xfer_timeout_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct xfer_timeout *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+    columns[VT_xfer_timeout_sc] = new_osdb_text(curEntry->sc, strlen(curEntry->sc) + 1, context);
+//    columns[VT_xfer_timeout_fc] =  TODO: Handle other types
+//    columns[VT_xfer_timeout_q] =  TODO: Handle other types
+//    columns[VT_xfer_timeout_tv] =  TODO: Handle other types
+    columns[VT_xfer_timeout_resp] = new_osdb_int64(curEntry->resp, context);
+    columns[VT_xfer_timeout_flag] = new_osdb_int64(curEntry->flag, context);
+    columns[VT_xfer_timeout_tl] = new_osdb_int64(curEntry->tl, context);
+//    columns[VT_xfer_timeout_hand] =  TODO: Handle other types
+//    columns[VT_xfer_timeout_send] =  TODO: Handle other types
+//    columns[VT_xfer_timeout_recv] =  TODO: Handle other types
+//    columns[VT_xfer_timeout_mbuf] =  TODO: Handle other types
+//    columns[VT_xfer_timeout_link] =  TODO: Handle other types
+//    columns[VT_xfer_timeout_tlabel] =  TODO: Handle other types
+//    columns[VT_xfer_timeout_malloc] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

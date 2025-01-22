@@ -7,6 +7,44 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_xfer_drain_sc = 0,
+    VT_xfer_drain_fc = 1,
+    VT_xfer_drain_q = 2,
+    VT_xfer_drain_tv = 3,
+    VT_xfer_drain_resp = 4,
+    VT_xfer_drain_flag = 5,
+    VT_xfer_drain_tl = 6,
+    VT_xfer_drain_hand = 7,
+    VT_xfer_drain_send = 8,
+    VT_xfer_drain_recv = 9,
+    VT_xfer_drain_mbuf = 10,
+    VT_xfer_drain_link = 11,
+    VT_xfer_drain_tlabel = 12,
+    VT_xfer_drain_malloc = 13,
+    VT_xfer_drain_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct xfer_drain *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+    columns[VT_xfer_drain_sc] = new_osdb_text(curEntry->sc, strlen(curEntry->sc) + 1, context);
+//    columns[VT_xfer_drain_fc] =  TODO: Handle other types
+//    columns[VT_xfer_drain_q] =  TODO: Handle other types
+//    columns[VT_xfer_drain_tv] =  TODO: Handle other types
+    columns[VT_xfer_drain_resp] = new_osdb_int64(curEntry->resp, context);
+    columns[VT_xfer_drain_flag] = new_osdb_int64(curEntry->flag, context);
+    columns[VT_xfer_drain_tl] = new_osdb_int64(curEntry->tl, context);
+//    columns[VT_xfer_drain_hand] =  TODO: Handle other types
+//    columns[VT_xfer_drain_send] =  TODO: Handle other types
+//    columns[VT_xfer_drain_recv] =  TODO: Handle other types
+//    columns[VT_xfer_drain_mbuf] =  TODO: Handle other types
+//    columns[VT_xfer_drain_link] =  TODO: Handle other types
+//    columns[VT_xfer_drain_tlabel] =  TODO: Handle other types
+//    columns[VT_xfer_drain_malloc] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

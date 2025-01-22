@@ -7,6 +7,32 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_iconv_cslist_cp_id = 0,
+    VT_iconv_cslist_cp_refcount = 1,
+    VT_iconv_cslist_cp_from = 2,
+    VT_iconv_cslist_cp_to = 3,
+    VT_iconv_cslist_cp_data = 4,
+    VT_iconv_cslist_cp_dcp = 5,
+    VT_iconv_cslist_cp_base = 6,
+    VT_iconv_cslist_cp_link = 7,
+    VT_iconv_cslist_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct iconv_cslist *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+    columns[VT_iconv_cslist_cp_id] = new_osdb_int64(curEntry->cp_id, context);
+    columns[VT_iconv_cslist_cp_refcount] = new_osdb_int64(curEntry->cp_refcount, context);
+    columns[VT_iconv_cslist_cp_from] = new_osdb_text(curEntry->cp_from, strlen(curEntry->cp_from) + 1, context);
+    columns[VT_iconv_cslist_cp_to] = new_osdb_text(curEntry->cp_to, strlen(curEntry->cp_to) + 1, context);
+//    columns[VT_iconv_cslist_cp_data] =  TODO: Handle other types
+//    columns[VT_iconv_cslist_cp_dcp] =  TODO: Handle other types
+//    columns[VT_iconv_cslist_cp_base] =  TODO: Handle other types
+//    columns[VT_iconv_cslist_cp_link] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

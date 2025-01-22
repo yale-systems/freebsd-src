@@ -7,6 +7,42 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_nvmft_ports_link = 0,
+    VT_nvmft_ports_refs = 1,
+    VT_nvmft_ports_port = 2,
+    VT_nvmft_ports_cdata = 3,
+    VT_nvmft_ports_fp = 4,
+    VT_nvmft_ports_cap = 5,
+    VT_nvmft_ports_max_io_qsize = 6,
+    VT_nvmft_ports_online = 7,
+    VT_nvmft_ports_lock = 8,
+    VT_nvmft_ports_ids = 9,
+    VT_nvmft_ports_controllers = 10,
+    VT_nvmft_ports_active_ns = 11,
+    VT_nvmft_ports_num_ns = 12,
+    VT_nvmft_ports_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct nvmft_ports *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_nvmft_ports_link] =  TODO: Handle other types
+    columns[VT_nvmft_ports_refs] = new_osdb_int64(curEntry->refs, context);
+//    columns[VT_nvmft_ports_port] =  TODO: Handle other types
+//    columns[VT_nvmft_ports_cdata] =  TODO: Handle other types
+//    columns[VT_nvmft_ports_fp] =  TODO: Handle other types
+    columns[VT_nvmft_ports_cap] = new_osdb_int64(curEntry->cap, context);
+    columns[VT_nvmft_ports_max_io_qsize] = new_osdb_int64(curEntry->max_io_qsize, context);
+    columns[VT_nvmft_ports_online] = new_osdb_int64(curEntry->online, context);
+//    columns[VT_nvmft_ports_lock] =  TODO: Handle other types
+//    columns[VT_nvmft_ports_ids] =  TODO: Handle other types
+//    columns[VT_nvmft_ports_controllers] =  TODO: Handle other types
+//    columns[VT_nvmft_ports_active_ns] =  TODO: Handle other types
+    columns[VT_nvmft_ports_num_ns] = new_osdb_int64(curEntry->num_ns, context);
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

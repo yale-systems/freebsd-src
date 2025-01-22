@@ -7,6 +7,22 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_scsi_host_q_scsi_host_next = 0,
+    VT_scsi_host_q_path = 1,
+    VT_scsi_host_q_name = 2,
+    VT_scsi_host_q_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct scsi_host_q *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_scsi_host_q_scsi_host_next] =  TODO: Handle other types
+    columns[VT_scsi_host_q_path] = new_osdb_text(curEntry->path, strlen(curEntry->path) + 1, context);
+    columns[VT_scsi_host_q_name] = new_osdb_text(curEntry->name, strlen(curEntry->name) + 1, context);
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

@@ -7,6 +7,20 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_random_clist_entry = 0,
+    VT_random_clist_link = 1,
+    VT_random_clist_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct random_clist *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_random_clist_entry] =  TODO: Handle other types
+//    columns[VT_random_clist_link] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_sysctl_ctx_list_lock(void)
 {

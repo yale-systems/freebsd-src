@@ -7,6 +7,26 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_nlm_waiting_locks_nw_link = 0,
+    VT_nlm_waiting_locks_nw_waiting = 1,
+    VT_nlm_waiting_locks_nw_lock = 2,
+    VT_nlm_waiting_locks_nw_fh = 3,
+    VT_nlm_waiting_locks_nw_vp = 4,
+    VT_nlm_waiting_locks_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct nlm_waiting_locks *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_nlm_waiting_locks_nw_link] =  TODO: Handle other types
+    columns[VT_nlm_waiting_locks_nw_waiting] = new_osdb_int64(curEntry->nw_waiting, context);
+//    columns[VT_nlm_waiting_locks_nw_lock] =  TODO: Handle other types
+//    columns[VT_nlm_waiting_locks_nw_fh] =  TODO: Handle other types
+//    columns[VT_nlm_waiting_locks_nw_vp] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_nlm_waiting_lock_list_lock(void)
 {

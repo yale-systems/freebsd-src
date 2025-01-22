@@ -7,6 +7,44 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_rlh_nfsly_list = 0,
+    VT_rlh_nfsly_hash = 1,
+    VT_rlh_nfsly_stateid = 2,
+    VT_rlh_nfsly_lock = 3,
+    VT_rlh_nfsly_filesid = 4,
+    VT_rlh_nfsly_lastbyte = 5,
+    VT_rlh_nfsly_flayread = 6,
+    VT_rlh_nfsly_flayrw = 7,
+    VT_rlh_nfsly_recall = 8,
+    VT_rlh_nfsly_timestamp = 9,
+    VT_rlh_nfsly_clp = 10,
+    VT_rlh_nfsly_flags = 11,
+    VT_rlh_nfsly_fhlen = 12,
+    VT_rlh_nfsly_fh = 13,
+    VT_rlh_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct rlh *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_rlh_nfsly_list] =  TODO: Handle other types
+//    columns[VT_rlh_nfsly_hash] =  TODO: Handle other types
+//    columns[VT_rlh_nfsly_stateid] =  TODO: Handle other types
+//    columns[VT_rlh_nfsly_lock] =  TODO: Handle other types
+//    columns[VT_rlh_nfsly_filesid] =  TODO: Handle other types
+    columns[VT_rlh_nfsly_lastbyte] = new_osdb_int64(curEntry->nfsly_lastbyte, context);
+//    columns[VT_rlh_nfsly_flayread] =  TODO: Handle other types
+//    columns[VT_rlh_nfsly_flayrw] =  TODO: Handle other types
+//    columns[VT_rlh_nfsly_recall] =  TODO: Handle other types
+    columns[VT_rlh_nfsly_timestamp] = new_osdb_int64(curEntry->nfsly_timestamp, context);
+//    columns[VT_rlh_nfsly_clp] =  TODO: Handle other types
+    columns[VT_rlh_nfsly_flags] = new_osdb_int64(curEntry->nfsly_flags, context);
+    columns[VT_rlh_nfsly_fhlen] = new_osdb_int64(curEntry->nfsly_fhlen, context);
+//    columns[VT_rlh_nfsly_fh] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_nfscllayouthead_lock(void)
 {

@@ -7,6 +7,24 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_ah_rf_list_name = 0,
+    VT_ah_rf_list_probe = 1,
+    VT_ah_rf_list_attach = 2,
+    VT_ah_rf_list_node = 3,
+    VT_ah_rf_list_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct ah_rf_list *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+    columns[VT_ah_rf_list_name] = new_osdb_text(curEntry->name, strlen(curEntry->name) + 1, context);
+//    columns[VT_ah_rf_list_probe] =  TODO: Handle other types
+//    columns[VT_ah_rf_list_attach] =  TODO: Handle other types
+//    columns[VT_ah_rf_list_node] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

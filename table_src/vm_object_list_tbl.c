@@ -7,6 +7,72 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_vm_object_list_lock = 0,
+    VT_vm_object_list_object_list = 1,
+    VT_vm_object_list_shadow_head = 2,
+    VT_vm_object_list_shadow_list = 3,
+    VT_vm_object_list_memq = 4,
+    VT_vm_object_list_rtree = 5,
+    VT_vm_object_list_size = 6,
+    VT_vm_object_list_domain = 7,
+    VT_vm_object_list_generation = 8,
+    VT_vm_object_list_cleangeneration = 9,
+    VT_vm_object_list_ref_count = 10,
+    VT_vm_object_list_shadow_count = 11,
+    VT_vm_object_list_memattr = 12,
+    VT_vm_object_list_type = 13,
+    VT_vm_object_list_flags = 14,
+    VT_vm_object_list_pg_color = 15,
+    VT_vm_object_list_paging_in_progress = 16,
+    VT_vm_object_list_busy = 17,
+    VT_vm_object_list_resident_page_count = 18,
+    VT_vm_object_list_backing_object = 19,
+    VT_vm_object_list_backing_object_offset = 20,
+    VT_vm_object_list_pager_object_list = 21,
+    VT_vm_object_list_rvq = 22,
+    VT_vm_object_list_handle = 23,
+    VT_vm_object_list_un_pager = 24,
+    VT_vm_object_list_cred = 25,
+    VT_vm_object_list_charge = 26,
+    VT_vm_object_list_umtx_data = 27,
+    VT_vm_object_list_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct vm_object_list *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_vm_object_list_lock] =  TODO: Handle other types
+//    columns[VT_vm_object_list_object_list] =  TODO: Handle other types
+//    columns[VT_vm_object_list_shadow_head] =  TODO: Handle other types
+//    columns[VT_vm_object_list_shadow_list] =  TODO: Handle other types
+//    columns[VT_vm_object_list_memq] =  TODO: Handle other types
+//    columns[VT_vm_object_list_rtree] =  TODO: Handle other types
+    columns[VT_vm_object_list_size] = new_osdb_int64(curEntry->size, context);
+//    columns[VT_vm_object_list_domain] =  TODO: Handle other types
+    columns[VT_vm_object_list_generation] = new_osdb_int64(curEntry->generation, context);
+    columns[VT_vm_object_list_cleangeneration] = new_osdb_int64(curEntry->cleangeneration, context);
+    columns[VT_vm_object_list_ref_count] = new_osdb_int64(curEntry->ref_count, context);
+    columns[VT_vm_object_list_shadow_count] = new_osdb_int64(curEntry->shadow_count, context);
+    columns[VT_vm_object_list_memattr] = new_osdb_int64(curEntry->memattr, context);
+    columns[VT_vm_object_list_type] = new_osdb_int64(curEntry->type, context);
+    columns[VT_vm_object_list_flags] = new_osdb_int64(curEntry->flags, context);
+    columns[VT_vm_object_list_pg_color] = new_osdb_int64(curEntry->pg_color, context);
+//    columns[VT_vm_object_list_paging_in_progress] =  TODO: Handle other types
+//    columns[VT_vm_object_list_busy] =  TODO: Handle other types
+    columns[VT_vm_object_list_resident_page_count] = new_osdb_int64(curEntry->resident_page_count, context);
+//    columns[VT_vm_object_list_backing_object] =  TODO: Handle other types
+    columns[VT_vm_object_list_backing_object_offset] = new_osdb_int64(curEntry->backing_object_offset, context);
+//    columns[VT_vm_object_list_pager_object_list] =  TODO: Handle other types
+//    columns[VT_vm_object_list_rvq] =  TODO: Handle other types
+//    columns[VT_vm_object_list_handle] =  TODO: Handle other types
+//    columns[VT_vm_object_list_un_pager] =  TODO: Handle other types
+//    columns[VT_vm_object_list_cred] =  TODO: Handle other types
+    columns[VT_vm_object_list_charge] = new_osdb_int64(curEntry->charge, context);
+//    columns[VT_vm_object_list_umtx_data] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_object_q_lock(void)
 {

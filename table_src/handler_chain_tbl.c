@@ -7,6 +7,28 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_handler_chain_pri = 0,
+    VT_handler_chain_dir = 1,
+    VT_handler_chain_proto = 2,
+    VT_handler_chain_fingerprint = 3,
+    VT_handler_chain_protohandler = 4,
+    VT_handler_chain_link = 5,
+    VT_handler_chain_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct handler_chain *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+    columns[VT_handler_chain_pri] = new_osdb_int64(curEntry->pri, context);
+    columns[VT_handler_chain_dir] = new_osdb_int64(curEntry->dir, context);
+    columns[VT_handler_chain_proto] = new_osdb_int64(curEntry->proto, context);
+//    columns[VT_handler_chain_fingerprint] =  TODO: Handle other types
+//    columns[VT_handler_chain_protohandler] =  TODO: Handle other types
+//    columns[VT_handler_chain_link] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_handler_chain_lock(void)
 {

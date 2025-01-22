@@ -7,6 +7,82 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_softdepmounts_sd_fslock = 0,
+    VT_softdepmounts_sd_workitem_pending = 1,
+    VT_softdepmounts_sd_worklist_tail = 2,
+    VT_softdepmounts_sd_journal_pending = 3,
+    VT_softdepmounts_sd_journal_tail = 4,
+    VT_softdepmounts_sd_jblocks = 5,
+    VT_softdepmounts_sd_unlinked = 6,
+    VT_softdepmounts_sd_dirtycg = 7,
+    VT_softdepmounts_sd_mkdirlisthd = 8,
+    VT_softdepmounts_sd_pdhash = 9,
+    VT_softdepmounts_sd_pdhashsize = 10,
+    VT_softdepmounts_sd_pdnextclean = 11,
+    VT_softdepmounts_sd_idhash = 12,
+    VT_softdepmounts_sd_idhashsize = 13,
+    VT_softdepmounts_sd_idnextclean = 14,
+    VT_softdepmounts_sd_newblkhash = 15,
+    VT_softdepmounts_sd_newblkhashsize = 16,
+    VT_softdepmounts_sd_bmhash = 17,
+    VT_softdepmounts_sd_bmhashsize = 18,
+    VT_softdepmounts_sd_indirhash = 19,
+    VT_softdepmounts_sd_indirhashsize = 20,
+    VT_softdepmounts_sd_on_journal = 21,
+    VT_softdepmounts_sd_on_worklist = 22,
+    VT_softdepmounts_sd_deps = 23,
+    VT_softdepmounts_sd_accdeps = 24,
+    VT_softdepmounts_sd_req = 25,
+    VT_softdepmounts_sd_flags = 26,
+    VT_softdepmounts_sd_cleanups = 27,
+    VT_softdepmounts_sd_flushtd = 28,
+    VT_softdepmounts_sd_next = 29,
+    VT_softdepmounts_sd_ump = 30,
+    VT_softdepmounts_sd_curdeps = 31,
+    VT_softdepmounts_sd_alldeps = 32,
+    VT_softdepmounts_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct softdepmounts *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_softdepmounts_sd_fslock] =  TODO: Handle other types
+//    columns[VT_softdepmounts_sd_workitem_pending] =  TODO: Handle other types
+//    columns[VT_softdepmounts_sd_worklist_tail] =  TODO: Handle other types
+//    columns[VT_softdepmounts_sd_journal_pending] =  TODO: Handle other types
+//    columns[VT_softdepmounts_sd_journal_tail] =  TODO: Handle other types
+//    columns[VT_softdepmounts_sd_jblocks] =  TODO: Handle other types
+//    columns[VT_softdepmounts_sd_unlinked] =  TODO: Handle other types
+//    columns[VT_softdepmounts_sd_dirtycg] =  TODO: Handle other types
+//    columns[VT_softdepmounts_sd_mkdirlisthd] =  TODO: Handle other types
+//    columns[VT_softdepmounts_sd_pdhash] =  TODO: Handle other types
+    columns[VT_softdepmounts_sd_pdhashsize] = new_osdb_int64(curEntry->sd_pdhashsize, context);
+    columns[VT_softdepmounts_sd_pdnextclean] = new_osdb_int64(curEntry->sd_pdnextclean, context);
+//    columns[VT_softdepmounts_sd_idhash] =  TODO: Handle other types
+    columns[VT_softdepmounts_sd_idhashsize] = new_osdb_int64(curEntry->sd_idhashsize, context);
+    columns[VT_softdepmounts_sd_idnextclean] = new_osdb_int64(curEntry->sd_idnextclean, context);
+//    columns[VT_softdepmounts_sd_newblkhash] =  TODO: Handle other types
+    columns[VT_softdepmounts_sd_newblkhashsize] = new_osdb_int64(curEntry->sd_newblkhashsize, context);
+//    columns[VT_softdepmounts_sd_bmhash] =  TODO: Handle other types
+    columns[VT_softdepmounts_sd_bmhashsize] = new_osdb_int64(curEntry->sd_bmhashsize, context);
+//    columns[VT_softdepmounts_sd_indirhash] =  TODO: Handle other types
+    columns[VT_softdepmounts_sd_indirhashsize] = new_osdb_int64(curEntry->sd_indirhashsize, context);
+    columns[VT_softdepmounts_sd_on_journal] = new_osdb_int64(curEntry->sd_on_journal, context);
+    columns[VT_softdepmounts_sd_on_worklist] = new_osdb_int64(curEntry->sd_on_worklist, context);
+    columns[VT_softdepmounts_sd_deps] = new_osdb_int64(curEntry->sd_deps, context);
+    columns[VT_softdepmounts_sd_accdeps] = new_osdb_int64(curEntry->sd_accdeps, context);
+    columns[VT_softdepmounts_sd_req] = new_osdb_int64(curEntry->sd_req, context);
+    columns[VT_softdepmounts_sd_flags] = new_osdb_int64(curEntry->sd_flags, context);
+    columns[VT_softdepmounts_sd_cleanups] = new_osdb_int64(curEntry->sd_cleanups, context);
+//    columns[VT_softdepmounts_sd_flushtd] =  TODO: Handle other types
+//    columns[VT_softdepmounts_sd_next] =  TODO: Handle other types
+//    columns[VT_softdepmounts_sd_ump] =  TODO: Handle other types
+//    columns[VT_softdepmounts_sd_curdeps] =  TODO: Handle other types
+//    columns[VT_softdepmounts_sd_alldeps] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

@@ -7,6 +7,24 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_vnet_entry_pf_sendqueue_pfse_next = 0,
+    VT_vnet_entry_pf_sendqueue_pfse_m = 1,
+    VT_vnet_entry_pf_sendqueue_pfse_type = 2,
+    VT_vnet_entry_pf_sendqueue_icmpopts = 3,
+    VT_vnet_entry_pf_sendqueue_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct vnet_entry_pf_sendqueue *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_vnet_entry_pf_sendqueue_pfse_next] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_sendqueue_pfse_m] =  TODO: Handle other types
+    columns[VT_vnet_entry_pf_sendqueue_pfse_type] = new_osdb_int64(static_cast<int64_t>(curEntry->pfse_type), context); // TODO: need better enum representation 
+//    columns[VT_vnet_entry_pf_sendqueue_icmpopts] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_pf_send_head_lock(void)
 {

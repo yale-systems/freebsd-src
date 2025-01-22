@@ -7,6 +7,50 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_free_pages_plinks = 0,
+    VT_free_pages_listq = 1,
+    VT_free_pages_object = 2,
+    VT_free_pages_pindex = 3,
+    VT_free_pages_phys_addr = 4,
+    VT_free_pages_md = 5,
+    VT_free_pages_ref_count = 6,
+    VT_free_pages_busy_lock = 7,
+    VT_free_pages_a = 8,
+    VT_free_pages_order = 9,
+    VT_free_pages_pool = 10,
+    VT_free_pages_flags = 11,
+    VT_free_pages_oflags = 12,
+    VT_free_pages_psind = 13,
+    VT_free_pages_segind = 14,
+    VT_free_pages_valid = 15,
+    VT_free_pages_dirty = 16,
+    VT_free_pages_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct free_pages *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_free_pages_plinks] =  TODO: Handle other types
+//    columns[VT_free_pages_listq] =  TODO: Handle other types
+//    columns[VT_free_pages_object] =  TODO: Handle other types
+    columns[VT_free_pages_pindex] = new_osdb_int64(curEntry->pindex, context);
+    columns[VT_free_pages_phys_addr] = new_osdb_int64(curEntry->phys_addr, context);
+//    columns[VT_free_pages_md] =  TODO: Handle other types
+    columns[VT_free_pages_ref_count] = new_osdb_int64(curEntry->ref_count, context);
+    columns[VT_free_pages_busy_lock] = new_osdb_int64(curEntry->busy_lock, context);
+//    columns[VT_free_pages_a] =  TODO: Handle other types
+    columns[VT_free_pages_order] = new_osdb_int64(curEntry->order, context);
+    columns[VT_free_pages_pool] = new_osdb_int64(curEntry->pool, context);
+    columns[VT_free_pages_flags] = new_osdb_int64(curEntry->flags, context);
+    columns[VT_free_pages_oflags] = new_osdb_int64(curEntry->oflags, context);
+    columns[VT_free_pages_psind] = new_osdb_int64(curEntry->psind, context);
+    columns[VT_free_pages_segind] = new_osdb_int64(curEntry->segind, context);
+    columns[VT_free_pages_valid] = new_osdb_int64(curEntry->valid, context);
+    columns[VT_free_pages_dirty] = new_osdb_int64(curEntry->dirty, context);
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

@@ -7,6 +7,38 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_rx_pdus_ip_next = 0,
+    VT_rx_pdus_ip_conn = 1,
+    VT_rx_pdus_ip_bhs = 2,
+    VT_rx_pdus_ip_bhs_mbuf = 3,
+    VT_rx_pdus_ip_ahs_len = 4,
+    VT_rx_pdus_ip_ahs_mbuf = 5,
+    VT_rx_pdus_ip_data_len = 6,
+    VT_rx_pdus_ip_data_mbuf = 7,
+    VT_rx_pdus_ip_additional_pdus = 8,
+    VT_rx_pdus_ip_prv0 = 9,
+    VT_rx_pdus_ip_prv1 = 10,
+    VT_rx_pdus_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct rx_pdus *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_rx_pdus_ip_next] =  TODO: Handle other types
+//    columns[VT_rx_pdus_ip_conn] =  TODO: Handle other types
+//    columns[VT_rx_pdus_ip_bhs] =  TODO: Handle other types
+//    columns[VT_rx_pdus_ip_bhs_mbuf] =  TODO: Handle other types
+    columns[VT_rx_pdus_ip_ahs_len] = new_osdb_int64(curEntry->ip_ahs_len, context);
+//    columns[VT_rx_pdus_ip_ahs_mbuf] =  TODO: Handle other types
+    columns[VT_rx_pdus_ip_data_len] = new_osdb_int64(curEntry->ip_data_len, context);
+//    columns[VT_rx_pdus_ip_data_mbuf] =  TODO: Handle other types
+    columns[VT_rx_pdus_ip_additional_pdus] = new_osdb_int64(curEntry->ip_additional_pdus, context);
+//    columns[VT_rx_pdus_ip_prv0] =  TODO: Handle other types
+//    columns[VT_rx_pdus_ip_prv1] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

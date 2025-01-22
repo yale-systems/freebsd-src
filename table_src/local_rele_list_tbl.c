@@ -7,6 +7,36 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_local_rele_list_un_lowervp = 0,
+    VT_local_rele_list_un_uppervp = 1,
+    VT_local_rele_list_un_dvp = 2,
+    VT_local_rele_list_un_vnode = 3,
+    VT_local_rele_list_un_unshead = 4,
+    VT_local_rele_list_un_hashtbl = 5,
+    VT_local_rele_list_ = 6,
+    VT_local_rele_list_un_path = 7,
+    VT_local_rele_list_un_pathlen = 8,
+    VT_local_rele_list_un_flag = 9,
+    VT_local_rele_list_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct local_rele_list *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_local_rele_list_un_lowervp] =  TODO: Handle other types
+//    columns[VT_local_rele_list_un_uppervp] =  TODO: Handle other types
+//    columns[VT_local_rele_list_un_dvp] =  TODO: Handle other types
+//    columns[VT_local_rele_list_un_vnode] =  TODO: Handle other types
+//    columns[VT_local_rele_list_un_unshead] =  TODO: Handle other types
+//    columns[VT_local_rele_list_un_hashtbl] =  TODO: Handle other types
+//    columns[VT_local_rele_list_] =  TODO: Handle other types
+    columns[VT_local_rele_list_un_path] = new_osdb_text(curEntry->un_path, strlen(curEntry->un_path) + 1, context);
+    columns[VT_local_rele_list_un_pathlen] = new_osdb_int64(curEntry->un_pathlen, context);
+    columns[VT_local_rele_list_un_flag] = new_osdb_int64(curEntry->un_flag, context);
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

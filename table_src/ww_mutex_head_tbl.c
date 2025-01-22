@@ -7,6 +7,22 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_ww_mutex_head_entry = 0,
+    VT_ww_mutex_head_thread = 1,
+    VT_ww_mutex_head_lock = 2,
+    VT_ww_mutex_head_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct ww_mutex_head *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_ww_mutex_head_entry] =  TODO: Handle other types
+//    columns[VT_ww_mutex_head_thread] =  TODO: Handle other types
+//    columns[VT_ww_mutex_head_lock] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

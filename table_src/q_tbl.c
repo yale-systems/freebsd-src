@@ -7,6 +7,30 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_q_ = 0,
+    VT_q_ = 1,
+    VT_q_m_data = 2,
+    VT_q_m_len = 3,
+    VT_q_m_type = 4,
+    VT_q_m_flags = 5,
+    VT_q_ = 6,
+    VT_q_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct q *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_q_] =  TODO: Handle other types
+//    columns[VT_q_] =  TODO: Handle other types
+    columns[VT_q_m_data] = new_osdb_text(curEntry->m_data, strlen(curEntry->m_data) + 1, context);
+    columns[VT_q_m_len] = new_osdb_int64(curEntry->m_len, context);
+    columns[VT_q_m_type] = new_osdb_int64(curEntry->m_type, context);
+    columns[VT_q_m_flags] = new_osdb_int64(curEntry->m_flags, context);
+//    columns[VT_q_] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

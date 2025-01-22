@@ -7,6 +7,20 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_lst_link = 0,
+    VT_lst_entry = 1,
+    VT_lst_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct lst *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_lst_link] =  TODO: Handle other types
+//    columns[VT_lst_entry] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_pfsdirentlist_lock(void)
 {

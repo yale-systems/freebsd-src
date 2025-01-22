@@ -7,6 +7,22 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_jhead_entries = 0,
+    VT_jhead_jtype = 1,
+    VT_jhead_ = 2,
+    VT_jhead_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct jhead *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_jhead_entries] =  TODO: Handle other types
+    columns[VT_jhead_jtype] = new_osdb_int64(static_cast<int64_t>(curEntry->jtype), context); // TODO: need better enum representation 
+//    columns[VT_jhead_] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_nat64lsn_job_head_lock(void)
 {

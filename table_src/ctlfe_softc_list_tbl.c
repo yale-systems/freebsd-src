@@ -7,6 +7,36 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_ctlfe_softc_list_port = 0,
+    VT_ctlfe_softc_list_path_id = 1,
+    VT_ctlfe_softc_list_target_id = 2,
+    VT_ctlfe_softc_list_hba_misc = 3,
+    VT_ctlfe_softc_list_maxio = 4,
+    VT_ctlfe_softc_list_sim = 5,
+    VT_ctlfe_softc_list_port_name = 6,
+    VT_ctlfe_softc_list_lun_softc_mtx = 7,
+    VT_ctlfe_softc_list_lun_softc_list = 8,
+    VT_ctlfe_softc_list_links = 9,
+    VT_ctlfe_softc_list_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct ctlfe_softc_list *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_ctlfe_softc_list_port] =  TODO: Handle other types
+    columns[VT_ctlfe_softc_list_path_id] = new_osdb_int64(curEntry->path_id, context);
+    columns[VT_ctlfe_softc_list_target_id] = new_osdb_int64(curEntry->target_id, context);
+    columns[VT_ctlfe_softc_list_hba_misc] = new_osdb_int64(curEntry->hba_misc, context);
+    columns[VT_ctlfe_softc_list_maxio] = new_osdb_int64(curEntry->maxio, context);
+//    columns[VT_ctlfe_softc_list_sim] =  TODO: Handle other types
+//    columns[VT_ctlfe_softc_list_port_name] =  TODO: Handle other types
+//    columns[VT_ctlfe_softc_list_lun_softc_mtx] =  TODO: Handle other types
+//    columns[VT_ctlfe_softc_list_lun_softc_list] =  TODO: Handle other types
+//    columns[VT_ctlfe_softc_list_links] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

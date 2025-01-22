@@ -7,6 +7,52 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_cc_list_name = 0,
+    VT_cc_list_mod_init = 1,
+    VT_cc_list_mod_destroy = 2,
+    VT_cc_list_cc_data_sz = 3,
+    VT_cc_list_cb_init = 4,
+    VT_cc_list_cb_destroy = 5,
+    VT_cc_list_conn_init = 6,
+    VT_cc_list_ack_received = 7,
+    VT_cc_list_cong_signal = 8,
+    VT_cc_list_post_recovery = 9,
+    VT_cc_list_after_idle = 10,
+    VT_cc_list_ecnpkt_handler = 11,
+    VT_cc_list_newround = 12,
+    VT_cc_list_rttsample = 13,
+    VT_cc_list_ctl_output = 14,
+    VT_cc_list_entries = 15,
+    VT_cc_list_cc_refcount = 16,
+    VT_cc_list_flags = 17,
+    VT_cc_list_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct cc_list *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_cc_list_name] =  TODO: Handle other types
+//    columns[VT_cc_list_mod_init] =  TODO: Handle other types
+//    columns[VT_cc_list_mod_destroy] =  TODO: Handle other types
+//    columns[VT_cc_list_cc_data_sz] =  TODO: Handle other types
+//    columns[VT_cc_list_cb_init] =  TODO: Handle other types
+//    columns[VT_cc_list_cb_destroy] =  TODO: Handle other types
+//    columns[VT_cc_list_conn_init] =  TODO: Handle other types
+//    columns[VT_cc_list_ack_received] =  TODO: Handle other types
+//    columns[VT_cc_list_cong_signal] =  TODO: Handle other types
+//    columns[VT_cc_list_post_recovery] =  TODO: Handle other types
+//    columns[VT_cc_list_after_idle] =  TODO: Handle other types
+//    columns[VT_cc_list_ecnpkt_handler] =  TODO: Handle other types
+//    columns[VT_cc_list_newround] =  TODO: Handle other types
+//    columns[VT_cc_list_rttsample] =  TODO: Handle other types
+//    columns[VT_cc_list_ctl_output] =  TODO: Handle other types
+//    columns[VT_cc_list_entries] =  TODO: Handle other types
+    columns[VT_cc_list_cc_refcount] = new_osdb_int64(curEntry->cc_refcount, context);
+    columns[VT_cc_list_flags] = new_osdb_int64(curEntry->flags, context);
+
+    return 0;
+}
 void
 vtab_cc_head_lock(void)
 {

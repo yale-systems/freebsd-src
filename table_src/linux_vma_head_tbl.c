@@ -7,6 +7,50 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_linux_vma_head_vm_start = 0,
+    VT_linux_vma_head_vm_end = 1,
+    VT_linux_vma_head_vm_pgoff = 2,
+    VT_linux_vma_head_vm_page_prot = 3,
+    VT_linux_vma_head_vm_flags = 4,
+    VT_linux_vma_head_vm_mm = 5,
+    VT_linux_vma_head_vm_private_data = 6,
+    VT_linux_vma_head_vm_ops = 7,
+    VT_linux_vma_head_vm_file = 8,
+    VT_linux_vma_head_vm_pfn = 9,
+    VT_linux_vma_head_vm_len = 10,
+    VT_linux_vma_head_vm_pfn_first = 11,
+    VT_linux_vma_head_vm_pfn_count = 12,
+    VT_linux_vma_head_vm_pfn_pcount = 13,
+    VT_linux_vma_head_vm_obj = 14,
+    VT_linux_vma_head_vm_cached_map = 15,
+    VT_linux_vma_head_vm_entry = 16,
+    VT_linux_vma_head_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct linux_vma_head *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+    columns[VT_linux_vma_head_vm_start] = new_osdb_int64(curEntry->vm_start, context);
+    columns[VT_linux_vma_head_vm_end] = new_osdb_int64(curEntry->vm_end, context);
+    columns[VT_linux_vma_head_vm_pgoff] = new_osdb_int64(curEntry->vm_pgoff, context);
+    columns[VT_linux_vma_head_vm_page_prot] = new_osdb_int64(curEntry->vm_page_prot, context);
+    columns[VT_linux_vma_head_vm_flags] = new_osdb_int64(curEntry->vm_flags, context);
+//    columns[VT_linux_vma_head_vm_mm] =  TODO: Handle other types
+//    columns[VT_linux_vma_head_vm_private_data] =  TODO: Handle other types
+//    columns[VT_linux_vma_head_vm_ops] =  TODO: Handle other types
+//    columns[VT_linux_vma_head_vm_file] =  TODO: Handle other types
+    columns[VT_linux_vma_head_vm_pfn] = new_osdb_int64(curEntry->vm_pfn, context);
+    columns[VT_linux_vma_head_vm_len] = new_osdb_int64(curEntry->vm_len, context);
+    columns[VT_linux_vma_head_vm_pfn_first] = new_osdb_int64(curEntry->vm_pfn_first, context);
+    columns[VT_linux_vma_head_vm_pfn_count] = new_osdb_int64(curEntry->vm_pfn_count, context);
+//    columns[VT_linux_vma_head_vm_pfn_pcount] =  TODO: Handle other types
+//    columns[VT_linux_vma_head_vm_obj] =  TODO: Handle other types
+//    columns[VT_linux_vma_head_vm_cached_map] =  TODO: Handle other types
+//    columns[VT_linux_vma_head_vm_entry] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

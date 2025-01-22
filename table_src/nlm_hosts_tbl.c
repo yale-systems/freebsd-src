@@ -7,6 +7,52 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_nlm_hosts_nh_lock = 0,
+    VT_nlm_hosts_nh_refs = 1,
+    VT_nlm_hosts_nh_link = 2,
+    VT_nlm_hosts_nh_caller_name = 3,
+    VT_nlm_hosts_nh_sysid = 4,
+    VT_nlm_hosts_nh_sysid_string = 5,
+    VT_nlm_hosts_nh_addr = 6,
+    VT_nlm_hosts_nh_srvrpc = 7,
+    VT_nlm_hosts_nh_clntrpc = 8,
+    VT_nlm_hosts_nh_vers = 9,
+    VT_nlm_hosts_nh_state = 10,
+    VT_nlm_hosts_nh_monstate = 11,
+    VT_nlm_hosts_nh_idle_timeout = 12,
+    VT_nlm_hosts_nh_sysctl = 13,
+    VT_nlm_hosts_nh_grantcookie = 14,
+    VT_nlm_hosts_nh_pending = 15,
+    VT_nlm_hosts_nh_granted = 16,
+    VT_nlm_hosts_nh_finished = 17,
+    VT_nlm_hosts_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct nlm_hosts *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_nlm_hosts_nh_lock] =  TODO: Handle other types
+    columns[VT_nlm_hosts_nh_refs] = new_osdb_int64(curEntry->nh_refs, context);
+//    columns[VT_nlm_hosts_nh_link] =  TODO: Handle other types
+//    columns[VT_nlm_hosts_nh_caller_name] =  TODO: Handle other types
+    columns[VT_nlm_hosts_nh_sysid] = new_osdb_int64(curEntry->nh_sysid, context);
+//    columns[VT_nlm_hosts_nh_sysid_string] =  TODO: Handle other types
+//    columns[VT_nlm_hosts_nh_addr] =  TODO: Handle other types
+//    columns[VT_nlm_hosts_nh_srvrpc] =  TODO: Handle other types
+//    columns[VT_nlm_hosts_nh_clntrpc] =  TODO: Handle other types
+    columns[VT_nlm_hosts_nh_vers] = new_osdb_int64(curEntry->nh_vers, context);
+    columns[VT_nlm_hosts_nh_state] = new_osdb_int64(curEntry->nh_state, context);
+    columns[VT_nlm_hosts_nh_monstate] = new_osdb_int64(static_cast<int64_t>(curEntry->nh_monstate), context); // TODO: need better enum representation 
+    columns[VT_nlm_hosts_nh_idle_timeout] = new_osdb_int64(curEntry->nh_idle_timeout, context);
+//    columns[VT_nlm_hosts_nh_sysctl] =  TODO: Handle other types
+    columns[VT_nlm_hosts_nh_grantcookie] = new_osdb_int64(curEntry->nh_grantcookie, context);
+//    columns[VT_nlm_hosts_nh_pending] =  TODO: Handle other types
+//    columns[VT_nlm_hosts_nh_granted] =  TODO: Handle other types
+//    columns[VT_nlm_hosts_nh_finished] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_nlm_host_list_lock(void)
 {

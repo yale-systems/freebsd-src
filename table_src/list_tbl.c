@@ -7,6 +7,20 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_list_link = 0,
+    VT_list_stats = 1,
+    VT_list_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct list *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_list_link] =  TODO: Handle other types
+//    columns[VT_list_stats] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_stats_list_lock(void)
 {

@@ -7,6 +7,30 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_rman_head_rm_list = 0,
+    VT_rman_head_rm_mtx = 1,
+    VT_rman_head_rm_link = 2,
+    VT_rman_head_rm_start = 3,
+    VT_rman_head_rm_end = 4,
+    VT_rman_head_rm_type = 5,
+    VT_rman_head_rm_descr = 6,
+    VT_rman_head_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct rman_head *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_rman_head_rm_list] =  TODO: Handle other types
+//    columns[VT_rman_head_rm_mtx] =  TODO: Handle other types
+//    columns[VT_rman_head_rm_link] =  TODO: Handle other types
+    columns[VT_rman_head_rm_start] = new_osdb_int64(curEntry->rm_start, context);
+    columns[VT_rman_head_rm_end] = new_osdb_int64(curEntry->rm_end, context);
+    columns[VT_rman_head_rm_type] = new_osdb_int64(static_cast<int64_t>(curEntry->rm_type), context); // TODO: need better enum representation 
+    columns[VT_rman_head_rm_descr] = new_osdb_text(curEntry->rm_descr, strlen(curEntry->rm_descr) + 1, context);
+
+    return 0;
+}
 void
 vtab_rman_head_lock(void)
 {

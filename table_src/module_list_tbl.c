@@ -7,6 +7,22 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_module_list_info = 0,
+    VT_module_list_refcount = 1,
+    VT_module_list_entries = 2,
+    VT_module_list_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct module_list *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_module_list_info] =  TODO: Handle other types
+    columns[VT_module_list_refcount] = new_osdb_int64(curEntry->refcount, context);
+//    columns[VT_module_list_entries] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

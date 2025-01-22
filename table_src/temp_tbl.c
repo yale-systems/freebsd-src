@@ -7,6 +7,36 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_temp_cmd = 0,
+    VT_temp_qpair = 1,
+    VT_temp_payload = 2,
+    VT_temp_cb_fn = 3,
+    VT_temp_cb_arg = 4,
+    VT_temp_retries = 5,
+    VT_temp_payload_valid = 6,
+    VT_temp_timeout = 7,
+    VT_temp_spare = 8,
+    VT_temp_stailq = 9,
+    VT_temp_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct temp *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_temp_cmd] =  TODO: Handle other types
+//    columns[VT_temp_qpair] =  TODO: Handle other types
+//    columns[VT_temp_payload] =  TODO: Handle other types
+//    columns[VT_temp_cb_fn] =  TODO: Handle other types
+//    columns[VT_temp_cb_arg] =  TODO: Handle other types
+    columns[VT_temp_retries] = new_osdb_int64(curEntry->retries, context);
+    columns[VT_temp_payload_valid] = new_osdb_int64(curEntry->payload_valid, context);
+    columns[VT_temp_timeout] = new_osdb_int64(curEntry->timeout, context);
+//    columns[VT_temp_spare] =  TODO: Handle other types
+//    columns[VT_temp_stailq] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

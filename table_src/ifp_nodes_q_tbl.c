@@ -7,6 +7,24 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_ifp_nodes_q_ifp_nodes_next = 0,
+    VT_ifp_nodes_q_ifp = 1,
+    VT_ifp_nodes_q_vnet = 2,
+    VT_ifp_nodes_q_pn = 3,
+    VT_ifp_nodes_q_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct ifp_nodes_q *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_ifp_nodes_q_ifp_nodes_next] =  TODO: Handle other types
+//    columns[VT_ifp_nodes_q_ifp] =  TODO: Handle other types
+//    columns[VT_ifp_nodes_q_vnet] =  TODO: Handle other types
+//    columns[VT_ifp_nodes_q_pn] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

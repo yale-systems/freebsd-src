@@ -7,6 +7,34 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_vnet_entry_pf_fragqueue_fr_key = 0,
+    VT_vnet_entry_pf_fragqueue_fr_firstoff = 1,
+    VT_vnet_entry_pf_fragqueue_fr_entries = 2,
+    VT_vnet_entry_pf_fragqueue_fr_entry = 3,
+    VT_vnet_entry_pf_fragqueue_frag_next = 4,
+    VT_vnet_entry_pf_fragqueue_fr_timeout = 5,
+    VT_vnet_entry_pf_fragqueue_fr_maxlen = 6,
+    VT_vnet_entry_pf_fragqueue_fr_holes = 7,
+    VT_vnet_entry_pf_fragqueue_fr_queue = 8,
+    VT_vnet_entry_pf_fragqueue_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct vnet_entry_pf_fragqueue *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_vnet_entry_pf_fragqueue_fr_key] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_fragqueue_fr_firstoff] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_fragqueue_fr_entries] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_fragqueue_fr_entry] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_fragqueue_frag_next] =  TODO: Handle other types
+    columns[VT_vnet_entry_pf_fragqueue_fr_timeout] = new_osdb_int64(curEntry->fr_timeout, context);
+    columns[VT_vnet_entry_pf_fragqueue_fr_maxlen] = new_osdb_int64(curEntry->fr_maxlen, context);
+    columns[VT_vnet_entry_pf_fragqueue_fr_holes] = new_osdb_int64(curEntry->fr_holes, context);
+//    columns[VT_vnet_entry_pf_fragqueue_fr_queue] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_pf_fragqueue_lock(void)
 {

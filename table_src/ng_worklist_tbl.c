@@ -7,6 +7,40 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_ng_worklist_nd_name = 0,
+    VT_ng_worklist_nd_type = 1,
+    VT_ng_worklist_nd_flags = 2,
+    VT_ng_worklist_nd_numhooks = 3,
+    VT_ng_worklist_nd_private = 4,
+    VT_ng_worklist_nd_ID = 5,
+    VT_ng_worklist_nd_hooks = 6,
+    VT_ng_worklist_nd_nodes = 7,
+    VT_ng_worklist_nd_idnodes = 8,
+    VT_ng_worklist_nd_input_queue = 9,
+    VT_ng_worklist_nd_refs = 10,
+    VT_ng_worklist_nd_vnet = 11,
+    VT_ng_worklist_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct ng_worklist *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_ng_worklist_nd_name] =  TODO: Handle other types
+//    columns[VT_ng_worklist_nd_type] =  TODO: Handle other types
+    columns[VT_ng_worklist_nd_flags] = new_osdb_int64(curEntry->nd_flags, context);
+    columns[VT_ng_worklist_nd_numhooks] = new_osdb_int64(curEntry->nd_numhooks, context);
+//    columns[VT_ng_worklist_nd_private] =  TODO: Handle other types
+    columns[VT_ng_worklist_nd_ID] = new_osdb_int64(curEntry->nd_ID, context);
+//    columns[VT_ng_worklist_nd_hooks] =  TODO: Handle other types
+//    columns[VT_ng_worklist_nd_nodes] =  TODO: Handle other types
+//    columns[VT_ng_worklist_nd_idnodes] =  TODO: Handle other types
+//    columns[VT_ng_worklist_nd_input_queue] =  TODO: Handle other types
+    columns[VT_ng_worklist_nd_refs] = new_osdb_int64(curEntry->nd_refs, context);
+//    columns[VT_ng_worklist_nd_vnet] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

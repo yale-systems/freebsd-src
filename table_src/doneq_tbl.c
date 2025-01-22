@@ -7,6 +7,56 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_doneq_pinfo = 0,
+    VT_doneq_xpt_links = 1,
+    VT_doneq_sim_links = 2,
+    VT_doneq_periph_links = 3,
+    VT_doneq_retry_count = 4,
+    VT_doneq_alloc_flags = 5,
+    VT_doneq_cbfcnp = 6,
+    VT_doneq_func_code = 7,
+    VT_doneq_status = 8,
+    VT_doneq_path = 9,
+    VT_doneq_path_id = 10,
+    VT_doneq_target_id = 11,
+    VT_doneq_target_lun = 12,
+    VT_doneq_flags = 13,
+    VT_doneq_xflags = 14,
+    VT_doneq_periph_priv = 15,
+    VT_doneq_sim_priv = 16,
+    VT_doneq_qos = 17,
+    VT_doneq_timeout = 18,
+    VT_doneq_softtimeout = 19,
+    VT_doneq_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct doneq *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_doneq_pinfo] =  TODO: Handle other types
+//    columns[VT_doneq_xpt_links] =  TODO: Handle other types
+//    columns[VT_doneq_sim_links] =  TODO: Handle other types
+//    columns[VT_doneq_periph_links] =  TODO: Handle other types
+    columns[VT_doneq_retry_count] = new_osdb_int64(curEntry->retry_count, context);
+    columns[VT_doneq_alloc_flags] = new_osdb_int64(curEntry->alloc_flags, context);
+//    columns[VT_doneq_cbfcnp] =  TODO: Handle other types
+    columns[VT_doneq_func_code] = new_osdb_int64(static_cast<int64_t>(curEntry->func_code), context); // TODO: need better enum representation 
+    columns[VT_doneq_status] = new_osdb_int64(curEntry->status, context);
+//    columns[VT_doneq_path] =  TODO: Handle other types
+    columns[VT_doneq_path_id] = new_osdb_int64(curEntry->path_id, context);
+    columns[VT_doneq_target_id] = new_osdb_int64(curEntry->target_id, context);
+    columns[VT_doneq_target_lun] = new_osdb_int64(curEntry->target_lun, context);
+    columns[VT_doneq_flags] = new_osdb_int64(curEntry->flags, context);
+    columns[VT_doneq_xflags] = new_osdb_int64(curEntry->xflags, context);
+//    columns[VT_doneq_periph_priv] =  TODO: Handle other types
+//    columns[VT_doneq_sim_priv] =  TODO: Handle other types
+//    columns[VT_doneq_qos] =  TODO: Handle other types
+    columns[VT_doneq_timeout] = new_osdb_int64(curEntry->timeout, context);
+//    columns[VT_doneq_softtimeout] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

@@ -7,6 +7,34 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_run_io = 0,
+    VT_run_target = 1,
+    VT_run_cscd = 2,
+    VT_run_lun = 3,
+    VT_run_buf = 4,
+    VT_run_list = 5,
+    VT_run_run = 6,
+    VT_run_rlinks = 7,
+    VT_run_links = 8,
+    VT_run_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct run *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_run_io] =  TODO: Handle other types
+    columns[VT_run_target] = new_osdb_int64(curEntry->target, context);
+    columns[VT_run_cscd] = new_osdb_int64(curEntry->cscd, context);
+    columns[VT_run_lun] = new_osdb_int64(curEntry->lun, context);
+    columns[VT_run_buf] = new_osdb_text(curEntry->buf, strlen(curEntry->buf) + 1, context);
+//    columns[VT_run_list] =  TODO: Handle other types
+//    columns[VT_run_run] =  TODO: Handle other types
+//    columns[VT_run_rlinks] =  TODO: Handle other types
+//    columns[VT_run_links] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_runl_lock(void)
 {

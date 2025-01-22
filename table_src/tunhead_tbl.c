@@ -7,6 +7,48 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_tunhead_tun_list = 0,
+    VT_tunhead_tun_alias = 1,
+    VT_tunhead_tun_dev = 2,
+    VT_tunhead_tun_flags = 3,
+    VT_tunhead_tun_pid = 4,
+    VT_tunhead_tun_ifp = 5,
+    VT_tunhead_tun_sigio = 6,
+    VT_tunhead_tun_drv = 7,
+    VT_tunhead_tun_rsel = 8,
+    VT_tunhead_tun_mtx = 9,
+    VT_tunhead_tun_cv = 10,
+    VT_tunhead_tun_ether = 11,
+    VT_tunhead_tun_busy = 12,
+    VT_tunhead_tun_vhdrlen = 13,
+    VT_tunhead_tun_lro = 14,
+    VT_tunhead_tun_lro_ready = 15,
+    VT_tunhead_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct tunhead *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_tunhead_tun_list] =  TODO: Handle other types
+//    columns[VT_tunhead_tun_alias] =  TODO: Handle other types
+//    columns[VT_tunhead_tun_dev] =  TODO: Handle other types
+    columns[VT_tunhead_tun_flags] = new_osdb_int64(curEntry->tun_flags, context);
+    columns[VT_tunhead_tun_pid] = new_osdb_int64(curEntry->tun_pid, context);
+//    columns[VT_tunhead_tun_ifp] =  TODO: Handle other types
+//    columns[VT_tunhead_tun_sigio] =  TODO: Handle other types
+//    columns[VT_tunhead_tun_drv] =  TODO: Handle other types
+//    columns[VT_tunhead_tun_rsel] =  TODO: Handle other types
+//    columns[VT_tunhead_tun_mtx] =  TODO: Handle other types
+//    columns[VT_tunhead_tun_cv] =  TODO: Handle other types
+//    columns[VT_tunhead_tun_ether] =  TODO: Handle other types
+    columns[VT_tunhead_tun_busy] = new_osdb_int64(curEntry->tun_busy, context);
+    columns[VT_tunhead_tun_vhdrlen] = new_osdb_int64(curEntry->tun_vhdrlen, context);
+//    columns[VT_tunhead_tun_lro] =  TODO: Handle other types
+    columns[VT_tunhead_tun_lro_ready] = new_osdb_int64(curEntry->tun_lro_ready, context);
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

@@ -7,6 +7,24 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_vnet_entry_pf_pabuf_addr = 0,
+    VT_vnet_entry_pf_pabuf_entries = 1,
+    VT_vnet_entry_pf_pabuf_ifname = 2,
+    VT_vnet_entry_pf_pabuf_kif = 3,
+    VT_vnet_entry_pf_pabuf_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct vnet_entry_pf_pabuf *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_vnet_entry_pf_pabuf_addr] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_pabuf_entries] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_pabuf_ifname] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_pabuf_kif] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_pf_kpalist_lock(void)
 {

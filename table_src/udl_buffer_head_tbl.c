@@ -7,6 +7,20 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_udl_buffer_head_entry = 0,
+    VT_udl_buffer_head_size = 1,
+    VT_udl_buffer_head_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct udl_buffer_head *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_udl_buffer_head_entry] =  TODO: Handle other types
+    columns[VT_udl_buffer_head_size] = new_osdb_int64(curEntry->size, context);
+
+    return 0;
+}
 void
 vtab_udl_buffer_head_lock(void)
 {

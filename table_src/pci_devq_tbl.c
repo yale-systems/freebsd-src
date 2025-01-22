@@ -7,6 +7,16 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_pci_devq_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct pci_devq *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+
+    return 0;
+}
 void
 vtab_devlist_lock(void)
 {

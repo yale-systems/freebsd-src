@@ -7,6 +7,26 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_usb_sym_head_sym_entry = 0,
+    VT_usb_sym_head_src_path = 1,
+    VT_usb_sym_head_dst_path = 2,
+    VT_usb_sym_head_src_len = 3,
+    VT_usb_sym_head_dst_len = 4,
+    VT_usb_sym_head_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct usb_sym_head *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_usb_sym_head_sym_entry] =  TODO: Handle other types
+//    columns[VT_usb_sym_head_src_path] =  TODO: Handle other types
+//    columns[VT_usb_sym_head_dst_path] =  TODO: Handle other types
+    columns[VT_usb_sym_head_src_len] = new_osdb_int64(curEntry->src_len, context);
+    columns[VT_usb_sym_head_dst_len] = new_osdb_int64(curEntry->dst_len, context);
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

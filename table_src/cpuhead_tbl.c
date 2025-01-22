@@ -7,6 +7,78 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_cpuhead_pc_curthread = 0,
+    VT_cpuhead_pc_idlethread = 1,
+    VT_cpuhead_pc_fpcurthread = 2,
+    VT_cpuhead_pc_deadthread = 3,
+    VT_cpuhead_pc_curpcb = 4,
+    VT_cpuhead_pc_sched = 5,
+    VT_cpuhead_pc_switchtime = 6,
+    VT_cpuhead_pc_switchticks = 7,
+    VT_cpuhead_pc_cpuid = 8,
+    VT_cpuhead_pc_allcpu = 9,
+    VT_cpuhead_pc_spinlocks = 10,
+    VT_cpuhead_pc_cp_time = 11,
+    VT_cpuhead_pc_device = 12,
+    VT_cpuhead_pc_netisr = 13,
+    VT_cpuhead_pc_vfs_freevnodes = 14,
+    VT_cpuhead_pc_unused1 = 15,
+    VT_cpuhead_pc_domain = 16,
+    VT_cpuhead_pc_rm_queue = 17,
+    VT_cpuhead_pc_dynamic = 18,
+    VT_cpuhead_pc_early_dummy_counter = 19,
+    VT_cpuhead_pc_zpcpu_offset = 20,
+    VT_cpuhead_pc_acpi_id = 21,
+    VT_cpuhead_pc_midr = 22,
+    VT_cpuhead_pc_clock = 23,
+    VT_cpuhead_pc_bp_harden = 24,
+    VT_cpuhead_pc_ssbd = 25,
+    VT_cpuhead_pc_curpmap = 26,
+    VT_cpuhead_pc_curvmpmap = 27,
+    VT_cpuhead_pc_mpidr = 28,
+    VT_cpuhead_pc_bcast_tlbi_workaround = 29,
+    VT_cpuhead___pad = 30,
+    VT_cpuhead_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct cpuhead *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_cpuhead_pc_curthread] =  TODO: Handle other types
+//    columns[VT_cpuhead_pc_idlethread] =  TODO: Handle other types
+//    columns[VT_cpuhead_pc_fpcurthread] =  TODO: Handle other types
+//    columns[VT_cpuhead_pc_deadthread] =  TODO: Handle other types
+//    columns[VT_cpuhead_pc_curpcb] =  TODO: Handle other types
+//    columns[VT_cpuhead_pc_sched] =  TODO: Handle other types
+    columns[VT_cpuhead_pc_switchtime] = new_osdb_int64(curEntry->pc_switchtime, context);
+    columns[VT_cpuhead_pc_switchticks] = new_osdb_int64(curEntry->pc_switchticks, context);
+    columns[VT_cpuhead_pc_cpuid] = new_osdb_int64(curEntry->pc_cpuid, context);
+//    columns[VT_cpuhead_pc_allcpu] =  TODO: Handle other types
+//    columns[VT_cpuhead_pc_spinlocks] =  TODO: Handle other types
+//    columns[VT_cpuhead_pc_cp_time] =  TODO: Handle other types
+//    columns[VT_cpuhead_pc_device] =  TODO: Handle other types
+//    columns[VT_cpuhead_pc_netisr] =  TODO: Handle other types
+    columns[VT_cpuhead_pc_vfs_freevnodes] = new_osdb_int64(curEntry->pc_vfs_freevnodes, context);
+//    columns[VT_cpuhead_pc_unused1] =  TODO: Handle other types
+    columns[VT_cpuhead_pc_domain] = new_osdb_int64(curEntry->pc_domain, context);
+//    columns[VT_cpuhead_pc_rm_queue] =  TODO: Handle other types
+    columns[VT_cpuhead_pc_dynamic] = new_osdb_int64(curEntry->pc_dynamic, context);
+    columns[VT_cpuhead_pc_early_dummy_counter] = new_osdb_int64(curEntry->pc_early_dummy_counter, context);
+    columns[VT_cpuhead_pc_zpcpu_offset] = new_osdb_int64(curEntry->pc_zpcpu_offset, context);
+    columns[VT_cpuhead_pc_acpi_id] = new_osdb_int64(curEntry->pc_acpi_id, context);
+    columns[VT_cpuhead_pc_midr] = new_osdb_int64(curEntry->pc_midr, context);
+    columns[VT_cpuhead_pc_clock] = new_osdb_int64(curEntry->pc_clock, context);
+//    columns[VT_cpuhead_pc_bp_harden] =  TODO: Handle other types
+//    columns[VT_cpuhead_pc_ssbd] =  TODO: Handle other types
+//    columns[VT_cpuhead_pc_curpmap] =  TODO: Handle other types
+//    columns[VT_cpuhead_pc_curvmpmap] =  TODO: Handle other types
+    columns[VT_cpuhead_pc_mpidr] = new_osdb_int64(curEntry->pc_mpidr, context);
+    columns[VT_cpuhead_pc_bcast_tlbi_workaround] = new_osdb_int64(curEntry->pc_bcast_tlbi_workaround, context);
+//    columns[VT_cpuhead___pad] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_cpuhead_lock(void)
 {

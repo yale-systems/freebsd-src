@@ -7,6 +7,174 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_vnet_entry_pf_unlinked_rules_src = 0,
+    VT_vnet_entry_pf_unlinked_rules_dst = 1,
+    VT_vnet_entry_pf_unlinked_rules_skip = 2,
+    VT_vnet_entry_pf_unlinked_rules_label = 3,
+    VT_vnet_entry_pf_unlinked_rules_ridentifier = 4,
+    VT_vnet_entry_pf_unlinked_rules_ifname = 5,
+    VT_vnet_entry_pf_unlinked_rules_qname = 6,
+    VT_vnet_entry_pf_unlinked_rules_pqname = 7,
+    VT_vnet_entry_pf_unlinked_rules_tagname = 8,
+    VT_vnet_entry_pf_unlinked_rules_match_tagname = 9,
+    VT_vnet_entry_pf_unlinked_rules_overload_tblname = 10,
+    VT_vnet_entry_pf_unlinked_rules_entries = 11,
+    VT_vnet_entry_pf_unlinked_rules_rpool = 12,
+    VT_vnet_entry_pf_unlinked_rules_evaluations = 13,
+    VT_vnet_entry_pf_unlinked_rules_packets = 14,
+    VT_vnet_entry_pf_unlinked_rules_bytes = 15,
+    VT_vnet_entry_pf_unlinked_rules_timestamp = 16,
+    VT_vnet_entry_pf_unlinked_rules_kif = 17,
+    VT_vnet_entry_pf_unlinked_rules_anchor = 18,
+    VT_vnet_entry_pf_unlinked_rules_overload_tbl = 19,
+    VT_vnet_entry_pf_unlinked_rules_os_fingerprint = 20,
+    VT_vnet_entry_pf_unlinked_rules_rtableid = 21,
+    VT_vnet_entry_pf_unlinked_rules_timeout = 22,
+    VT_vnet_entry_pf_unlinked_rules_max_states = 23,
+    VT_vnet_entry_pf_unlinked_rules_max_src_nodes = 24,
+    VT_vnet_entry_pf_unlinked_rules_max_src_states = 25,
+    VT_vnet_entry_pf_unlinked_rules_max_src_conn = 26,
+    VT_vnet_entry_pf_unlinked_rules_max_src_conn_rate = 27,
+    VT_vnet_entry_pf_unlinked_rules_qid = 28,
+    VT_vnet_entry_pf_unlinked_rules_pqid = 29,
+    VT_vnet_entry_pf_unlinked_rules_dnpipe = 30,
+    VT_vnet_entry_pf_unlinked_rules_dnrpipe = 31,
+    VT_vnet_entry_pf_unlinked_rules_free_flags = 32,
+    VT_vnet_entry_pf_unlinked_rules_nr = 33,
+    VT_vnet_entry_pf_unlinked_rules_prob = 34,
+    VT_vnet_entry_pf_unlinked_rules_cuid = 35,
+    VT_vnet_entry_pf_unlinked_rules_cpid = 36,
+    VT_vnet_entry_pf_unlinked_rules_states_cur = 37,
+    VT_vnet_entry_pf_unlinked_rules_states_tot = 38,
+    VT_vnet_entry_pf_unlinked_rules_src_nodes = 39,
+    VT_vnet_entry_pf_unlinked_rules_return_icmp = 40,
+    VT_vnet_entry_pf_unlinked_rules_return_icmp6 = 41,
+    VT_vnet_entry_pf_unlinked_rules_max_mss = 42,
+    VT_vnet_entry_pf_unlinked_rules_tag = 43,
+    VT_vnet_entry_pf_unlinked_rules_match_tag = 44,
+    VT_vnet_entry_pf_unlinked_rules_scrub_flags = 45,
+    VT_vnet_entry_pf_unlinked_rules_uid = 46,
+    VT_vnet_entry_pf_unlinked_rules_gid = 47,
+    VT_vnet_entry_pf_unlinked_rules_rule_flag = 48,
+    VT_vnet_entry_pf_unlinked_rules_rule_ref = 49,
+    VT_vnet_entry_pf_unlinked_rules_action = 50,
+    VT_vnet_entry_pf_unlinked_rules_direction = 51,
+    VT_vnet_entry_pf_unlinked_rules_log = 52,
+    VT_vnet_entry_pf_unlinked_rules_logif = 53,
+    VT_vnet_entry_pf_unlinked_rules_quick = 54,
+    VT_vnet_entry_pf_unlinked_rules_ifnot = 55,
+    VT_vnet_entry_pf_unlinked_rules_match_tag_not = 56,
+    VT_vnet_entry_pf_unlinked_rules_natpass = 57,
+    VT_vnet_entry_pf_unlinked_rules_keep_state = 58,
+    VT_vnet_entry_pf_unlinked_rules_af = 59,
+    VT_vnet_entry_pf_unlinked_rules_proto = 60,
+    VT_vnet_entry_pf_unlinked_rules_type = 61,
+    VT_vnet_entry_pf_unlinked_rules_code = 62,
+    VT_vnet_entry_pf_unlinked_rules_flags = 63,
+    VT_vnet_entry_pf_unlinked_rules_flagset = 64,
+    VT_vnet_entry_pf_unlinked_rules_min_ttl = 65,
+    VT_vnet_entry_pf_unlinked_rules_allow_opts = 66,
+    VT_vnet_entry_pf_unlinked_rules_rt = 67,
+    VT_vnet_entry_pf_unlinked_rules_return_ttl = 68,
+    VT_vnet_entry_pf_unlinked_rules_tos = 69,
+    VT_vnet_entry_pf_unlinked_rules_set_tos = 70,
+    VT_vnet_entry_pf_unlinked_rules_anchor_relative = 71,
+    VT_vnet_entry_pf_unlinked_rules_anchor_wildcard = 72,
+    VT_vnet_entry_pf_unlinked_rules_flush = 73,
+    VT_vnet_entry_pf_unlinked_rules_prio = 74,
+    VT_vnet_entry_pf_unlinked_rules_set_prio = 75,
+    VT_vnet_entry_pf_unlinked_rules_divert = 76,
+    VT_vnet_entry_pf_unlinked_rules_md5sum = 77,
+    VT_vnet_entry_pf_unlinked_rules_entry_global = 78,
+    VT_vnet_entry_pf_unlinked_rules_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct vnet_entry_pf_unlinked_rules *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_vnet_entry_pf_unlinked_rules_src] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_dst] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_skip] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_label] =  TODO: Handle other types
+    columns[VT_vnet_entry_pf_unlinked_rules_ridentifier] = new_osdb_int64(curEntry->ridentifier, context);
+//    columns[VT_vnet_entry_pf_unlinked_rules_ifname] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_qname] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_pqname] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_tagname] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_match_tagname] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_overload_tblname] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_entries] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_rpool] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_evaluations] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_packets] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_bytes] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_timestamp] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_kif] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_anchor] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_overload_tbl] =  TODO: Handle other types
+    columns[VT_vnet_entry_pf_unlinked_rules_os_fingerprint] = new_osdb_int64(curEntry->os_fingerprint, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_rtableid] = new_osdb_int64(curEntry->rtableid, context);
+//    columns[VT_vnet_entry_pf_unlinked_rules_timeout] =  TODO: Handle other types
+    columns[VT_vnet_entry_pf_unlinked_rules_max_states] = new_osdb_int64(curEntry->max_states, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_max_src_nodes] = new_osdb_int64(curEntry->max_src_nodes, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_max_src_states] = new_osdb_int64(curEntry->max_src_states, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_max_src_conn] = new_osdb_int64(curEntry->max_src_conn, context);
+//    columns[VT_vnet_entry_pf_unlinked_rules_max_src_conn_rate] =  TODO: Handle other types
+    columns[VT_vnet_entry_pf_unlinked_rules_qid] = new_osdb_int64(curEntry->qid, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_pqid] = new_osdb_int64(curEntry->pqid, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_dnpipe] = new_osdb_int64(curEntry->dnpipe, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_dnrpipe] = new_osdb_int64(curEntry->dnrpipe, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_free_flags] = new_osdb_int64(curEntry->free_flags, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_nr] = new_osdb_int64(curEntry->nr, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_prob] = new_osdb_int64(curEntry->prob, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_cuid] = new_osdb_int64(curEntry->cuid, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_cpid] = new_osdb_int64(curEntry->cpid, context);
+//    columns[VT_vnet_entry_pf_unlinked_rules_states_cur] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_states_tot] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_src_nodes] =  TODO: Handle other types
+    columns[VT_vnet_entry_pf_unlinked_rules_return_icmp] = new_osdb_int64(curEntry->return_icmp, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_return_icmp6] = new_osdb_int64(curEntry->return_icmp6, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_max_mss] = new_osdb_int64(curEntry->max_mss, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_tag] = new_osdb_int64(curEntry->tag, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_match_tag] = new_osdb_int64(curEntry->match_tag, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_scrub_flags] = new_osdb_int64(curEntry->scrub_flags, context);
+//    columns[VT_vnet_entry_pf_unlinked_rules_uid] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_gid] =  TODO: Handle other types
+    columns[VT_vnet_entry_pf_unlinked_rules_rule_flag] = new_osdb_int64(curEntry->rule_flag, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_rule_ref] = new_osdb_int64(curEntry->rule_ref, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_action] = new_osdb_int64(curEntry->action, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_direction] = new_osdb_int64(curEntry->direction, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_log] = new_osdb_int64(curEntry->log, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_logif] = new_osdb_int64(curEntry->logif, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_quick] = new_osdb_int64(curEntry->quick, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_ifnot] = new_osdb_int64(curEntry->ifnot, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_match_tag_not] = new_osdb_int64(curEntry->match_tag_not, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_natpass] = new_osdb_int64(curEntry->natpass, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_keep_state] = new_osdb_int64(curEntry->keep_state, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_af] = new_osdb_int64(curEntry->af, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_proto] = new_osdb_int64(curEntry->proto, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_type] = new_osdb_int64(curEntry->type, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_code] = new_osdb_int64(curEntry->code, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_flags] = new_osdb_int64(curEntry->flags, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_flagset] = new_osdb_int64(curEntry->flagset, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_min_ttl] = new_osdb_int64(curEntry->min_ttl, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_allow_opts] = new_osdb_int64(curEntry->allow_opts, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_rt] = new_osdb_int64(curEntry->rt, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_return_ttl] = new_osdb_int64(curEntry->return_ttl, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_tos] = new_osdb_int64(curEntry->tos, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_set_tos] = new_osdb_int64(curEntry->set_tos, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_anchor_relative] = new_osdb_int64(curEntry->anchor_relative, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_anchor_wildcard] = new_osdb_int64(curEntry->anchor_wildcard, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_flush] = new_osdb_int64(curEntry->flush, context);
+    columns[VT_vnet_entry_pf_unlinked_rules_prio] = new_osdb_int64(curEntry->prio, context);
+//    columns[VT_vnet_entry_pf_unlinked_rules_set_prio] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_divert] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_md5sum] =  TODO: Handle other types
+//    columns[VT_vnet_entry_pf_unlinked_rules_entry_global] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_pf_krulequeue_lock(void)
 {

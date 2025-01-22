@@ -7,6 +7,54 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_sq_bf_list = 0,
+    VT_sq_bf_next = 1,
+    VT_sq_bf_nseg = 2,
+    VT_sq_bf_rxstatus = 3,
+    VT_sq_bf_flags = 4,
+    VT_sq_bf_descid = 5,
+    VT_sq_bf_desc = 6,
+    VT_sq_bf_status = 7,
+    VT_sq_bf_daddr = 8,
+    VT_sq_bf_dmamap = 9,
+    VT_sq_bf_m = 10,
+    VT_sq_bf_node = 11,
+    VT_sq_bf_lastds = 12,
+    VT_sq_bf_last = 13,
+    VT_sq_bf_mapsize = 14,
+    VT_sq_bf_segs = 15,
+    VT_sq_bf_nextfraglen = 16,
+    VT_sq_bf_comp = 17,
+    VT_sq_bf_state = 18,
+    VT_sq_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct sq *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_sq_bf_list] =  TODO: Handle other types
+//    columns[VT_sq_bf_next] =  TODO: Handle other types
+    columns[VT_sq_bf_nseg] = new_osdb_int64(curEntry->bf_nseg, context);
+    columns[VT_sq_bf_rxstatus] = new_osdb_int64(static_cast<int64_t>(curEntry->bf_rxstatus), context); // TODO: need better enum representation 
+    columns[VT_sq_bf_flags] = new_osdb_int64(curEntry->bf_flags, context);
+    columns[VT_sq_bf_descid] = new_osdb_int64(curEntry->bf_descid, context);
+//    columns[VT_sq_bf_desc] =  TODO: Handle other types
+//    columns[VT_sq_bf_status] =  TODO: Handle other types
+    columns[VT_sq_bf_daddr] = new_osdb_int64(curEntry->bf_daddr, context);
+//    columns[VT_sq_bf_dmamap] =  TODO: Handle other types
+//    columns[VT_sq_bf_m] =  TODO: Handle other types
+//    columns[VT_sq_bf_node] =  TODO: Handle other types
+//    columns[VT_sq_bf_lastds] =  TODO: Handle other types
+//    columns[VT_sq_bf_last] =  TODO: Handle other types
+    columns[VT_sq_bf_mapsize] = new_osdb_int64(curEntry->bf_mapsize, context);
+//    columns[VT_sq_bf_segs] =  TODO: Handle other types
+    columns[VT_sq_bf_nextfraglen] = new_osdb_int64(curEntry->bf_nextfraglen, context);
+//    columns[VT_sq_bf_comp] =  TODO: Handle other types
+//    columns[VT_sq_bf_state] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab_axq_q_f_s_lock(void)
 {

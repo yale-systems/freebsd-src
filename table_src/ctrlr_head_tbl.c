@@ -7,6 +7,22 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_ctrlr_head_ctrlr = 0,
+    VT_ctrlr_head_tailq = 1,
+    VT_ctrlr_head_disk_head = 2,
+    VT_ctrlr_head_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct ctrlr_head *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_ctrlr_head_ctrlr] =  TODO: Handle other types
+//    columns[VT_ctrlr_head_tailq] =  TODO: Handle other types
+//    columns[VT_ctrlr_head_disk_head] =  TODO: Handle other types
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

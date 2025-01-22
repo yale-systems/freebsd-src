@@ -7,6 +7,24 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_sdt_prov_list_name = 0,
+    VT_sdt_prov_list_prov_entry = 1,
+    VT_sdt_prov_list_id = 2,
+    VT_sdt_prov_list_sdt_refs = 3,
+    VT_sdt_prov_list_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct sdt_prov_list *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+    columns[VT_sdt_prov_list_name] = new_osdb_text(curEntry->name, strlen(curEntry->name) + 1, context);
+//    columns[VT_sdt_prov_list_prov_entry] =  TODO: Handle other types
+    columns[VT_sdt_prov_list_id] = new_osdb_int64(curEntry->id, context);
+    columns[VT_sdt_prov_list_sdt_refs] = new_osdb_int64(curEntry->sdt_refs, context);
+
+    return 0;
+}
 void
 vtab__lock(void)
 {

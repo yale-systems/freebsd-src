@@ -7,6 +7,34 @@
 
 SQLITE_EXTENSION_INIT1
 
+enum col {
+    VT_sndstat_filelist_entry = 0,
+    VT_sndstat_filelist_sbuf = 1,
+    VT_sndstat_filelist_lock = 2,
+    VT_sndstat_filelist_devs_nvlbuf = 3,
+    VT_sndstat_filelist_devs_nbytes = 4,
+    VT_sndstat_filelist_userdev_list = 5,
+    VT_sndstat_filelist_out_offset = 6,
+    VT_sndstat_filelist_in_offset = 7,
+    VT_sndstat_filelist_fflags = 8,
+    VT_sndstat_filelist_NUM_COLUMNS
+};
+
+static int
+copy_columns(struct sndstat_filelist *curEntry, osdb_value **columns, struct timespec *when, MD5_CTX *context) {
+
+//    columns[VT_sndstat_filelist_entry] =  TODO: Handle other types
+//    columns[VT_sndstat_filelist_sbuf] =  TODO: Handle other types
+//    columns[VT_sndstat_filelist_lock] =  TODO: Handle other types
+//    columns[VT_sndstat_filelist_devs_nvlbuf] =  TODO: Handle other types
+    columns[VT_sndstat_filelist_devs_nbytes] = new_osdb_int64(curEntry->devs_nbytes, context);
+//    columns[VT_sndstat_filelist_userdev_list] =  TODO: Handle other types
+    columns[VT_sndstat_filelist_out_offset] = new_osdb_int64(curEntry->out_offset, context);
+    columns[VT_sndstat_filelist_in_offset] = new_osdb_int64(curEntry->in_offset, context);
+    columns[VT_sndstat_filelist_fflags] = new_osdb_int64(curEntry->fflags, context);
+
+    return 0;
+}
 void
 vtab__lock(void)
 {
