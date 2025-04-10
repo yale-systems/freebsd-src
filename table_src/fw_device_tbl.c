@@ -2,7 +2,7 @@
 #include <sys/systm.h>
 #include <sys/libkern.h>
 #include <sys/malloc.h>
-#include <sys/vfsconf.h>
+#include <sys/fw_device.h>
 #include <sys/signal.h>
 #include <sys/tty.h>
 
@@ -12,64 +12,68 @@
 #include "osdb_mod.h"
 #include "sqlite3ext.h"
 #include "vtab_common.h"
-#include "vtab_vfsconf.h"
+#include "vtab_fw_device.h"
 
 SQLITE_EXTENSION_INIT1
 
 enum col {
-    VT_vfsconf_vfc_version = 0,
-    VT_vfsconf_vfc_name = 1,
-    VT_vfsconf_vfc_vfsops = 2,
-    VT_vfsconf_vfc_vfsops_sd = 3,
-    VT_vfsconf_vfc_typenum = 4,
-    VT_vfsconf_vfc_refcount = 5,
-    VT_vfsconf_vfc_flags = 6,
-    VT_vfsconf_vfc_prison_flag = 7,
-    VT_vfsconf_vfc_opts = 8,
-    VT_vfsconf_vfc_list = 9,
-    VT_vfsconf_NUM_COLUMNS
+    VT_devices_dst = 0,
+    VT_devices_eui = 1,
+    VT_devices_speed = 2,
+    VT_devices_maxrec = 3,
+    VT_devices_nport = 4,
+    VT_devices_power = 5,
+    VT_devices_rommax = 6,
+    VT_devices_csrrom = 7,
+    VT_devices_rcnt = 8,
+    VT_devices_fc = 9,
+    VT_devices_status = 10,
+    VT_devices_link = 11,
+    VT_devices_NUM_COLUMNS
 };
 
 static int
-copy_columns(struct vfsconf *curEntry, struct dbsc_value **columns, struct timespec *when, MD5_CTX *context) {
+copy_columns(struct fw_device *curEntry, struct dbsc_value **columns, struct timespec *when, MD5_CTX *context) {
 
-    columns[VT_vfsconf_vfc_version] = new_dbsc_int64(curEntry->vfc_version, context);
-//    columns[VT_vfsconf_vfc_name] =  /* Unsupported type */
-    columns[VT_vfsconf_vfc_vfsops] = new_dbsc_int64((int64_t)(uintptr_t)curEntry->vfc_vfsops, context);
-    columns[VT_vfsconf_vfc_vfsops_sd] = new_dbsc_int64((int64_t)(uintptr_t)curEntry->vfc_vfsops_sd, context);
-    columns[VT_vfsconf_vfc_typenum] = new_dbsc_int64(curEntry->vfc_typenum, context);
-    columns[VT_vfsconf_vfc_refcount] = new_dbsc_int64(curEntry->vfc_refcount, context);
-    columns[VT_vfsconf_vfc_flags] = new_dbsc_int64(curEntry->vfc_flags, context);
-    columns[VT_vfsconf_vfc_prison_flag] = new_dbsc_int64(curEntry->vfc_prison_flag, context);
-    columns[VT_vfsconf_vfc_opts] = new_dbsc_int64((int64_t)(uintptr_t)curEntry->vfc_opts, context);
-//    columns[VT_vfsconf_vfc_list] =  /* Unsupported type */
+    columns[VT_devices_dst] = new_dbsc_int64(curEntry->dst, context);
+//    columns[VT_devices_eui] =  /* Unsupported type */
+    columns[VT_devices_speed] = new_dbsc_int64(curEntry->speed, context);
+    columns[VT_devices_maxrec] = new_dbsc_int64(curEntry->maxrec, context);
+    columns[VT_devices_nport] = new_dbsc_int64(curEntry->nport, context);
+    columns[VT_devices_power] = new_dbsc_int64(curEntry->power, context);
+    columns[VT_devices_rommax] = new_dbsc_int64(curEntry->rommax, context);
+//    columns[VT_devices_csrrom] =  /* Unsupported type */
+    columns[VT_devices_rcnt] = new_dbsc_int64(curEntry->rcnt, context);
+    columns[VT_devices_fc] = new_dbsc_int64((int64_t)(uintptr_t)curEntry->fc, context);
+    columns[VT_devices_status] = new_dbsc_int64(curEntry->status, context);
+//    columns[VT_devices_link] =  /* Unsupported type */
 
     return 0;
 }
 void
-vtab_vfsconf_lock(void)
+vtab_fw_device_lock(void)
 {
-    sx_slock(&vfsconf_lock);
+    sx_slock(&devices_lock);
 }
 
 void
-vtab_vfsconf_unlock(void)
+vtab_fw_device_unlock(void)
 {
-    sx_sunlock(&vfsconf_lock);
+    sx_sunlock(&devices_lock);
 }
 
 void
-vtab_vfsconf_snapshot(sqlite3_vtab *pVtab, struct timespec when)
+vtab_fw_device_snapshot(sqlite3_vtab *pVtab, struct timespec when)
 {
-    struct vfsconf *prc = LIST_FIRST(&vfsconf);
+    struct fw_device *prc = LIST_FIRST(&devices);
 
     osdb_snap *snap = malloc(sizeof(struct osdb_snap), M_SQLITE, M_WAITOK);
     snap->when = when;
-    snap->snap_table = new_osdb_table(VT_vfsconf_NUM_COLUMNS);
+    snap->snap_table = new_osdb_table(VT_devices_NUM_COLUMNS);
     MD5Init(&snap->context);
 
     while (prc) {
-        struct dbsc_value **columns = new_osdb_columns(VT_vfsconf_NUM_COLUMNS);
+        struct dbsc_value **columns = new_osdb_columns(VT_devices_NUM_COLUMNS);
         if (!columns) {
             return;
         }
@@ -80,7 +84,7 @@ vtab_vfsconf_snapshot(sqlite3_vtab *pVtab, struct timespec when)
 
     MD5Final(snap->digest, &snap->context);
 #ifdef DEBUG
-    printf("vfsconf digest: ");
+    printf("fw_device digest: ");
     for (size_t i = 0; i < 16; i++) {
         printf("%02hhx", snap->digest[i]);
     }
@@ -90,17 +94,17 @@ vtab_vfsconf_snapshot(sqlite3_vtab *pVtab, struct timespec when)
 }
 
 static int
-vfsconfvtabRowid(sqlite3_vtab_cursor *cur, sqlite_int64 *pRowid)
+fw_devicevtabRowid(sqlite3_vtab_cursor *cur, sqlite_int64 *pRowid)
 {
     common_cursor *pCur = (common_cursor *)cur;
-    struct dbsc_value *pid_value = pCur->row->columns[VT_vfsconf_p_pid];
+    struct dbsc_value *pid_value = pCur->row->columns[VT_devices_p_pid];
     *pRowid = pid_value->int64_value;
-    printf("vfsconf_rowid was called, returning %lld\n", *pRowid);
+    printf("fw_device_rowid was called, returning %lld\n", *pRowid);
     return SQLITE_OK;
 }
 
 static int
-vfsconfvtabBestIndex(sqlite3_vtab *tab, sqlite3_index_info *pIdxInfo)
+fw_devicevtabBestIndex(sqlite3_vtab *tab, sqlite3_index_info *pIdxInfo)
 {
     pIdxInfo->estimatedCost = (double)10;
     pIdxInfo->estimatedRows = 10;
@@ -111,14 +115,14 @@ extern int kern_cpuset_setaffinity(struct thread *td, cpulevel_t level, cpuwhich
 extern int cpuset_setproc(pid_t pid, struct cpuset *set, cpuset_t *mask, struct domainset *domain, bool rebase);
 
 static int
-vfsconfvtabUpdate(sqlite3_vtab *pVTab, int argc, sqlite3_value **argv, sqlite_int64 *pRowid)
+fw_devicevtabUpdate(sqlite3_vtab *pVTab, int argc, sqlite3_value **argv, sqlite_int64 *pRowid)
 {
     struct timespec when;
     nanotime(&when);
-    vtab_vfsconf_snapshot(pVTab, when);
+    vtab_fw_device_snapshot(pVTab, when);
     if (osdb_snapshot_compare((struct osdb_vtab *)pVTab) <= 0) {
 #ifdef DEBUG
-        printf("vfsconf digest mismatch: UPDATE failed\n");
+        printf("fw_device digest mismatch: UPDATE failed\n");
 #endif
         return SQLITE_ABORT;
     }
@@ -153,11 +157,11 @@ vfsconfvtabUpdate(sqlite3_vtab *pVTab, int argc, sqlite3_value **argv, sqlite_in
 ** This following structure defines all the methods for the
 ** virtual table.
 */
-static sqlite3_module vfsconfvtabModule = {
+static sqlite3_module fw_devicevtabModule = {
     /* iVersion    */ 0,
     /* xCreate     */ commonCreate,
     /* xConnect    */ commonConnect,
-    /* xBestIndex  */ vfsconfvtabBestIndex,
+    /* xBestIndex  */ fw_devicevtabBestIndex,
     /* xDisconnect */ commonDisconnect,
     /* xDestroy    */ commonDisconnect,
     /* xOpen       */ commonOpen,
@@ -166,8 +170,8 @@ static sqlite3_module vfsconfvtabModule = {
     /* xNext       */ commonNext,
     /* xEof        */ commonEof,
     /* xColumn     */ commonColumn,
-    /* xRowid      */ vfsconfvtabRowid,
-    /* xUpdate     */ vfsconfvtabUpdate,
+    /* xRowid      */ fw_devicevtabRowid,
+    /* xUpdate     */ fw_devicevtabUpdate,
     /* xBegin      */ 0,
     /* xSync       */ 0,
     /* xCommit     */ 0,
@@ -182,33 +186,36 @@ static sqlite3_module vfsconfvtabModule = {
 };
 
 int
-sqlite3_vfsconfvtab_init(sqlite3 *db, char **pzErrMsg,
+sqlite3_fw_devicevtab_init(sqlite3 *db, char **pzErrMsg,
     const sqlite3_api_routines *pApi, void *pAux)
 {
     SQLITE_EXTENSION_INIT2(pApi);
     return sqlite3_create_module(db,
-        vtable_type_to_name(((osdb_vtab *)pAux)->type), &vfsconfvtabModule,
+        vtable_type_to_name(((osdb_vtab *)pAux)->type), &fw_devicevtabModule,
         pAux);
 }
-void vtab_vfsconf_serialize(sqlite3 *real_db, struct timespec when) {
-    struct vfsconf *entry = LIST_FIRST(&vfsconf);
+void vtab_fw_device_serialize(sqlite3 *real_db, struct timespec when) {
+    struct fw_device *entry = LIST_FIRST(&devices);
 
     const char *create_stmt =
-        "CREATE TABLE all_vfsconfs (vfc_version INTEGER, vfc_typenum INTEGER, vfc_refcount INTEGER, vfc_flags INTEGER, vfc_prison_flag INTEGER)";
+        "CREATE TABLE all_fw_devices (dst INTEGER, speed INTEGER, maxrec INTEGER, nport INTEGER, power INTEGER, rommax INTEGER, rcnt INTEGER, status INTEGER)";
     char *errMsg = NULL;
     sqlite3_exec(real_db, create_stmt, NULL, NULL, &errMsg);
 
-    const char *insert_stmt = "INSERT INTO all_vfsconfs VALUES (?, ?, ?, ?, ?)";
+    const char *insert_stmt = "INSERT INTO all_fw_devices VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     sqlite3_stmt *stmt = NULL;
     sqlite3_prepare_v2(real_db, insert_stmt, -1, &stmt, NULL);
 
     while (entry) {
         int bindIndex = 1;
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_version);
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_typenum);
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_refcount);
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_flags);
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_prison_flag);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->dst);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->speed);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->maxrec);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->nport);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->power);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->rommax);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->rcnt);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->status);
 
         sqlite3_step(stmt);
         sqlite3_reset(stmt);

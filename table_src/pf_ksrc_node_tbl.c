@@ -2,7 +2,7 @@
 #include <sys/systm.h>
 #include <sys/libkern.h>
 #include <sys/malloc.h>
-#include <sys/vfsconf.h>
+#include <sys/pf_ksrc_node.h>
 #include <sys/signal.h>
 #include <sys/tty.h>
 
@@ -12,64 +12,76 @@
 #include "osdb_mod.h"
 #include "sqlite3ext.h"
 #include "vtab_common.h"
-#include "vtab_vfsconf.h"
+#include "vtab_pf_ksrc_node.h"
 
 SQLITE_EXTENSION_INIT1
 
 enum col {
-    VT_vfsconf_vfc_version = 0,
-    VT_vfsconf_vfc_name = 1,
-    VT_vfsconf_vfc_vfsops = 2,
-    VT_vfsconf_vfc_vfsops_sd = 3,
-    VT_vfsconf_vfc_typenum = 4,
-    VT_vfsconf_vfc_refcount = 5,
-    VT_vfsconf_vfc_flags = 6,
-    VT_vfsconf_vfc_prison_flag = 7,
-    VT_vfsconf_vfc_opts = 8,
-    VT_vfsconf_vfc_list = 9,
-    VT_vfsconf_NUM_COLUMNS
+    VT_nodes_entry = 0,
+    VT_nodes_addr = 1,
+    VT_nodes_raddr = 2,
+    VT_nodes_match_rules = 3,
+    VT_nodes_rule = 4,
+    VT_nodes_rkif = 5,
+    VT_nodes_bytes = 6,
+    VT_nodes_packets = 7,
+    VT_nodes_states = 8,
+    VT_nodes_conn = 9,
+    VT_nodes_conn_rate = 10,
+    VT_nodes_creation = 11,
+    VT_nodes_expire = 12,
+    VT_nodes_af = 13,
+    VT_nodes_ruletype = 14,
+    VT_nodes_lock = 15,
+    VT_nodes_NUM_COLUMNS
 };
 
 static int
-copy_columns(struct vfsconf *curEntry, struct dbsc_value **columns, struct timespec *when, MD5_CTX *context) {
+copy_columns(struct pf_ksrc_node *curEntry, struct dbsc_value **columns, struct timespec *when, MD5_CTX *context) {
 
-    columns[VT_vfsconf_vfc_version] = new_dbsc_int64(curEntry->vfc_version, context);
-//    columns[VT_vfsconf_vfc_name] =  /* Unsupported type */
-    columns[VT_vfsconf_vfc_vfsops] = new_dbsc_int64((int64_t)(uintptr_t)curEntry->vfc_vfsops, context);
-    columns[VT_vfsconf_vfc_vfsops_sd] = new_dbsc_int64((int64_t)(uintptr_t)curEntry->vfc_vfsops_sd, context);
-    columns[VT_vfsconf_vfc_typenum] = new_dbsc_int64(curEntry->vfc_typenum, context);
-    columns[VT_vfsconf_vfc_refcount] = new_dbsc_int64(curEntry->vfc_refcount, context);
-    columns[VT_vfsconf_vfc_flags] = new_dbsc_int64(curEntry->vfc_flags, context);
-    columns[VT_vfsconf_vfc_prison_flag] = new_dbsc_int64(curEntry->vfc_prison_flag, context);
-    columns[VT_vfsconf_vfc_opts] = new_dbsc_int64((int64_t)(uintptr_t)curEntry->vfc_opts, context);
-//    columns[VT_vfsconf_vfc_list] =  /* Unsupported type */
+//    columns[VT_nodes_entry] =  /* Unsupported type */
+//    columns[VT_nodes_addr] =  /* Unsupported type */
+//    columns[VT_nodes_raddr] =  /* Unsupported type */
+//    columns[VT_nodes_match_rules] =  /* Unsupported type */
+//    columns[VT_nodes_rule] =  /* Unsupported type */
+    columns[VT_nodes_rkif] = new_dbsc_int64((int64_t)(uintptr_t)curEntry->rkif, context);
+//    columns[VT_nodes_bytes] =  /* Unsupported type */
+//    columns[VT_nodes_packets] =  /* Unsupported type */
+    columns[VT_nodes_states] = new_dbsc_int64(curEntry->states, context);
+    columns[VT_nodes_conn] = new_dbsc_int64(curEntry->conn, context);
+//    columns[VT_nodes_conn_rate] =  /* Unsupported type */
+    columns[VT_nodes_creation] = new_dbsc_int64(curEntry->creation, context);
+    columns[VT_nodes_expire] = new_dbsc_int64(curEntry->expire, context);
+    columns[VT_nodes_af] = new_dbsc_int64(curEntry->af, context);
+    columns[VT_nodes_ruletype] = new_dbsc_int64(curEntry->ruletype, context);
+    columns[VT_nodes_lock] = new_dbsc_int64((int64_t)(uintptr_t)curEntry->lock, context);
 
     return 0;
 }
 void
-vtab_vfsconf_lock(void)
+vtab_pf_ksrc_node_lock(void)
 {
-    sx_slock(&vfsconf_lock);
+    sx_slock(&nodes_lock);
 }
 
 void
-vtab_vfsconf_unlock(void)
+vtab_pf_ksrc_node_unlock(void)
 {
-    sx_sunlock(&vfsconf_lock);
+    sx_sunlock(&nodes_lock);
 }
 
 void
-vtab_vfsconf_snapshot(sqlite3_vtab *pVtab, struct timespec when)
+vtab_pf_ksrc_node_snapshot(sqlite3_vtab *pVtab, struct timespec when)
 {
-    struct vfsconf *prc = LIST_FIRST(&vfsconf);
+    struct pf_ksrc_node *prc = LIST_FIRST(&nodes);
 
     osdb_snap *snap = malloc(sizeof(struct osdb_snap), M_SQLITE, M_WAITOK);
     snap->when = when;
-    snap->snap_table = new_osdb_table(VT_vfsconf_NUM_COLUMNS);
+    snap->snap_table = new_osdb_table(VT_nodes_NUM_COLUMNS);
     MD5Init(&snap->context);
 
     while (prc) {
-        struct dbsc_value **columns = new_osdb_columns(VT_vfsconf_NUM_COLUMNS);
+        struct dbsc_value **columns = new_osdb_columns(VT_nodes_NUM_COLUMNS);
         if (!columns) {
             return;
         }
@@ -80,7 +92,7 @@ vtab_vfsconf_snapshot(sqlite3_vtab *pVtab, struct timespec when)
 
     MD5Final(snap->digest, &snap->context);
 #ifdef DEBUG
-    printf("vfsconf digest: ");
+    printf("pf_ksrc_node digest: ");
     for (size_t i = 0; i < 16; i++) {
         printf("%02hhx", snap->digest[i]);
     }
@@ -90,17 +102,17 @@ vtab_vfsconf_snapshot(sqlite3_vtab *pVtab, struct timespec when)
 }
 
 static int
-vfsconfvtabRowid(sqlite3_vtab_cursor *cur, sqlite_int64 *pRowid)
+pf_ksrc_nodevtabRowid(sqlite3_vtab_cursor *cur, sqlite_int64 *pRowid)
 {
     common_cursor *pCur = (common_cursor *)cur;
-    struct dbsc_value *pid_value = pCur->row->columns[VT_vfsconf_p_pid];
+    struct dbsc_value *pid_value = pCur->row->columns[VT_nodes_p_pid];
     *pRowid = pid_value->int64_value;
-    printf("vfsconf_rowid was called, returning %lld\n", *pRowid);
+    printf("pf_ksrc_node_rowid was called, returning %lld\n", *pRowid);
     return SQLITE_OK;
 }
 
 static int
-vfsconfvtabBestIndex(sqlite3_vtab *tab, sqlite3_index_info *pIdxInfo)
+pf_ksrc_nodevtabBestIndex(sqlite3_vtab *tab, sqlite3_index_info *pIdxInfo)
 {
     pIdxInfo->estimatedCost = (double)10;
     pIdxInfo->estimatedRows = 10;
@@ -111,14 +123,14 @@ extern int kern_cpuset_setaffinity(struct thread *td, cpulevel_t level, cpuwhich
 extern int cpuset_setproc(pid_t pid, struct cpuset *set, cpuset_t *mask, struct domainset *domain, bool rebase);
 
 static int
-vfsconfvtabUpdate(sqlite3_vtab *pVTab, int argc, sqlite3_value **argv, sqlite_int64 *pRowid)
+pf_ksrc_nodevtabUpdate(sqlite3_vtab *pVTab, int argc, sqlite3_value **argv, sqlite_int64 *pRowid)
 {
     struct timespec when;
     nanotime(&when);
-    vtab_vfsconf_snapshot(pVTab, when);
+    vtab_pf_ksrc_node_snapshot(pVTab, when);
     if (osdb_snapshot_compare((struct osdb_vtab *)pVTab) <= 0) {
 #ifdef DEBUG
-        printf("vfsconf digest mismatch: UPDATE failed\n");
+        printf("pf_ksrc_node digest mismatch: UPDATE failed\n");
 #endif
         return SQLITE_ABORT;
     }
@@ -153,11 +165,11 @@ vfsconfvtabUpdate(sqlite3_vtab *pVTab, int argc, sqlite3_value **argv, sqlite_in
 ** This following structure defines all the methods for the
 ** virtual table.
 */
-static sqlite3_module vfsconfvtabModule = {
+static sqlite3_module pf_ksrc_nodevtabModule = {
     /* iVersion    */ 0,
     /* xCreate     */ commonCreate,
     /* xConnect    */ commonConnect,
-    /* xBestIndex  */ vfsconfvtabBestIndex,
+    /* xBestIndex  */ pf_ksrc_nodevtabBestIndex,
     /* xDisconnect */ commonDisconnect,
     /* xDestroy    */ commonDisconnect,
     /* xOpen       */ commonOpen,
@@ -166,8 +178,8 @@ static sqlite3_module vfsconfvtabModule = {
     /* xNext       */ commonNext,
     /* xEof        */ commonEof,
     /* xColumn     */ commonColumn,
-    /* xRowid      */ vfsconfvtabRowid,
-    /* xUpdate     */ vfsconfvtabUpdate,
+    /* xRowid      */ pf_ksrc_nodevtabRowid,
+    /* xUpdate     */ pf_ksrc_nodevtabUpdate,
     /* xBegin      */ 0,
     /* xSync       */ 0,
     /* xCommit     */ 0,
@@ -182,33 +194,34 @@ static sqlite3_module vfsconfvtabModule = {
 };
 
 int
-sqlite3_vfsconfvtab_init(sqlite3 *db, char **pzErrMsg,
+sqlite3_pf_ksrc_nodevtab_init(sqlite3 *db, char **pzErrMsg,
     const sqlite3_api_routines *pApi, void *pAux)
 {
     SQLITE_EXTENSION_INIT2(pApi);
     return sqlite3_create_module(db,
-        vtable_type_to_name(((osdb_vtab *)pAux)->type), &vfsconfvtabModule,
+        vtable_type_to_name(((osdb_vtab *)pAux)->type), &pf_ksrc_nodevtabModule,
         pAux);
 }
-void vtab_vfsconf_serialize(sqlite3 *real_db, struct timespec when) {
-    struct vfsconf *entry = LIST_FIRST(&vfsconf);
+void vtab_pf_ksrc_node_serialize(sqlite3 *real_db, struct timespec when) {
+    struct pf_ksrc_node *entry = LIST_FIRST(&nodes);
 
     const char *create_stmt =
-        "CREATE TABLE all_vfsconfs (vfc_version INTEGER, vfc_typenum INTEGER, vfc_refcount INTEGER, vfc_flags INTEGER, vfc_prison_flag INTEGER)";
+        "CREATE TABLE all_pf_ksrc_nodes (states INTEGER, conn INTEGER, creation INTEGER, expire INTEGER, af INTEGER, ruletype INTEGER)";
     char *errMsg = NULL;
     sqlite3_exec(real_db, create_stmt, NULL, NULL, &errMsg);
 
-    const char *insert_stmt = "INSERT INTO all_vfsconfs VALUES (?, ?, ?, ?, ?)";
+    const char *insert_stmt = "INSERT INTO all_pf_ksrc_nodes VALUES (?, ?, ?, ?, ?, ?)";
     sqlite3_stmt *stmt = NULL;
     sqlite3_prepare_v2(real_db, insert_stmt, -1, &stmt, NULL);
 
     while (entry) {
         int bindIndex = 1;
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_version);
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_typenum);
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_refcount);
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_flags);
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_prison_flag);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->states);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->conn);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->creation);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->expire);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->af);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->ruletype);
 
         sqlite3_step(stmt);
         sqlite3_reset(stmt);

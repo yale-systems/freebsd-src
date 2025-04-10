@@ -2,7 +2,7 @@
 #include <sys/systm.h>
 #include <sys/libkern.h>
 #include <sys/malloc.h>
-#include <sys/vfsconf.h>
+#include <sys/cuse_memory.h>
 #include <sys/signal.h>
 #include <sys/tty.h>
 
@@ -12,64 +12,52 @@
 #include "osdb_mod.h"
 #include "sqlite3ext.h"
 #include "vtab_common.h"
-#include "vtab_vfsconf.h"
+#include "vtab_cuse_memory.h"
 
 SQLITE_EXTENSION_INIT1
 
 enum col {
-    VT_vfsconf_vfc_version = 0,
-    VT_vfsconf_vfc_name = 1,
-    VT_vfsconf_vfc_vfsops = 2,
-    VT_vfsconf_vfc_vfsops_sd = 3,
-    VT_vfsconf_vfc_typenum = 4,
-    VT_vfsconf_vfc_refcount = 5,
-    VT_vfsconf_vfc_flags = 6,
-    VT_vfsconf_vfc_prison_flag = 7,
-    VT_vfsconf_vfc_opts = 8,
-    VT_vfsconf_vfc_list = 9,
-    VT_vfsconf_NUM_COLUMNS
+    VT_hmem_entry = 0,
+    VT_hmem_object = 1,
+    VT_hmem_page_count = 2,
+    VT_hmem_alloc_nr = 3,
+    VT_hmem_NUM_COLUMNS
 };
 
 static int
-copy_columns(struct vfsconf *curEntry, struct dbsc_value **columns, struct timespec *when, MD5_CTX *context) {
+copy_columns(struct cuse_memory *curEntry, struct dbsc_value **columns, struct timespec *when, MD5_CTX *context) {
 
-    columns[VT_vfsconf_vfc_version] = new_dbsc_int64(curEntry->vfc_version, context);
-//    columns[VT_vfsconf_vfc_name] =  /* Unsupported type */
-    columns[VT_vfsconf_vfc_vfsops] = new_dbsc_int64((int64_t)(uintptr_t)curEntry->vfc_vfsops, context);
-    columns[VT_vfsconf_vfc_vfsops_sd] = new_dbsc_int64((int64_t)(uintptr_t)curEntry->vfc_vfsops_sd, context);
-    columns[VT_vfsconf_vfc_typenum] = new_dbsc_int64(curEntry->vfc_typenum, context);
-    columns[VT_vfsconf_vfc_refcount] = new_dbsc_int64(curEntry->vfc_refcount, context);
-    columns[VT_vfsconf_vfc_flags] = new_dbsc_int64(curEntry->vfc_flags, context);
-    columns[VT_vfsconf_vfc_prison_flag] = new_dbsc_int64(curEntry->vfc_prison_flag, context);
-    columns[VT_vfsconf_vfc_opts] = new_dbsc_int64((int64_t)(uintptr_t)curEntry->vfc_opts, context);
-//    columns[VT_vfsconf_vfc_list] =  /* Unsupported type */
+//    columns[VT_hmem_entry] =  /* Unsupported type */
+    columns[VT_hmem_object] = new_dbsc_int64((int64_t)(uintptr_t)curEntry->object, context);
+    columns[VT_hmem_page_count] = new_dbsc_int64(curEntry->page_count, context);
+    columns[VT_hmem_alloc_nr] = new_dbsc_int64(curEntry->alloc_nr, context);
 
     return 0;
 }
 void
-vtab_vfsconf_lock(void)
+vtab_cuse_memory_lock(void)
 {
-    sx_slock(&vfsconf_lock);
+    sx_slock(&hmem_lock);
 }
 
 void
-vtab_vfsconf_unlock(void)
+vtab_cuse_memory_unlock(void)
 {
-    sx_sunlock(&vfsconf_lock);
+    sx_sunlock(&hmem_lock);
 }
 
 void
-vtab_vfsconf_snapshot(sqlite3_vtab *pVtab, struct timespec when)
+vtab_cuse_memory_snapshot(sqlite3_vtab *pVtab, struct timespec when)
 {
-    struct vfsconf *prc = LIST_FIRST(&vfsconf);
+    struct cuse_memory *prc = LIST_FIRST(&hmem);
 
     osdb_snap *snap = malloc(sizeof(struct osdb_snap), M_SQLITE, M_WAITOK);
     snap->when = when;
-    snap->snap_table = new_osdb_table(VT_vfsconf_NUM_COLUMNS);
+    snap->snap_table = new_osdb_table(VT_hmem_NUM_COLUMNS);
     MD5Init(&snap->context);
 
     while (prc) {
-        struct dbsc_value **columns = new_osdb_columns(VT_vfsconf_NUM_COLUMNS);
+        struct dbsc_value **columns = new_osdb_columns(VT_hmem_NUM_COLUMNS);
         if (!columns) {
             return;
         }
@@ -80,7 +68,7 @@ vtab_vfsconf_snapshot(sqlite3_vtab *pVtab, struct timespec when)
 
     MD5Final(snap->digest, &snap->context);
 #ifdef DEBUG
-    printf("vfsconf digest: ");
+    printf("cuse_memory digest: ");
     for (size_t i = 0; i < 16; i++) {
         printf("%02hhx", snap->digest[i]);
     }
@@ -90,17 +78,17 @@ vtab_vfsconf_snapshot(sqlite3_vtab *pVtab, struct timespec when)
 }
 
 static int
-vfsconfvtabRowid(sqlite3_vtab_cursor *cur, sqlite_int64 *pRowid)
+cuse_memoryvtabRowid(sqlite3_vtab_cursor *cur, sqlite_int64 *pRowid)
 {
     common_cursor *pCur = (common_cursor *)cur;
-    struct dbsc_value *pid_value = pCur->row->columns[VT_vfsconf_p_pid];
+    struct dbsc_value *pid_value = pCur->row->columns[VT_hmem_p_pid];
     *pRowid = pid_value->int64_value;
-    printf("vfsconf_rowid was called, returning %lld\n", *pRowid);
+    printf("cuse_memory_rowid was called, returning %lld\n", *pRowid);
     return SQLITE_OK;
 }
 
 static int
-vfsconfvtabBestIndex(sqlite3_vtab *tab, sqlite3_index_info *pIdxInfo)
+cuse_memoryvtabBestIndex(sqlite3_vtab *tab, sqlite3_index_info *pIdxInfo)
 {
     pIdxInfo->estimatedCost = (double)10;
     pIdxInfo->estimatedRows = 10;
@@ -111,14 +99,14 @@ extern int kern_cpuset_setaffinity(struct thread *td, cpulevel_t level, cpuwhich
 extern int cpuset_setproc(pid_t pid, struct cpuset *set, cpuset_t *mask, struct domainset *domain, bool rebase);
 
 static int
-vfsconfvtabUpdate(sqlite3_vtab *pVTab, int argc, sqlite3_value **argv, sqlite_int64 *pRowid)
+cuse_memoryvtabUpdate(sqlite3_vtab *pVTab, int argc, sqlite3_value **argv, sqlite_int64 *pRowid)
 {
     struct timespec when;
     nanotime(&when);
-    vtab_vfsconf_snapshot(pVTab, when);
+    vtab_cuse_memory_snapshot(pVTab, when);
     if (osdb_snapshot_compare((struct osdb_vtab *)pVTab) <= 0) {
 #ifdef DEBUG
-        printf("vfsconf digest mismatch: UPDATE failed\n");
+        printf("cuse_memory digest mismatch: UPDATE failed\n");
 #endif
         return SQLITE_ABORT;
     }
@@ -153,11 +141,11 @@ vfsconfvtabUpdate(sqlite3_vtab *pVTab, int argc, sqlite3_value **argv, sqlite_in
 ** This following structure defines all the methods for the
 ** virtual table.
 */
-static sqlite3_module vfsconfvtabModule = {
+static sqlite3_module cuse_memoryvtabModule = {
     /* iVersion    */ 0,
     /* xCreate     */ commonCreate,
     /* xConnect    */ commonConnect,
-    /* xBestIndex  */ vfsconfvtabBestIndex,
+    /* xBestIndex  */ cuse_memoryvtabBestIndex,
     /* xDisconnect */ commonDisconnect,
     /* xDestroy    */ commonDisconnect,
     /* xOpen       */ commonOpen,
@@ -166,8 +154,8 @@ static sqlite3_module vfsconfvtabModule = {
     /* xNext       */ commonNext,
     /* xEof        */ commonEof,
     /* xColumn     */ commonColumn,
-    /* xRowid      */ vfsconfvtabRowid,
-    /* xUpdate     */ vfsconfvtabUpdate,
+    /* xRowid      */ cuse_memoryvtabRowid,
+    /* xUpdate     */ cuse_memoryvtabUpdate,
     /* xBegin      */ 0,
     /* xSync       */ 0,
     /* xCommit     */ 0,
@@ -182,33 +170,30 @@ static sqlite3_module vfsconfvtabModule = {
 };
 
 int
-sqlite3_vfsconfvtab_init(sqlite3 *db, char **pzErrMsg,
+sqlite3_cuse_memoryvtab_init(sqlite3 *db, char **pzErrMsg,
     const sqlite3_api_routines *pApi, void *pAux)
 {
     SQLITE_EXTENSION_INIT2(pApi);
     return sqlite3_create_module(db,
-        vtable_type_to_name(((osdb_vtab *)pAux)->type), &vfsconfvtabModule,
+        vtable_type_to_name(((osdb_vtab *)pAux)->type), &cuse_memoryvtabModule,
         pAux);
 }
-void vtab_vfsconf_serialize(sqlite3 *real_db, struct timespec when) {
-    struct vfsconf *entry = LIST_FIRST(&vfsconf);
+void vtab_cuse_memory_serialize(sqlite3 *real_db, struct timespec when) {
+    struct cuse_memory *entry = LIST_FIRST(&hmem);
 
     const char *create_stmt =
-        "CREATE TABLE all_vfsconfs (vfc_version INTEGER, vfc_typenum INTEGER, vfc_refcount INTEGER, vfc_flags INTEGER, vfc_prison_flag INTEGER)";
+        "CREATE TABLE all_cuse_memorys (page_count INTEGER, alloc_nr INTEGER)";
     char *errMsg = NULL;
     sqlite3_exec(real_db, create_stmt, NULL, NULL, &errMsg);
 
-    const char *insert_stmt = "INSERT INTO all_vfsconfs VALUES (?, ?, ?, ?, ?)";
+    const char *insert_stmt = "INSERT INTO all_cuse_memorys VALUES (?, ?)";
     sqlite3_stmt *stmt = NULL;
     sqlite3_prepare_v2(real_db, insert_stmt, -1, &stmt, NULL);
 
     while (entry) {
         int bindIndex = 1;
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_version);
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_typenum);
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_refcount);
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_flags);
-           sqlite3_bind_int64(stmt, bindIndex++, entry->vfc_prison_flag);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->page_count);
+           sqlite3_bind_int64(stmt, bindIndex++, entry->alloc_nr);
 
         sqlite3_step(stmt);
         sqlite3_reset(stmt);
