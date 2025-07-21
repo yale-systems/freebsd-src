@@ -536,10 +536,11 @@
 #define	FREEBSD32_SYS_osdb_vtable_destroy	622
 #define	FREEBSD32_SYS_osdb_vtable_open	623
 #define	FREEBSD32_SYS_osdb_vtable_close	624
-#define	FREEBSD32_SYS_osdb_vtable_filter	625
+#define	FREEBSD32_SYS_freebsd32_osdb_vtable_filter	625
 #define	FREEBSD32_SYS_osdb_vtable_next	626
 #define	FREEBSD32_SYS_osdb_vtable_eof	627
 #define	FREEBSD32_SYS_osdb_vtable_column	628
 #define	FREEBSD32_SYS_osdb_vtable_rowid	629
-#define	FREEBSD32_SYS_osdb_vtable_update	630
-#define	FREEBSD32_SYS_MAXSYSCALL	631
+#define	FREEBSD32_SYS_freebsd32_osdb_vtable_update	630
+#define	FREEBSD32_SYS_osdb_snapshot	631
+#define	FREEBSD32_SYS_MAXSYSCALL	632

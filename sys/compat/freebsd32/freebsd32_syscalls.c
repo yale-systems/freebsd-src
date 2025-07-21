@@ -630,10 +630,11 @@ const char *freebsd32_syscallnames[] = {
 	"osdb_vtable_destroy",			/* 622 = osdb_vtable_destroy */
 	"osdb_vtable_open",			/* 623 = osdb_vtable_open */
 	"osdb_vtable_close",			/* 624 = osdb_vtable_close */
-	"osdb_vtable_filter",			/* 625 = osdb_vtable_filter */
+	"freebsd32_osdb_vtable_filter",			/* 625 = freebsd32_osdb_vtable_filter */
 	"osdb_vtable_next",			/* 626 = osdb_vtable_next */
 	"osdb_vtable_eof",			/* 627 = osdb_vtable_eof */
 	"osdb_vtable_column",			/* 628 = osdb_vtable_column */
 	"osdb_vtable_rowid",			/* 629 = osdb_vtable_rowid */
-	"osdb_vtable_update",			/* 630 = osdb_vtable_update */
+	"freebsd32_osdb_vtable_update",			/* 630 = freebsd32_osdb_vtable_update */
+	"osdb_snapshot",			/* 631 = osdb_snapshot */
 };

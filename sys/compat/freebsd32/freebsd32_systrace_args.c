@@ -3595,33 +3595,59 @@ systrace_args(int sysnum, void *params, uint64_t *uarg, int *n_args)
 		*n_args = 1;
 		break;
 	}
-	/* osdb_vtable_filter */
+	/* freebsd32_osdb_vtable_filter */
 	case 625: {
-		*n_args = 0;
+		struct freebsd32_osdb_vtable_filter_args *p = params;
+		iarg[a++] = p->cursor; /* int */
+		iarg[a++] = p->idxNum; /* int */
+		uarg[a++] = (intptr_t)p->idxStr; /* char * */
+		iarg[a++] = p->argc; /* int */
+		uarg[a++] = (intptr_t)p->argv; /* uint32_t * */
+		*n_args = 5;
 		break;
 	}
 	/* osdb_vtable_next */
 	case 626: {
-		*n_args = 0;
+		struct osdb_vtable_next_args *p = params;
+		iarg[a++] = p->cursor; /* int */
+		*n_args = 1;
 		break;
 	}
 	/* osdb_vtable_eof */
 	case 627: {
-		*n_args = 0;
+		struct osdb_vtable_eof_args *p = params;
+		iarg[a++] = p->cursor; /* int */
+		*n_args = 1;
 		break;
 	}
 	/* osdb_vtable_column */
 	case 628: {
-		*n_args = 0;
+		struct osdb_vtable_column_args *p = params;
+		iarg[a++] = p->cursor; /* int */
+		uarg[a++] = (intptr_t)p->ctx; /* void * */
+		iarg[a++] = p->column; /* int */
+		*n_args = 3;
 		break;
 	}
 	/* osdb_vtable_rowid */
 	case 629: {
-		*n_args = 0;
+		struct osdb_vtable_rowid_args *p = params;
+		iarg[a++] = p->cursor; /* int */
+		*n_args = 1;
 		break;
 	}
-	/* osdb_vtable_update */
+	/* freebsd32_osdb_vtable_update */
 	case 630: {
+		struct freebsd32_osdb_vtable_update_args *p = params;
+		iarg[a++] = p->cursor; /* int */
+		iarg[a++] = p->argc; /* int */
+		uarg[a++] = (intptr_t)p->argv; /* uint32_t * */
+		uarg[a++] = (intptr_t)p->rowid; /* int * */
+		*n_args = 4;
+		break;
+	}
+	/* osdb_snapshot */
+	case 631: {
 		*n_args = 0;
 		break;
 	}
@@ -9721,23 +9747,95 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 			break;
 		};
 		break;
-	/* osdb_vtable_filter */
+	/* freebsd32_osdb_vtable_filter */
 	case 625:
+		switch (ndx) {
+		case 0:
+			p = "int";
+			break;
+		case 1:
+			p = "int";
+			break;
+		case 2:
+			p = "userland char *";
+			break;
+		case 3:
+			p = "int";
+			break;
+		case 4:
+			p = "userland uint32_t *";
+			break;
+		default:
+			break;
+		};
 		break;
 	/* osdb_vtable_next */
 	case 626:
+		switch (ndx) {
+		case 0:
+			p = "int";
+			break;
+		default:
+			break;
+		};
 		break;
 	/* osdb_vtable_eof */
 	case 627:
+		switch (ndx) {
+		case 0:
+			p = "int";
+			break;
+		default:
+			break;
+		};
 		break;
 	/* osdb_vtable_column */
 	case 628:
+		switch (ndx) {
+		case 0:
+			p = "int";
+			break;
+		case 1:
+			p = "userland void *";
+			break;
+		case 2:
+			p = "int";
+			break;
+		default:
+			break;
+		};
 		break;
 	/* osdb_vtable_rowid */
 	case 629:
+		switch (ndx) {
+		case 0:
+			p = "int";
+			break;
+		default:
+			break;
+		};
 		break;
-	/* osdb_vtable_update */
+	/* freebsd32_osdb_vtable_update */
 	case 630:
+		switch (ndx) {
+		case 0:
+			p = "int";
+			break;
+		case 1:
+			p = "int";
+			break;
+		case 2:
+			p = "userland uint32_t *";
+			break;
+		case 3:
+			p = "userland int *";
+			break;
+		default:
+			break;
+		};
+		break;
+	/* osdb_snapshot */
+	case 631:
 		break;
 	default:
 		break;
@@ -11744,18 +11842,38 @@ systrace_return_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		if (ndx == 0 || ndx == 1)
 			p = "int";
 		break;
-	/* osdb_vtable_filter */
+	/* freebsd32_osdb_vtable_filter */
 	case 625:
+		if (ndx == 0 || ndx == 1)
+			p = "int";
+		break;
 	/* osdb_vtable_next */
 	case 626:
+		if (ndx == 0 || ndx == 1)
+			p = "int";
+		break;
 	/* osdb_vtable_eof */
 	case 627:
+		if (ndx == 0 || ndx == 1)
+			p = "int";
+		break;
 	/* osdb_vtable_column */
 	case 628:
+		if (ndx == 0 || ndx == 1)
+			p = "int";
+		break;
 	/* osdb_vtable_rowid */
 	case 629:
-	/* osdb_vtable_update */
+		if (ndx == 0 || ndx == 1)
+			p = "int";
+		break;
+	/* freebsd32_osdb_vtable_update */
 	case 630:
+		if (ndx == 0 || ndx == 1)
+			p = "int";
+		break;
+	/* osdb_snapshot */
+	case 631:
 	default:
 		break;
 	};

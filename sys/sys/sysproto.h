@@ -2004,21 +2004,33 @@ struct osdb_vtable_close_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
 };
 struct osdb_vtable_filter_args {
-	syscallarg_t dummy;
+	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
+	char idxNum_l_[PADL_(int)]; int idxNum; char idxNum_r_[PADR_(int)];
+	char idxStr_l_[PADL_(char *)]; char * idxStr; char idxStr_r_[PADR_(char *)];
+	char argc_l_[PADL_(int)]; int argc; char argc_r_[PADR_(int)];
+	char argv_l_[PADL_(char **)]; char ** argv; char argv_r_[PADR_(char **)];
 };
 struct osdb_vtable_next_args {
-	syscallarg_t dummy;
+	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
 };
 struct osdb_vtable_eof_args {
-	syscallarg_t dummy;
+	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
 };
 struct osdb_vtable_column_args {
-	syscallarg_t dummy;
+	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
+	char ctx_l_[PADL_(void *)]; void * ctx; char ctx_r_[PADR_(void *)];
+	char column_l_[PADL_(int)]; int column; char column_r_[PADR_(int)];
 };
 struct osdb_vtable_rowid_args {
-	syscallarg_t dummy;
+	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
 };
 struct osdb_vtable_update_args {
+	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
+	char argc_l_[PADL_(int)]; int argc; char argc_r_[PADR_(int)];
+	char argv_l_[PADL_(char **)]; char ** argv; char argv_r_[PADR_(char **)];
+	char rowid_l_[PADL_(int *)]; int * rowid; char rowid_r_[PADR_(int *)];
+};
+struct osdb_snapshot_args {
 	syscallarg_t dummy;
 };
 int	sys_exit(struct thread *, struct exit_args *);
@@ -2454,6 +2466,7 @@ int	sys_osdb_vtable_eof(struct thread *, struct osdb_vtable_eof_args *);
 int	sys_osdb_vtable_column(struct thread *, struct osdb_vtable_column_args *);
 int	sys_osdb_vtable_rowid(struct thread *, struct osdb_vtable_rowid_args *);
 int	sys_osdb_vtable_update(struct thread *, struct osdb_vtable_update_args *);
+int	sys_osdb_snapshot(struct thread *, struct osdb_snapshot_args *);
 
 #ifdef COMPAT_43
 
@@ -3467,6 +3480,7 @@ int	freebsd13_swapoff(struct thread *, struct freebsd13_swapoff_args *);
 #define	SYS_AUE_osdb_vtable_column	AUE_NULL
 #define	SYS_AUE_osdb_vtable_rowid	AUE_NULL
 #define	SYS_AUE_osdb_vtable_update	AUE_NULL
+#define	SYS_AUE_osdb_snapshot	AUE_NULL
 
 #undef PAD_
 #undef PADL_

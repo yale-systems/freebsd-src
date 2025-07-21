@@ -465,4 +465,5 @@ MIASM =  \
 	osdb_vtable_eof.o \
 	osdb_vtable_column.o \
 	osdb_vtable_rowid.o \
-	osdb_vtable_update.o
+	osdb_vtable_update.o \
+	osdb_snapshot.o
