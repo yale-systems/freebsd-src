@@ -58,4 +58,5 @@ int freebsd32_osdb_column_int64(struct thread *td, struct freebsd32_osdb_column_
 //int freebsd32_osdb_column_type(struct thread *td, struct freebsd32_osdb_column_type_args *args) { return 0; }
 //int freebsd32_osdb_column_count(struct thread *td, struct freebsd32_osdb_column_count_args *args) { return 0; }
 //int freebsd32_osdb_column_name(struct thread *td, struct freebsd32_osdb_column_name_args *args) { return 0; }
-
+int freebsd32_osdb_vtable_filter(struct thread *td, struct freebsd32_osdb_vtable_filter_args *args) { return 0; }
+int freebsd32_osdb_vtable_update(struct thread *td, struct freebsd32_osdb_vtable_update_args *args) { return 0; }
