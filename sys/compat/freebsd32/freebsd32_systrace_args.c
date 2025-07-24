@@ -3636,7 +3636,8 @@ systrace_args(int sysnum, void *params, uint64_t *uarg, int *n_args)
 	case 629: {
 		struct osdb_vtable_rowid_args *p = params;
 		iarg[a++] = p->cursor; /* int */
-		*n_args = 1;
+		uarg[a++] = (intptr_t)p->rowid; /* int * */
+		*n_args = 2;
 		break;
 	}
 	/* freebsd32_osdb_vtable_update */
@@ -9823,6 +9824,9 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		switch (ndx) {
 		case 0:
 			p = "int";
+			break;
+		case 1:
+			p = "userland int *";
 			break;
 		default:
 			break;

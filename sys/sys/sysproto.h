@@ -2024,6 +2024,7 @@ struct osdb_vtable_column_args {
 };
 struct osdb_vtable_rowid_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
+	char rowid_l_[PADL_(int *)]; int * rowid; char rowid_r_[PADR_(int *)];
 };
 struct osdb_vtable_update_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];

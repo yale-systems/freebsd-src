@@ -495,7 +495,7 @@ typedef int (__sys_osdb_vtable_filter_t)(int, int, char *, int, char **);
 typedef int (__sys_osdb_vtable_next_t)(int);
 typedef int (__sys_osdb_vtable_eof_t)(int);
 typedef int (__sys_osdb_vtable_column_t)(int, void *, int);
-typedef int (__sys_osdb_vtable_rowid_t)(int);
+typedef int (__sys_osdb_vtable_rowid_t)(int, int *);
 typedef int (__sys_osdb_vtable_update_t)(int, int, char **, int *);
 typedef void (__sys_osdb_snapshot_t)(void);
 
@@ -929,7 +929,7 @@ int __sys_osdb_vtable_filter(int cursor, int idxNum, char * idxStr, int argc, ch
 int __sys_osdb_vtable_next(int cursor);
 int __sys_osdb_vtable_eof(int cursor);
 int __sys_osdb_vtable_column(int cursor, void * value, int column);
-int __sys_osdb_vtable_rowid(int cursor);
+int __sys_osdb_vtable_rowid(int cursor, int * rowid);
 int __sys_osdb_vtable_update(int cursor, int argc, char ** argv, int * rowid);
 void __sys_osdb_snapshot(void);
 __END_DECLS
