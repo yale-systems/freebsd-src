@@ -1989,7 +1989,8 @@ struct osdb_vtable_connect_args {
 	syscallarg_t dummy;
 };
 struct osdb_vtable_bestindex_args {
-	syscallarg_t dummy;
+	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
+	char pIdxInfo_l_[PADL_(void *)]; void * pIdxInfo; char pIdxInfo_r_[PADR_(void *)];
 };
 struct osdb_vtable_disconnect_args {
 	syscallarg_t dummy;
@@ -2018,7 +2019,7 @@ struct osdb_vtable_eof_args {
 };
 struct osdb_vtable_column_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
-	char ctx_l_[PADL_(void *)]; void * ctx; char ctx_r_[PADR_(void *)];
+	char value_l_[PADL_(void *)]; void * value; char value_r_[PADR_(void *)];
 	char column_l_[PADL_(int)]; int column; char column_r_[PADR_(int)];
 };
 struct osdb_vtable_rowid_args {

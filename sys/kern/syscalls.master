@@ -3499,7 +3499,11 @@
 		void osdb_vtable_connect(void);
 	}
 620 AUE_NULL STD {
-		void osdb_vtable_bestindex(void);
+		void osdb_vtable_bestindex(
+			int cursor,
+			void *pIdxInfo
+		);
+
 	}
 621 AUE_NULL STD {
 		void osdb_vtable_disconnect(void);
@@ -3539,7 +3543,7 @@
 628 AUE_NULL STD {
 		int osdb_vtable_column(
 			int cursor,
-			void *ctx,
+			_Out_ void *value,
 			int column
 		);
 	}

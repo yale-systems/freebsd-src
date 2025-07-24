@@ -687,7 +687,7 @@ struct sysent freebsd32_sysent[] = {
 	{ .sy_narg = 0, .sy_call = (sy_call_t *)sys_osdb_snapshot_clear, .sy_auevent = AUE_NULL, .sy_flags = 0, .sy_thrcnt = SY_THR_STATIC },	/* 617 = osdb_snapshot_clear */
 	{ .sy_narg = 0, .sy_call = (sy_call_t *)sys_osdb_vtable_create, .sy_auevent = AUE_NULL, .sy_flags = 0, .sy_thrcnt = SY_THR_STATIC },	/* 618 = osdb_vtable_create */
 	{ .sy_narg = 0, .sy_call = (sy_call_t *)sys_osdb_vtable_connect, .sy_auevent = AUE_NULL, .sy_flags = 0, .sy_thrcnt = SY_THR_STATIC },	/* 619 = osdb_vtable_connect */
-	{ .sy_narg = 0, .sy_call = (sy_call_t *)sys_osdb_vtable_bestindex, .sy_auevent = AUE_NULL, .sy_flags = 0, .sy_thrcnt = SY_THR_STATIC },	/* 620 = osdb_vtable_bestindex */
+	{ .sy_narg = AS(osdb_vtable_bestindex_args), .sy_call = (sy_call_t *)sys_osdb_vtable_bestindex, .sy_auevent = AUE_NULL, .sy_flags = 0, .sy_thrcnt = SY_THR_STATIC },	/* 620 = osdb_vtable_bestindex */
 	{ .sy_narg = 0, .sy_call = (sy_call_t *)sys_osdb_vtable_disconnect, .sy_auevent = AUE_NULL, .sy_flags = 0, .sy_thrcnt = SY_THR_STATIC },	/* 621 = osdb_vtable_disconnect */
 	{ .sy_narg = 0, .sy_call = (sy_call_t *)sys_osdb_vtable_destroy, .sy_auevent = AUE_NULL, .sy_flags = 0, .sy_thrcnt = SY_THR_STATIC },	/* 622 = osdb_vtable_destroy */
 	{ .sy_narg = AS(osdb_vtable_open_args), .sy_call = (sy_call_t *)sys_osdb_vtable_open, .sy_auevent = AUE_NULL, .sy_flags = 0, .sy_thrcnt = SY_THR_STATIC },	/* 623 = osdb_vtable_open */
