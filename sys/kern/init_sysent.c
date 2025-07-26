@@ -698,4 +698,5 @@ struct sysent sysent[] = {
 	{ .sy_narg = AS(osdb_vtable_rowid_args), .sy_call = (sy_call_t *)sys_osdb_vtable_rowid, .sy_auevent = AUE_NULL, .sy_flags = 0, .sy_thrcnt = SY_THR_STATIC },	/* 629 = osdb_vtable_rowid */
 	{ .sy_narg = AS(osdb_vtable_update_args), .sy_call = (sy_call_t *)sys_osdb_vtable_update, .sy_auevent = AUE_NULL, .sy_flags = 0, .sy_thrcnt = SY_THR_STATIC },	/* 630 = osdb_vtable_update */
 	{ .sy_narg = 0, .sy_call = (sy_call_t *)sys_osdb_snapshot, .sy_auevent = AUE_NULL, .sy_flags = 0, .sy_thrcnt = SY_THR_STATIC },	/* 631 = osdb_snapshot */
+	{ .sy_narg = AS(osdb_vtable_column_text_args), .sy_call = (sy_call_t *)sys_osdb_vtable_column_text, .sy_auevent = AUE_NULL, .sy_flags = 0, .sy_thrcnt = SY_THR_STATIC },	/* 632 = osdb_vtable_column_text */
 };

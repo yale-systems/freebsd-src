@@ -3623,12 +3623,12 @@ systrace_args(int sysnum, void *params, uint64_t *uarg, int *n_args)
 		*n_args = 1;
 		break;
 	}
-	/* osdb_vtable_column */
+	/* freebsd32_osdb_vtable_column */
 	case 628: {
-		struct osdb_vtable_column_args *p = params;
+		struct freebsd32_osdb_vtable_column_args *p = params;
 		iarg[a++] = p->cursor; /* int */
-		uarg[a++] = (intptr_t)p->value; /* void * */
 		iarg[a++] = p->column; /* int */
+		uarg[a++] = (intptr_t)p->value; /* void* */
 		*n_args = 3;
 		break;
 	}
@@ -3636,8 +3636,7 @@ systrace_args(int sysnum, void *params, uint64_t *uarg, int *n_args)
 	case 629: {
 		struct osdb_vtable_rowid_args *p = params;
 		iarg[a++] = p->cursor; /* int */
-		uarg[a++] = (intptr_t)p->rowid; /* int * */
-		*n_args = 2;
+		*n_args = 1;
 		break;
 	}
 	/* freebsd32_osdb_vtable_update */
@@ -3653,6 +3652,16 @@ systrace_args(int sysnum, void *params, uint64_t *uarg, int *n_args)
 	/* osdb_snapshot */
 	case 631: {
 		*n_args = 0;
+		break;
+	}
+	/* osdb_vtable_column_text */
+	case 632: {
+		struct osdb_vtable_column_text_args *p = params;
+		iarg[a++] = p->cursor; /* int */
+		iarg[a++] = p->column; /* int */
+		iarg[a++] = p->size; /* int */
+		uarg[a++] = (intptr_t)p->buf; /* char * */
+		*n_args = 4;
 		break;
 	}
 	default:
@@ -9803,17 +9812,17 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 			break;
 		};
 		break;
-	/* osdb_vtable_column */
+	/* freebsd32_osdb_vtable_column */
 	case 628:
 		switch (ndx) {
 		case 0:
 			p = "int";
 			break;
 		case 1:
-			p = "userland void *";
+			p = "int";
 			break;
 		case 2:
-			p = "int";
+			p = "userland void*";
 			break;
 		default:
 			break;
@@ -9824,9 +9833,6 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		switch (ndx) {
 		case 0:
 			p = "int";
-			break;
-		case 1:
-			p = "userland int *";
 			break;
 		default:
 			break;
@@ -9853,6 +9859,25 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		break;
 	/* osdb_snapshot */
 	case 631:
+		break;
+	/* osdb_vtable_column_text */
+	case 632:
+		switch (ndx) {
+		case 0:
+			p = "int";
+			break;
+		case 1:
+			p = "int";
+			break;
+		case 2:
+			p = "int";
+			break;
+		case 3:
+			p = "userland char *";
+			break;
+		default:
+			break;
+		};
 		break;
 	default:
 		break;
@@ -11877,7 +11902,7 @@ systrace_return_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		if (ndx == 0 || ndx == 1)
 			p = "int";
 		break;
-	/* osdb_vtable_column */
+	/* freebsd32_osdb_vtable_column */
 	case 628:
 		if (ndx == 0 || ndx == 1)
 			p = "int";
@@ -11894,6 +11919,11 @@ systrace_return_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		break;
 	/* osdb_snapshot */
 	case 631:
+	/* osdb_vtable_column_text */
+	case 632:
+		if (ndx == 0 || ndx == 1)
+			p = "int";
+		break;
 	default:
 		break;
 	};

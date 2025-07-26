@@ -637,4 +637,5 @@ const char *syscallnames[] = {
 	"osdb_vtable_rowid",			/* 629 = osdb_vtable_rowid */
 	"osdb_vtable_update",			/* 630 = osdb_vtable_update */
 	"osdb_snapshot",			/* 631 = osdb_snapshot */
+	"osdb_vtable_column_text",			/* 632 = osdb_vtable_column_text */
 };

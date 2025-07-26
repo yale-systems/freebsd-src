@@ -2019,12 +2019,11 @@ struct osdb_vtable_eof_args {
 };
 struct osdb_vtable_column_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
-	char value_l_[PADL_(void *)]; void * value; char value_r_[PADR_(void *)];
 	char column_l_[PADL_(int)]; int column; char column_r_[PADR_(int)];
+	char value_l_[PADL_(void*)]; void* value; char value_r_[PADR_(void*)];
 };
 struct osdb_vtable_rowid_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
-	char rowid_l_[PADL_(int *)]; int * rowid; char rowid_r_[PADR_(int *)];
 };
 struct osdb_vtable_update_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
@@ -2034,6 +2033,12 @@ struct osdb_vtable_update_args {
 };
 struct osdb_snapshot_args {
 	syscallarg_t dummy;
+};
+struct osdb_vtable_column_text_args {
+	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
+	char column_l_[PADL_(int)]; int column; char column_r_[PADR_(int)];
+	char size_l_[PADL_(int)]; int size; char size_r_[PADR_(int)];
+	char buf_l_[PADL_(char *)]; char * buf; char buf_r_[PADR_(char *)];
 };
 int	sys_exit(struct thread *, struct exit_args *);
 int	sys_fork(struct thread *, struct fork_args *);
@@ -2469,6 +2474,7 @@ int	sys_osdb_vtable_column(struct thread *, struct osdb_vtable_column_args *);
 int	sys_osdb_vtable_rowid(struct thread *, struct osdb_vtable_rowid_args *);
 int	sys_osdb_vtable_update(struct thread *, struct osdb_vtable_update_args *);
 int	sys_osdb_snapshot(struct thread *, struct osdb_snapshot_args *);
+int	sys_osdb_vtable_column_text(struct thread *, struct osdb_vtable_column_text_args *);
 
 #ifdef COMPAT_43
 
@@ -3483,6 +3489,7 @@ int	freebsd13_swapoff(struct thread *, struct freebsd13_swapoff_args *);
 #define	SYS_AUE_osdb_vtable_rowid	AUE_NULL
 #define	SYS_AUE_osdb_vtable_update	AUE_NULL
 #define	SYS_AUE_osdb_snapshot	AUE_NULL
+#define	SYS_AUE_osdb_vtable_column_text	AUE_NULL
 
 #undef PAD_
 #undef PADL_

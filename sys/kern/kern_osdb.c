@@ -39,6 +39,7 @@ int sys_osdb_vtable_filter(struct thread *td, struct osdb_vtable_filter_args *ar
 int sys_osdb_vtable_next(struct thread *td, struct osdb_vtable_next_args *args) { return 0; }
 int sys_osdb_vtable_eof(struct thread *td, struct osdb_vtable_eof_args *args) { return 0; }
 int sys_osdb_vtable_column(struct thread *td, struct osdb_vtable_column_args *args) { return 0; }
+int sys_osdb_vtable_column_text(struct thread *td, struct osdb_vtable_column_text_args *args) { return 0; }
 int sys_osdb_vtable_rowid(struct thread *td, struct osdb_vtable_rowid_args *args) { return 0; }
 int sys_osdb_vtable_update(struct thread *td, struct osdb_vtable_update_args *args) { return 0; }
 
@@ -58,5 +59,6 @@ int freebsd32_osdb_column_int64(struct thread *td, struct freebsd32_osdb_column_
 //int freebsd32_osdb_column_type(struct thread *td, struct freebsd32_osdb_column_type_args *args) { return 0; }
 //int freebsd32_osdb_column_count(struct thread *td, struct freebsd32_osdb_column_count_args *args) { return 0; }
 //int freebsd32_osdb_column_name(struct thread *td, struct freebsd32_osdb_column_name_args *args) { return 0; }
+int freebsd32_osdb_vtable_column(struct thread *td, struct freebsd32_osdb_vtable_column_args *args) { return 0; }
 int freebsd32_osdb_vtable_filter(struct thread *td, struct freebsd32_osdb_vtable_filter_args *args) { return 0; }
 int freebsd32_osdb_vtable_update(struct thread *td, struct freebsd32_osdb_vtable_update_args *args) { return 0; }

@@ -561,4 +561,5 @@
 #define	SYS_osdb_vtable_rowid	629
 #define	SYS_osdb_vtable_update	630
 #define	SYS_osdb_snapshot	631
-#define	SYS_MAXSYSCALL	632
+#define	SYS_osdb_vtable_column_text	632
+#define	SYS_MAXSYSCALL	633

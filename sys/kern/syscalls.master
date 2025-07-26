@@ -3543,8 +3543,8 @@
 628 AUE_NULL STD {
 		int osdb_vtable_column(
 			int cursor,
-			_Out_ void *value,
 			int column
+			_Out_ _Contains_ptr_ void* value,
 		);
 	}
 629 AUE_NULL STD {
@@ -3561,6 +3561,15 @@
 		);
 	}
 631 AUE_NULL STD {
-		void osdb_snapshot(void);
+		int osdb_snapshot(void);
 	}
+632 AUE_NULL STD {
+		int osdb_vtable_column_text(
+			int cursor,
+			int column,
+			int size,
+			_Out_writes_z_(size) char *buf
+		);
+	}
+
 ; vim: syntax=off

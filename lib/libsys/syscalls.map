@@ -873,4 +873,6 @@ FBSDprivate_1.0 {
 	__sys_osdb_vtable_update;
 	_osdb_snapshot;
 	__sys_osdb_snapshot;
+	_osdb_vtable_column_text;
+	__sys_osdb_vtable_column_text;
 };

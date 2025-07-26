@@ -494,10 +494,11 @@ typedef int (__sys_osdb_vtable_close_t)(int);
 typedef int (__sys_osdb_vtable_filter_t)(int, int, char *, int, char **);
 typedef int (__sys_osdb_vtable_next_t)(int);
 typedef int (__sys_osdb_vtable_eof_t)(int);
-typedef int (__sys_osdb_vtable_column_t)(int, void *, int);
-typedef int (__sys_osdb_vtable_rowid_t)(int, int *);
+typedef int (__sys_osdb_vtable_column_t)(int, int, void*);
+typedef int (__sys_osdb_vtable_rowid_t)(int);
 typedef int (__sys_osdb_vtable_update_t)(int, int, char **, int *);
-typedef void (__sys_osdb_snapshot_t)(void);
+typedef int (__sys_osdb_snapshot_t)(void);
+typedef int (__sys_osdb_vtable_column_text_t)(int, int, int, char *);
 
 void __sys_exit(int rval);
 int __sys_fork(void);
@@ -928,10 +929,11 @@ int __sys_osdb_vtable_close(int cursor);
 int __sys_osdb_vtable_filter(int cursor, int idxNum, char * idxStr, int argc, char ** argv);
 int __sys_osdb_vtable_next(int cursor);
 int __sys_osdb_vtable_eof(int cursor);
-int __sys_osdb_vtable_column(int cursor, void * value, int column);
-int __sys_osdb_vtable_rowid(int cursor, int * rowid);
+int __sys_osdb_vtable_column(int cursor, int column, void* value);
+int __sys_osdb_vtable_rowid(int cursor);
 int __sys_osdb_vtable_update(int cursor, int argc, char ** argv, int * rowid);
-void __sys_osdb_snapshot(void);
+int __sys_osdb_snapshot(void);
+int __sys_osdb_vtable_column_text(int cursor, int column, int size, char * buf);
 __END_DECLS
 
 #endif /* __LIBSYS_H_ */
