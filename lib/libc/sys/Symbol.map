@@ -87,20 +87,14 @@ FBSD_1.7 {
 	osdb_column_count;
 	osdb_column_name;
 	osdb_sample;
-	osdb_snapshot_clear;
-	osdb_vtable_create;
-	osdb_vtable_connect;
-	osdb_vtable_bestindex;
-	osdb_vtable_disconnect;
-	osdb_vtable_destroy;
 	osdb_vtable_open;
 	osdb_vtable_close;
-	osdb_vtable_filter;
-	osdb_vtable_next;
+    osdb_vtable_filter;
+    osdb_vtable_next;
 	osdb_vtable_eof;
-	osdb_vtable_column;
-	osdb_vtable_rowid;
-	osdb_vtable_update;
-	osdb_snapshot;
+    osdb_vtable_column;
+    osdb_vtable_column_ptr;
+    osdb_vtable_rowid;
+    osdb_snapshot;
+    osdb_snapshot_clear;
 };
-
