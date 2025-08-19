@@ -2010,7 +2010,7 @@ struct osdb_vtable_rowid_args {
 };
 struct osdb_snapshot_args {
 	char flags_l_[PADL_(int)]; int flags; char flags_r_[PADR_(int)];
-	char timestamp_l_[PADL_(long long)]; long long timestamp; char timestamp_r_[PADR_(long long)];
+	char timestamp_l_[PADL_(time_t)]; time_t timestamp; char timestamp_r_[PADR_(time_t)];
 };
 struct osdb_snapshot_clear_args {
 	char flags_l_[PADL_(int)]; int flags; char flags_r_[PADR_(int)];

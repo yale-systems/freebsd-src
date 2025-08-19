@@ -3537,7 +3537,7 @@
 625 AUE_NULL STD {
 		int osdb_snapshot(
             int flags,
-            long long timestamp
+            time_t timestamp
         );
 	}
 626 AUE_NULL STD {
