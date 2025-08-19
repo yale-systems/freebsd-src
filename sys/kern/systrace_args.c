@@ -12059,7 +12059,7 @@ systrace_return_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 	/* osdb_vtable_rowid */
 	case 624:
 		if (ndx == 0 || ndx == 1)
-			p = "int";
+			p = "int64_t";
 		break;
 	/* osdb_snapshot */
 	case 625:

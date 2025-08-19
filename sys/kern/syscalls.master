@@ -3530,7 +3530,7 @@
 		);
 	}
 624 AUE_NULL STD {
-		int osdb_vtable_rowid(
+		int64_t osdb_vtable_rowid(
 			int cursor
 		);
 	}
