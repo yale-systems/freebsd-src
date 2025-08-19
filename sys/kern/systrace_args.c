@@ -3703,7 +3703,8 @@ systrace_args(int sysnum, void *params, uint64_t *uarg, int *n_args)
 	case 625: {
 		struct osdb_snapshot_args *p = params;
 		iarg[a++] = p->flags; /* int */
-		*n_args = 1;
+		iarg[a++] = p->timestamp; /* long long */
+		*n_args = 2;
 		break;
 	}
 	/* osdb_snapshot_clear */
@@ -9929,6 +9930,9 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		switch (ndx) {
 		case 0:
 			p = "int";
+			break;
+		case 1:
+			p = "long long";
 			break;
 		default:
 			break;
