@@ -3638,117 +3638,80 @@ systrace_args(int sysnum, void *params, uint64_t *uarg, int *n_args)
 		*n_args = 3;
 		break;
 	}
-	/* osdb_snapshot_clear */
-	case 617: {
-		*n_args = 0;
-		break;
-	}
-	/* osdb_vtable_create */
-	case 618: {
-		*n_args = 0;
-		break;
-	}
-	/* osdb_vtable_connect */
-	case 619: {
-		*n_args = 0;
-		break;
-	}
-	/* osdb_vtable_bestindex */
-	case 620: {
-		struct osdb_vtable_bestindex_args *p = params;
-		iarg[a++] = p->cursor; /* int */
-		uarg[a++] = (intptr_t)p->pIdxInfo; /* void * */
-		*n_args = 2;
-		break;
-	}
-	/* osdb_vtable_disconnect */
-	case 621: {
-		*n_args = 0;
-		break;
-	}
-	/* osdb_vtable_destroy */
-	case 622: {
-		*n_args = 0;
-		break;
-	}
 	/* osdb_vtable_open */
-	case 623: {
+	case 617: {
 		struct osdb_vtable_open_args *p = params;
 		iarg[a++] = p->fd; /* int */
 		*n_args = 1;
 		break;
 	}
 	/* osdb_vtable_close */
-	case 624: {
+	case 618: {
 		struct osdb_vtable_close_args *p = params;
 		iarg[a++] = p->cursor; /* int */
 		*n_args = 1;
 		break;
 	}
 	/* osdb_vtable_filter */
-	case 625: {
+	case 619: {
 		struct osdb_vtable_filter_args *p = params;
 		iarg[a++] = p->cursor; /* int */
-		iarg[a++] = p->idxNum; /* int */
-		uarg[a++] = (intptr_t)p->idxStr; /* char * */
-		iarg[a++] = p->argc; /* int */
-		uarg[a++] = (intptr_t)p->argv; /* char ** */
-		*n_args = 5;
+		*n_args = 1;
 		break;
 	}
 	/* osdb_vtable_next */
-	case 626: {
+	case 620: {
 		struct osdb_vtable_next_args *p = params;
 		iarg[a++] = p->cursor; /* int */
 		*n_args = 1;
 		break;
 	}
 	/* osdb_vtable_eof */
-	case 627: {
+	case 621: {
 		struct osdb_vtable_eof_args *p = params;
 		iarg[a++] = p->cursor; /* int */
 		*n_args = 1;
 		break;
 	}
 	/* osdb_vtable_column */
-	case 628: {
+	case 622: {
 		struct osdb_vtable_column_args *p = params;
 		iarg[a++] = p->cursor; /* int */
 		iarg[a++] = p->column; /* int */
-		uarg[a++] = (intptr_t)p->value; /* void* */
+		uarg[a++] = (intptr_t)p->value; /* void * */
 		*n_args = 3;
 		break;
 	}
+	/* osdb_vtable_column_ptr */
+	case 623: {
+		struct osdb_vtable_column_ptr_args *p = params;
+		iarg[a++] = p->cursor; /* int */
+		iarg[a++] = p->column; /* int */
+		uarg[a++] = (intptr_t)p->buf; /* char * */
+		iarg[a++] = p->size; /* int */
+		*n_args = 4;
+		break;
+	}
 	/* osdb_vtable_rowid */
-	case 629: {
+	case 624: {
 		struct osdb_vtable_rowid_args *p = params;
 		iarg[a++] = p->cursor; /* int */
 		*n_args = 1;
 		break;
 	}
-	/* osdb_vtable_update */
-	case 630: {
-		struct osdb_vtable_update_args *p = params;
-		iarg[a++] = p->cursor; /* int */
-		iarg[a++] = p->argc; /* int */
-		uarg[a++] = (intptr_t)p->argv; /* char ** */
-		uarg[a++] = (intptr_t)p->rowid; /* int * */
-		*n_args = 4;
-		break;
-	}
 	/* osdb_snapshot */
-	case 631: {
-		*n_args = 0;
+	case 625: {
+		struct osdb_snapshot_args *p = params;
+		iarg[a++] = p->flags; /* int */
+		iarg[a++] = p->timestamp; /* time_t */
+		*n_args = 2;
 		break;
 	}
-	/* osdb_vtable_column_text */
-	case 632: {
-		struct osdb_vtable_column_text_args *p = params;
-		iarg[a++] = p->cursor; /* int */
-		iarg[a++] = p->column; /* int */
-		iarg[a++] = p->size; /* int */
-		uarg[a++] = (intptr_t)p->buf; /* char * */
-		*n_args = 4;
+	/* osdb_snapshot_clear */
+	case 626: {
+		struct osdb_snapshot_clear_args *p = params;
+		iarg[a++] = p->flags; /* int */
+		*n_args = 1;
 		break;
 	}
 	default:
@@ -9867,36 +9830,8 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 			break;
 		};
 		break;
-	/* osdb_snapshot_clear */
-	case 617:
-		break;
-	/* osdb_vtable_create */
-	case 618:
-		break;
-	/* osdb_vtable_connect */
-	case 619:
-		break;
-	/* osdb_vtable_bestindex */
-	case 620:
-		switch (ndx) {
-		case 0:
-			p = "int";
-			break;
-		case 1:
-			p = "userland void *";
-			break;
-		default:
-			break;
-		};
-		break;
-	/* osdb_vtable_disconnect */
-	case 621:
-		break;
-	/* osdb_vtable_destroy */
-	case 622:
-		break;
 	/* osdb_vtable_open */
-	case 623:
+	case 617:
 		switch (ndx) {
 		case 0:
 			p = "int";
@@ -9906,7 +9841,7 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		};
 		break;
 	/* osdb_vtable_close */
-	case 624:
+	case 618:
 		switch (ndx) {
 		case 0:
 			p = "int";
@@ -9916,29 +9851,17 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		};
 		break;
 	/* osdb_vtable_filter */
-	case 625:
+	case 619:
 		switch (ndx) {
 		case 0:
 			p = "int";
-			break;
-		case 1:
-			p = "int";
-			break;
-		case 2:
-			p = "userland char *";
-			break;
-		case 3:
-			p = "int";
-			break;
-		case 4:
-			p = "userland char **";
 			break;
 		default:
 			break;
 		};
 		break;
 	/* osdb_vtable_next */
-	case 626:
+	case 620:
 		switch (ndx) {
 		case 0:
 			p = "int";
@@ -9948,7 +9871,7 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		};
 		break;
 	/* osdb_vtable_eof */
-	case 627:
+	case 621:
 		switch (ndx) {
 		case 0:
 			p = "int";
@@ -9958,7 +9881,7 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		};
 		break;
 	/* osdb_vtable_column */
-	case 628:
+	case 622:
 		switch (ndx) {
 		case 0:
 			p = "int";
@@ -9967,58 +9890,59 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 			p = "int";
 			break;
 		case 2:
-			p = "userland void*";
+			p = "userland void *";
+			break;
+		default:
+			break;
+		};
+		break;
+	/* osdb_vtable_column_ptr */
+	case 623:
+		switch (ndx) {
+		case 0:
+			p = "int";
+			break;
+		case 1:
+			p = "int";
+			break;
+		case 2:
+			p = "userland char *";
+			break;
+		case 3:
+			p = "int";
 			break;
 		default:
 			break;
 		};
 		break;
 	/* osdb_vtable_rowid */
-	case 629:
+	case 624:
 		switch (ndx) {
 		case 0:
 			p = "int";
-			break;
-		default:
-			break;
-		};
-		break;
-	/* osdb_vtable_update */
-	case 630:
-		switch (ndx) {
-		case 0:
-			p = "int";
-			break;
-		case 1:
-			p = "int";
-			break;
-		case 2:
-			p = "userland char **";
-			break;
-		case 3:
-			p = "userland int *";
 			break;
 		default:
 			break;
 		};
 		break;
 	/* osdb_snapshot */
-	case 631:
-		break;
-	/* osdb_vtable_column_text */
-	case 632:
+	case 625:
 		switch (ndx) {
 		case 0:
 			p = "int";
 			break;
 		case 1:
-			p = "int";
+			p = "time_t";
 			break;
-		case 2:
-			p = "int";
+		default:
 			break;
-		case 3:
-			p = "userland char *";
+		};
+		break;
+	/* osdb_snapshot_clear */
+	case 626:
+		switch (ndx) {
+		case 0:
+			p = "int";
 			break;
 		default:
 			break;
@@ -12097,65 +12021,53 @@ systrace_return_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		if (ndx == 0 || ndx == 1)
 			p = "void";
 		break;
-	/* osdb_snapshot_clear */
-	case 617:
-	/* osdb_vtable_create */
-	case 618:
-	/* osdb_vtable_connect */
-	case 619:
-	/* osdb_vtable_bestindex */
-	case 620:
-		if (ndx == 0 || ndx == 1)
-			p = "void";
-		break;
-	/* osdb_vtable_disconnect */
-	case 621:
-	/* osdb_vtable_destroy */
-	case 622:
 	/* osdb_vtable_open */
-	case 623:
+	case 617:
 		if (ndx == 0 || ndx == 1)
 			p = "int";
 		break;
 	/* osdb_vtable_close */
-	case 624:
+	case 618:
 		if (ndx == 0 || ndx == 1)
 			p = "int";
 		break;
 	/* osdb_vtable_filter */
-	case 625:
+	case 619:
 		if (ndx == 0 || ndx == 1)
 			p = "int";
 		break;
 	/* osdb_vtable_next */
-	case 626:
+	case 620:
 		if (ndx == 0 || ndx == 1)
 			p = "int";
 		break;
 	/* osdb_vtable_eof */
-	case 627:
+	case 621:
 		if (ndx == 0 || ndx == 1)
 			p = "int";
 		break;
 	/* osdb_vtable_column */
-	case 628:
+	case 622:
+		if (ndx == 0 || ndx == 1)
+			p = "int";
+		break;
+	/* osdb_vtable_column_ptr */
+	case 623:
 		if (ndx == 0 || ndx == 1)
 			p = "int";
 		break;
 	/* osdb_vtable_rowid */
-	case 629:
+	case 624:
 		if (ndx == 0 || ndx == 1)
-			p = "int";
-		break;
-	/* osdb_vtable_update */
-	case 630:
-		if (ndx == 0 || ndx == 1)
-			p = "int";
+			p = "int64_t";
 		break;
 	/* osdb_snapshot */
-	case 631:
-	/* osdb_vtable_column_text */
-	case 632:
+	case 625:
+		if (ndx == 0 || ndx == 1)
+			p = "int";
+		break;
+	/* osdb_snapshot_clear */
+	case 626:
 		if (ndx == 0 || ndx == 1)
 			p = "int";
 		break;

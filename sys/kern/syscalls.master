@@ -3490,86 +3490,59 @@
 		);
 	}
 617 AUE_NULL STD {
-		int osdb_snapshot_clear(void);
-	}
-618 AUE_NULL STD {
-		void osdb_vtable_create(void);
-	}
-619 AUE_NULL STD {
-		void osdb_vtable_connect(void);
-	}
-620 AUE_NULL STD {
-		void osdb_vtable_bestindex(
-			int cursor,
-			void *pIdxInfo
-		);
-
-	}
-621 AUE_NULL STD {
-		void osdb_vtable_disconnect(void);
-	}
-622 AUE_NULL STD {
-		void osdb_vtable_destroy(void);
-	}
-623 AUE_NULL STD {
 		int osdb_vtable_open(
 			int fd
 		);
 	}
-624 AUE_NULL STD {
+618 AUE_NULL STD {
 		int osdb_vtable_close(
 			int cursor
 		);
 	}
-625 AUE_NULL STD {
+619 AUE_NULL STD {
 		int osdb_vtable_filter(
-			int cursor,
-			int idxNum,
-			_In_z_ char *idxStr,
-			int argc,
-			_In_z_ char **argv
+			int cursor
 		);
 	}
-626 AUE_NULL STD {
+620 AUE_NULL STD {
 		int osdb_vtable_next(
 			int cursor
 		);
 	}
-627 AUE_NULL STD {
+621 AUE_NULL STD {
 		int osdb_vtable_eof(
 			int cursor
 		);
 	}
-628 AUE_NULL STD {
+622 AUE_NULL STD {
 		int osdb_vtable_column(
 			int cursor,
 			int column
-			_Out_ _Contains_ptr_ void* value,
+			_Out_ _Contains_ptr_ void *value
 		);
 	}
-629 AUE_NULL STD {
-		int osdb_vtable_rowid(
+623 AUE_NULL STD {
+		int osdb_vtable_column_ptr(
+			int cursor,
+			int column,
+			_Out_writes_z_(size) char *buf,
+            int size            
+		);
+	}
+624 AUE_NULL STD {
+		int64_t osdb_vtable_rowid(
 			int cursor
 		);
 	}
-630 AUE_NULL STD {
-		int osdb_vtable_update(
-			int cursor,
-			int argc,
-			_In_z_ char **argv,
-			int *rowid
-		);
+625 AUE_NULL STD {
+		int osdb_snapshot(
+            int flags,
+            time_t timestamp
+        );
 	}
-631 AUE_NULL STD {
-		int osdb_snapshot(void);
+626 AUE_NULL STD {
+		int osdb_snapshot_clear(
+            int flags
+        );
 	}
-632 AUE_NULL STD {
-		int osdb_vtable_column_text(
-			int cursor,
-			int column,
-			int size,
-			_Out_writes_z_(size) char *buf
-		);
-	}
-
 ; vim: syntax=off

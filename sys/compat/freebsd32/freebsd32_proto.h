@@ -710,23 +710,10 @@ struct freebsd32_osdb_column_int64_args {
 	char iCol_l_[PADL_(int)]; int iCol; char iCol_r_[PADR_(int)];
 	char result_l_[PADL_(int32_t *)]; int32_t * result; char result_r_[PADR_(int32_t *)];
 };
-struct freebsd32_osdb_vtable_filter_args {
-	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
-	char idxNum_l_[PADL_(int)]; int idxNum; char idxNum_r_[PADR_(int)];
-	char idxStr_l_[PADL_(char *)]; char * idxStr; char idxStr_r_[PADR_(char *)];
-	char argc_l_[PADL_(int)]; int argc; char argc_r_[PADR_(int)];
-	char argv_l_[PADL_(uint32_t *)]; uint32_t * argv; char argv_r_[PADR_(uint32_t *)];
-};
 struct freebsd32_osdb_vtable_column_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
 	char column_l_[PADL_(int)]; int column; char column_r_[PADR_(int)];
-	char value_l_[PADL_(void*)]; void* value; char value_r_[PADR_(void*)];
-};
-struct freebsd32_osdb_vtable_update_args {
-	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
-	char argc_l_[PADL_(int)]; int argc; char argc_r_[PADR_(int)];
-	char argv_l_[PADL_(uint32_t *)]; uint32_t * argv; char argv_r_[PADR_(uint32_t *)];
-	char rowid_l_[PADL_(int *)]; int * rowid; char rowid_r_[PADR_(int *)];
+	char value_l_[PADL_(void *)]; void * value; char value_r_[PADR_(void *)];
 };
 int	freebsd32_wait4(struct thread *, struct freebsd32_wait4_args *);
 int	freebsd32_ptrace(struct thread *, struct freebsd32_ptrace_args *);
@@ -848,9 +835,7 @@ int	freebsd32_timerfd_settime(struct thread *, struct freebsd32_timerfd_settime_
 int	freebsd32_setcred(struct thread *, struct freebsd32_setcred_args *);
 int	freebsd32_osdb_prepare_v2(struct thread *, struct freebsd32_osdb_prepare_v2_args *);
 int	freebsd32_osdb_column_int64(struct thread *, struct freebsd32_osdb_column_int64_args *);
-int	freebsd32_osdb_vtable_filter(struct thread *, struct freebsd32_osdb_vtable_filter_args *);
 int	freebsd32_osdb_vtable_column(struct thread *, struct freebsd32_osdb_vtable_column_args *);
-int	freebsd32_osdb_vtable_update(struct thread *, struct freebsd32_osdb_vtable_update_args *);
 
 #ifdef COMPAT_43
 
@@ -1355,9 +1340,7 @@ int	freebsd11_freebsd32_fstatat(struct thread *, struct freebsd11_freebsd32_fsta
 #define	FREEBSD32_SYS_AUE_freebsd32_setcred	AUE_SETCRED
 #define	FREEBSD32_SYS_AUE_freebsd32_osdb_prepare_v2	AUE_NULL
 #define	FREEBSD32_SYS_AUE_freebsd32_osdb_column_int64	AUE_NULL
-#define	FREEBSD32_SYS_AUE_freebsd32_osdb_vtable_filter	AUE_NULL
 #define	FREEBSD32_SYS_AUE_freebsd32_osdb_vtable_column	AUE_NULL
-#define	FREEBSD32_SYS_AUE_freebsd32_osdb_vtable_update	AUE_NULL
 
 #undef PAD_
 #undef PADL_

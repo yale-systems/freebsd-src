@@ -1979,25 +1979,6 @@ struct osdb_sample_args {
 	char max_l_[PADL_(int)]; int max; char max_r_[PADR_(int)];
 	char seconds_l_[PADL_(int)]; int seconds; char seconds_r_[PADR_(int)];
 };
-struct osdb_snapshot_clear_args {
-	syscallarg_t dummy;
-};
-struct osdb_vtable_create_args {
-	syscallarg_t dummy;
-};
-struct osdb_vtable_connect_args {
-	syscallarg_t dummy;
-};
-struct osdb_vtable_bestindex_args {
-	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
-	char pIdxInfo_l_[PADL_(void *)]; void * pIdxInfo; char pIdxInfo_r_[PADR_(void *)];
-};
-struct osdb_vtable_disconnect_args {
-	syscallarg_t dummy;
-};
-struct osdb_vtable_destroy_args {
-	syscallarg_t dummy;
-};
 struct osdb_vtable_open_args {
 	char fd_l_[PADL_(int)]; int fd; char fd_r_[PADR_(int)];
 };
@@ -2006,10 +1987,6 @@ struct osdb_vtable_close_args {
 };
 struct osdb_vtable_filter_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
-	char idxNum_l_[PADL_(int)]; int idxNum; char idxNum_r_[PADR_(int)];
-	char idxStr_l_[PADL_(char *)]; char * idxStr; char idxStr_r_[PADR_(char *)];
-	char argc_l_[PADL_(int)]; int argc; char argc_r_[PADR_(int)];
-	char argv_l_[PADL_(char **)]; char ** argv; char argv_r_[PADR_(char **)];
 };
 struct osdb_vtable_next_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
@@ -2020,25 +1997,23 @@ struct osdb_vtable_eof_args {
 struct osdb_vtable_column_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
 	char column_l_[PADL_(int)]; int column; char column_r_[PADR_(int)];
-	char value_l_[PADL_(void*)]; void* value; char value_r_[PADR_(void*)];
+	char value_l_[PADL_(void *)]; void * value; char value_r_[PADR_(void *)];
+};
+struct osdb_vtable_column_ptr_args {
+	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
+	char column_l_[PADL_(int)]; int column; char column_r_[PADR_(int)];
+	char buf_l_[PADL_(char *)]; char * buf; char buf_r_[PADR_(char *)];
+	char size_l_[PADL_(int)]; int size; char size_r_[PADR_(int)];
 };
 struct osdb_vtable_rowid_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
 };
-struct osdb_vtable_update_args {
-	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
-	char argc_l_[PADL_(int)]; int argc; char argc_r_[PADR_(int)];
-	char argv_l_[PADL_(char **)]; char ** argv; char argv_r_[PADR_(char **)];
-	char rowid_l_[PADL_(int *)]; int * rowid; char rowid_r_[PADR_(int *)];
-};
 struct osdb_snapshot_args {
-	syscallarg_t dummy;
+	char flags_l_[PADL_(int)]; int flags; char flags_r_[PADR_(int)];
+	char timestamp_l_[PADL_(time_t)]; time_t timestamp; char timestamp_r_[PADR_(time_t)];
 };
-struct osdb_vtable_column_text_args {
-	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
-	char column_l_[PADL_(int)]; int column; char column_r_[PADR_(int)];
-	char size_l_[PADL_(int)]; int size; char size_r_[PADR_(int)];
-	char buf_l_[PADL_(char *)]; char * buf; char buf_r_[PADR_(char *)];
+struct osdb_snapshot_clear_args {
+	char flags_l_[PADL_(int)]; int flags; char flags_r_[PADR_(int)];
 };
 int	sys_exit(struct thread *, struct exit_args *);
 int	sys_fork(struct thread *, struct fork_args *);
@@ -2459,22 +2434,16 @@ int	sys_osdb_column_type(struct thread *, struct osdb_column_type_args *);
 int	sys_osdb_column_count(struct thread *, struct osdb_column_count_args *);
 int	sys_osdb_column_name(struct thread *, struct osdb_column_name_args *);
 int	sys_osdb_sample(struct thread *, struct osdb_sample_args *);
-int	sys_osdb_snapshot_clear(struct thread *, struct osdb_snapshot_clear_args *);
-int	sys_osdb_vtable_create(struct thread *, struct osdb_vtable_create_args *);
-int	sys_osdb_vtable_connect(struct thread *, struct osdb_vtable_connect_args *);
-int	sys_osdb_vtable_bestindex(struct thread *, struct osdb_vtable_bestindex_args *);
-int	sys_osdb_vtable_disconnect(struct thread *, struct osdb_vtable_disconnect_args *);
-int	sys_osdb_vtable_destroy(struct thread *, struct osdb_vtable_destroy_args *);
 int	sys_osdb_vtable_open(struct thread *, struct osdb_vtable_open_args *);
 int	sys_osdb_vtable_close(struct thread *, struct osdb_vtable_close_args *);
 int	sys_osdb_vtable_filter(struct thread *, struct osdb_vtable_filter_args *);
 int	sys_osdb_vtable_next(struct thread *, struct osdb_vtable_next_args *);
 int	sys_osdb_vtable_eof(struct thread *, struct osdb_vtable_eof_args *);
 int	sys_osdb_vtable_column(struct thread *, struct osdb_vtable_column_args *);
+int	sys_osdb_vtable_column_ptr(struct thread *, struct osdb_vtable_column_ptr_args *);
 int	sys_osdb_vtable_rowid(struct thread *, struct osdb_vtable_rowid_args *);
-int	sys_osdb_vtable_update(struct thread *, struct osdb_vtable_update_args *);
 int	sys_osdb_snapshot(struct thread *, struct osdb_snapshot_args *);
-int	sys_osdb_vtable_column_text(struct thread *, struct osdb_vtable_column_text_args *);
+int	sys_osdb_snapshot_clear(struct thread *, struct osdb_snapshot_clear_args *);
 
 #ifdef COMPAT_43
 
@@ -3474,22 +3443,16 @@ int	freebsd13_swapoff(struct thread *, struct freebsd13_swapoff_args *);
 #define	SYS_AUE_osdb_column_count	AUE_NULL
 #define	SYS_AUE_osdb_column_name	AUE_NULL
 #define	SYS_AUE_osdb_sample	AUE_NULL
-#define	SYS_AUE_osdb_snapshot_clear	AUE_NULL
-#define	SYS_AUE_osdb_vtable_create	AUE_NULL
-#define	SYS_AUE_osdb_vtable_connect	AUE_NULL
-#define	SYS_AUE_osdb_vtable_bestindex	AUE_NULL
-#define	SYS_AUE_osdb_vtable_disconnect	AUE_NULL
-#define	SYS_AUE_osdb_vtable_destroy	AUE_NULL
 #define	SYS_AUE_osdb_vtable_open	AUE_NULL
 #define	SYS_AUE_osdb_vtable_close	AUE_NULL
 #define	SYS_AUE_osdb_vtable_filter	AUE_NULL
 #define	SYS_AUE_osdb_vtable_next	AUE_NULL
 #define	SYS_AUE_osdb_vtable_eof	AUE_NULL
 #define	SYS_AUE_osdb_vtable_column	AUE_NULL
+#define	SYS_AUE_osdb_vtable_column_ptr	AUE_NULL
 #define	SYS_AUE_osdb_vtable_rowid	AUE_NULL
-#define	SYS_AUE_osdb_vtable_update	AUE_NULL
 #define	SYS_AUE_osdb_snapshot	AUE_NULL
-#define	SYS_AUE_osdb_vtable_column_text	AUE_NULL
+#define	SYS_AUE_osdb_snapshot_clear	AUE_NULL
 
 #undef PAD_
 #undef PADL_
