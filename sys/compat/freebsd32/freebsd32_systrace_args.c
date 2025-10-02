@@ -3569,7 +3569,11 @@ systrace_args(int sysnum, void *params, uint64_t *uarg, int *n_args)
 	case 619: {
 		struct osdb_vtable_filter_args *p = params;
 		iarg[a++] = p->cursor; /* int */
-		*n_args = 1;
+		uarg[a++] = (intptr_t)p->filter; /* const char * */
+		iarg[a++] = p->len; /* int */
+		iarg[a++] = p->argc; /* int */
+		uarg[a++] = (intptr_t)p->values; /* struct dbsc_value * */
+		*n_args = 5;
 		break;
 	}
 	/* osdb_vtable_next */
@@ -3609,7 +3613,8 @@ systrace_args(int sysnum, void *params, uint64_t *uarg, int *n_args)
 	case 624: {
 		struct osdb_vtable_rowid_args *p = params;
 		iarg[a++] = p->cursor; /* int */
-		*n_args = 1;
+		uarg[a++] = (intptr_t)p->rowid; /* int64_t * */
+		*n_args = 2;
 		break;
 	}
 	/* osdb_snapshot */
@@ -9711,6 +9716,18 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		case 0:
 			p = "int";
 			break;
+		case 1:
+			p = "userland const char *";
+			break;
+		case 2:
+			p = "int";
+			break;
+		case 3:
+			p = "int";
+			break;
+		case 4:
+			p = "userland struct dbsc_value *";
+			break;
 		default:
 			break;
 		};
@@ -9775,6 +9792,9 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		switch (ndx) {
 		case 0:
 			p = "int";
+			break;
+		case 1:
+			p = "userland int64_t *";
 			break;
 		default:
 			break;
@@ -11824,7 +11844,7 @@ systrace_return_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 	/* osdb_vtable_rowid */
 	case 624:
 		if (ndx == 0 || ndx == 1)
-			p = "int64_t";
+			p = "int";
 		break;
 	/* osdb_snapshot */
 	case 625:
