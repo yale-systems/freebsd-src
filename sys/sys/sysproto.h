@@ -1987,6 +1987,10 @@ struct osdb_vtable_close_args {
 };
 struct osdb_vtable_filter_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
+	char filter_l_[PADL_(const char *)]; const char * filter; char filter_r_[PADR_(const char *)];
+	char len_l_[PADL_(int)]; int len; char len_r_[PADR_(int)];
+	char argc_l_[PADL_(int)]; int argc; char argc_r_[PADR_(int)];
+	char values_l_[PADL_(struct dbsc_value *)]; struct dbsc_value * values; char values_r_[PADR_(struct dbsc_value *)];
 };
 struct osdb_vtable_next_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
@@ -2007,6 +2011,7 @@ struct osdb_vtable_column_ptr_args {
 };
 struct osdb_vtable_rowid_args {
 	char cursor_l_[PADL_(int)]; int cursor; char cursor_r_[PADR_(int)];
+	char rowid_l_[PADL_(int64_t *)]; int64_t * rowid; char rowid_r_[PADR_(int64_t *)];
 };
 struct osdb_snapshot_args {
 	char flags_l_[PADL_(int)]; int flags; char flags_r_[PADR_(int)];

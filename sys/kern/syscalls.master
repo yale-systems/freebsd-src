@@ -3501,7 +3501,11 @@
 	}
 619 AUE_NULL STD {
 		int osdb_vtable_filter(
-			int cursor
+			int cursor,
+            _In_ const char *filter,
+            int len,
+            int argc,
+            _Out_struct dbsc_value *values
 		);
 	}
 620 AUE_NULL STD {
@@ -3530,8 +3534,9 @@
 		);
 	}
 624 AUE_NULL STD {
-		int64_t osdb_vtable_rowid(
-			int cursor
+		int osdb_vtable_rowid(
+			int cursor,
+            _Out_ int64_t *rowid
 		);
 	}
 625 AUE_NULL STD {
