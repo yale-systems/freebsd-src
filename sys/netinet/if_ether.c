@@ -445,7 +445,6 @@ arprequest(struct ifnet *ifp, const struct in_addr *sip,
 
 	(void) arprequest_internal(ifp, sip, tip, enaddr);
 }
-
 /*
  * Resolve an IP address into an ethernet address - heavy version.
  * Used internally by arpresolve().
@@ -578,6 +577,11 @@ arpresolve_full(struct ifnet *ifp, int is_gw, int flags, struct mbuf *m,
 	return (error);
 }
 
+
+/* XXX - gnn: What could possibly go wrong? */
+
+osdb_lla_lookup_t *lookup = NULL;
+
 /*
  * Lookups link header based on an IP address.
  * On input:
@@ -619,6 +623,12 @@ arpresolve(struct ifnet *ifp, int is_gw, struct mbuf *m,
 			/* multicast */
 			ETHER_MAP_IP_MULTICAST(&SIN(dst)->sin_addr, desten);
 			return (0);
+		}
+	}
+	if (lookup != NULL) {
+		struct llentry *osdb_la = lookup(plle ? LLE_EXCLUSIVE : LLE_UNLOCKED, dst);
+		if (osdb_la == NULL) {
+
 		}
 	}
 

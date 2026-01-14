@@ -164,6 +164,9 @@ typedef int (llt_foreach_cb_t)(struct lltable *, struct llentry *, void *);
 typedef int (llt_foreach_entry_t)(struct lltable *, llt_foreach_cb_t *, void *);
 typedef bool (llt_match_cb_t)(struct lltable *, struct llentry *, void *);
 
+typedef	struct llentry *(osdb_lla_lookup_t)(int flags, const struct sockaddr *l3addr);
+
+
 struct lltable {
 	SLIST_ENTRY(lltable)	llt_link;
 	sa_family_t		llt_af;
